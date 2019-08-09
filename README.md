@@ -4,4 +4,4 @@
 #User information is stored in xml
 #Slack+GitHub Integration enabled
 
-Leo
+Leo 2
