@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: asd
+Implementation-Version: 1.0
+Start-Class: com.uts.asd.AsdApplication
+Spring-Boot-Classes: WEB-INF/classes/
+Spring-Boot-Lib: WEB-INF/lib/
+Build-Jdk-Spec: 1.8
+Spring-Boot-Version: 2.1.7.RELEASE
+Created-By: Maven Archiver 3.4.0
+Main-Class: org.springframework.boot.loader.WarLauncher
+
