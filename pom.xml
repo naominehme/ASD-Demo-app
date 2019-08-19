@@ -5,7 +5,7 @@
     <artifactId>ASD-Demo-app</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>ASD-Demo-app</name>
+    <name>Online Auction System</name>
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,6 +23,24 @@
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver</artifactId>
             <version>3.4.2</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>5.1.9.RELEASE</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.1.9.RELEASE</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>5.1.9.RELEASE</version>
             <type>jar</type>
         </dependency>
         <dependency>
