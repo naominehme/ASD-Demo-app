@@ -29,6 +29,7 @@ public class PropertyController {
 		PrintWriter writer=response.getWriter();
 		gson.toJson("123",writer);
 		//gson.toJson("1234",writer);
+		//gson.toJson();
         writer.close();
         
 		return null;
