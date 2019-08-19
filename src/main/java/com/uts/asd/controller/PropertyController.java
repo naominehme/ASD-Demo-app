@@ -28,7 +28,7 @@ public class PropertyController {
 		Gson gson = new Gson();
 		PrintWriter writer=response.getWriter();
 		gson.toJson("123",writer);
-		gson.toJson("1234",writer);
+		//gson.toJson("1234",writer);
         writer.close();
         
 		return null;
