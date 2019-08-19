@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.uts</groupId>
-	<artifactId>asd</artifactId>
-	<version>1.0</version>
-	<name>asd</name>
+	<artifactId>ASD-Demo-app</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>ASD-Demo-app</name>
 	<description>auction project for Spring Boot</description>
 
 	<properties>
