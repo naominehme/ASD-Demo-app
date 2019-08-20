@@ -4,8 +4,8 @@
 	<groupId>asd.maven.app</groupId>
 	<artifactId>ASD-Demo-app</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<name>asd</name>
 	<packaging>war</packaging>
+	<name>asd</name>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -182,17 +182,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.3</version>
 				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<webResources>
-						<resource>
-							<directory>src</directory>
-							<targetPath>WEB-INF</targetPath>
-							<includes>
-								<include>jax-ws-catalog.xml</include>
-								<include>wsdl/**</include>
-							</includes>
-						</resource>
-					</webResources>
+					<attachClasses>true</attachClasses>
 				</configuration>
 			</plugin>
 		</plugins>
