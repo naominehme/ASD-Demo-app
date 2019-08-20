@@ -3,15 +3,14 @@
     <!--
       Name of the app on GAE
     -->
-    <application>asd</application>
-    <version>1.0</version>
+    <application>asd-demo-app</application>
+    <version>1</version>
     <runtime>java8</runtime>
     <!--
       Allows App Engine to send multiple requests to one instance in parallel:
     -->
     <threadsafe>true</threadsafe>
     <sessions-enabled>true</sessions-enabled>
-    <public-root>/</public-root>
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
     </system-properties>
