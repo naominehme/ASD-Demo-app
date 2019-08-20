@@ -11,13 +11,8 @@
     -->
     <threadsafe>true</threadsafe>
     <sessions-enabled>true</sessions-enabled>
+    <public-root>/</public-root>
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
     </system-properties>
-    <static-files>
-        <include path="/**.html" >
-        </include>
-        <include path="/**.jsp" >
-        </include>
-    </static-files>
 </appengine-web-app>
