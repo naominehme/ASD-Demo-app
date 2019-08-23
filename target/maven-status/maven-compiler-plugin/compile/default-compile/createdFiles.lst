@@ -1,0 +1,8 @@
+com\uts\asd\mapper\PropertyMapper.class
+com\uts\asd\entity\Av.class
+com\uts\asd\controller\PropertyController.class
+com\uts\asd\service\AvService.class
+com\uts\asd\entity\Property.class
+com\uts\asd\mapper\AvMapper.class
+com\uts\asd\AsdApplication.class
+com\uts\asd\service\PropertyService.class
