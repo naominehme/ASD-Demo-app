@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.uts.asd.entity.WatchlistPropertyItem;
 import com.uts.asd.service.WatchlistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +18,13 @@ public class WatchlistController {
 
     @RequestMapping("/watchlist_add")
     public void addPropertyToWatchlist(HttpServletRequest request,HttpServletResponse response) throws IOException {
-        String propertyID = request.getParameter("id");
+        HttpSession session = request.getSession();
+        String customerID = (String) session.getAttribute("customerID");
+        String propertyID = request.getParameter("propertyID");
+        WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(customerID, propertyID);
         try {
             if (propertyID != null) {
-                watchlistService.addPropertyToWatchlist(propertyID);
+                watchlistService.addPropertyToWatchlist(watchlistPropertyItem);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -29,6 +33,16 @@ public class WatchlistController {
 
     @RequestMapping("/watchlist_remove")
     public void removePropertyFromWatchlist(HttpServletRequest request,HttpServletResponse response) throws IOException {
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+        HttpSession session = request.getSession();
+        String customerID = (String) session.getAttribute("customerID");
+        String propertyID = request.getParameter("propertyID");
+        WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(customerID, propertyID);
+        try {
+            if (propertyID != null) {
+                watchlistService.removePropertyFromWatchlist(watchlistPropertyItem);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
