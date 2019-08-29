@@ -24,11 +24,11 @@ public class WatchlistService {
         watchlistMapper.removePropertyFromWatchlist(watchlistPropertyItem);
     }
 
-    public static void addPropertyPreferencesToWatchlist(String cid, WatchlistPropertyPreference watchlistPropertyPreference) {
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+    public static void addPropertyPreferencesToWatchlist(WatchlistPropertyPreference watchlistPropertyPreference) {
+        watchlistMapper.addPropertyPreferencesToWatchlist(watchlistPropertyPreference);
     }
 
-    public static void removePropertyPreferencesFromWatchlist(String cid, WatchlistPropertyPreference watchlistPropertyPreference) {
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+    public static void removePropertyPreferencesFromWatchlist(WatchlistPropertyPreference watchlistPropertyPreference) {
+        watchlistMapper.removePropertyPreferencesFromWatchlist(watchlistPropertyPreference);
     }
 }
