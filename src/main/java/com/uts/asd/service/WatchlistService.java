@@ -1,5 +1,6 @@
 package com.uts.asd.service;
 
+import com.google.firebase.database.*;
 import com.uts.asd.entity.WatchlistPropertyItem;
 import com.uts.asd.entity.WatchlistPropertyPreference;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,19 @@ import com.uts.asd.mapper.WatchlistMapper;
 public class WatchlistService implements WatchlistMapper{
 
     public void addPropertyToWatchlist(WatchlistPropertyItem watchlistPropertyItem) {
-        //watchlistMapper.addPropertyToWatchlist(watchlistPropertyItem);
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReference("WatchlistProperty/2F2X99j5o4EHap4izLqtiG");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Object document = dataSnapshot.getValue();
+                System.out.println(document);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
     }
 
     public void removePropertyFromWatchlist(WatchlistPropertyItem watchlistPropertyItem) {
