@@ -9,21 +9,27 @@ import javax.servlet.http.HttpSession;
 import com.uts.asd.entity.WatchlistPropertyItem;
 import com.uts.asd.entity.WatchlistPropertyPreference;
 import com.uts.asd.service.WatchlistService;
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class WatchlistController {
+
+    Logger logger = LoggerFactory.getLogger(WatchlistController.class);
+
     @Autowired
     private WatchlistService watchlistService;
 
     @RequestMapping("/addPropertyToWatchlist")
     public void addPropertyToWatchlist(HttpServletRequest request,HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
-        String customerID = (String) session.getAttribute("customerID");
+        String customerID = getCustomerIDFromRequest(request);
         String propertyID = request.getParameter("propertyID");
         WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(customerID, propertyID);
+        logger.info("Attempting to add property to watchlist with propertyID {} and customerID {}", propertyID, customerID);
         try {
             if (propertyID != null) {
                 watchlistService.addPropertyToWatchlist(watchlistPropertyItem);
@@ -35,10 +41,10 @@ public class WatchlistController {
 
     @RequestMapping("/removePropertyFromWatchlist")
     public void removePropertyFromWatchlist(HttpServletRequest request,HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
-        String customerID = (String) session.getAttribute("customerID");
+        String customerID = getCustomerIDFromRequest(request);
         String propertyID = request.getParameter("propertyID");
         WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(customerID, propertyID);
+        logger.info("Attempting to remove property from watchlist with propertyID {} and customerID {}", propertyID, customerID);
         try {
             if (propertyID != null) {
                 watchlistService.removePropertyFromWatchlist(watchlistPropertyItem);
@@ -50,8 +56,7 @@ public class WatchlistController {
 
     @RequestMapping("/addPropertyPreferenceToWatchlist")
     public void addPropertyPreferenceToWatchlist(HttpServletRequest request,HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
-        String customerID = (String) session.getAttribute("customerID");
+        String customerID = getCustomerIDFromRequest(request);
         String propertyID = request.getParameter("propertyID");
         WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference();
         try {
@@ -65,8 +70,7 @@ public class WatchlistController {
 
     @RequestMapping("/removePropertyPreferencesFromWatchlist")
     public void removePropertyPreferencesFromWatchlist(HttpServletRequest request,HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
-        String customerID = (String) session.getAttribute("customerID");
+        String customerID = getCustomerIDFromRequest(request);
         String propertyID = request.getParameter("propertyID");
         WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference();
         try {
@@ -76,5 +80,14 @@ public class WatchlistController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String getCustomerIDFromRequest(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String customerID = request.getParameter("customerID");
+        if (customerID == null) {
+            customerID = (String) session.getAttribute("customerID");
+        }
+        return customerID;
     }
 }
