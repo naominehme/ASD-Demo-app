@@ -32,7 +32,7 @@ body {
 .content-title {
     margin: 10px 0 25px 0;
     font-size: 2em;
-    color: white;
+    color: rgba(0, 0, 0, 1);
     font-weight: normal;
 }
 .content-form {

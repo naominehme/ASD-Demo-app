@@ -50,7 +50,7 @@ public class PropertyController {
 	}
 	
 	@RequestMapping("/Home")
-	public String home(HttpServletRequest request,HttpServletResponse response) throws IOException {
+	public String home(HttpServletRequest request,HttpServletResponse response)  {
 		Gson gson = new Gson();
 		try {
 			propertyService.searchAll(null);
