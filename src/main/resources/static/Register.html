@@ -16,11 +16,14 @@
         <li><a href="main.html">MainPage</a></li>
     </ul> -->
 </div>
+<div class="content-title"> <lable>Already have an account？</lable>
+    <a href="login.html">Login Now</a></div>
 
 <div class="content">
-    <h1 class="content-title">Sign Up</h1>
+    <h1 class="content-title">ONLINE AUCTION SIGN UP</h1>
     <div class="content-form">
         <form method="post" action="" onsubmit="return submitTest()">
+
             <div id="firstname">
                 <label>First Name:</label>
                 <input class="user" type="text" name="firstName" placeholder="First Name" onblur="oBlur_1()" onfocus="oFocus_1()">
@@ -46,14 +49,29 @@
                 <input class="user" type="text" name="birthday" placeholder="DD/MM/YYYY" onblur="oBlur_2()" onfocus="oFocus_2()">
             </div>
 
-            <div id="address">
-                <label>Address:</label>
-                <input class="user" type="text" name="address" placeholder="Address" onblur="oBlur_2()" onfocus="oFocus_2()">
+            <div id="streetname">
+                <label>Street Name:</label>
+                <input class="user" type="text" name="streetName" placeholder="Street Name" onblur="oBlur_2()" onfocus="oFocus_2()">
+            </div>
+
+            <div id="addressnumber">
+                <label>Street Number:</label>
+                <input class="user" type="text" name="streetNumber" placeholder="Street Number" onblur="oBlur_2()" onfocus="oFocus_2()">
             </div>
 
             <div id="postcode">
                 <label>Postcode:</label>
                 <input class="user" type="text" name="postcode" placeholder="Postcode" onblur="oBlur_2()" onfocus="oFocus_2()">
+            </div>
+
+            <div id="state">
+                <label>State:</label>
+                <input class="user" type="text" name="state" placeholder="State" onblur="oBlur_2()" onfocus="oFocus_2()">
+            </div>
+
+            <div id="username">
+                <label>Username:</label>
+                <input class="user" type="text" name="username" placeholder="Username" onblur="oBlur_2()" onfocus="oFocus_2()">
             </div>
 
             <div id="password">
@@ -66,8 +84,7 @@
             </div>
         </form>
     </div>
-    <div class="content-login-description">Already have an account？</div>
-    <div><a class="content-login-link" href="login.html">Login Now</a></div>
+
 </div>
 
 </body>
