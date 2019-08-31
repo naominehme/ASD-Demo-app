@@ -13,5 +13,5 @@
     <sessions-enabled>true</sessions-enabled>
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
-    </system-properties>   
+    </system-properties>
 </appengine-web-app>
