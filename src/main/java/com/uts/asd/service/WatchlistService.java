@@ -16,7 +16,7 @@ public class WatchlistService implements WatchlistMapper{
 
     public void addPropertyToWatchlist(WatchlistPropertyItem watchlistPropertyItem) {
         DatabaseReference ref = FirebaseDatabase.getInstance()
-                .getReference("WatchlistProperty/2F2X99j5o4EHap4izLqtiG");
+                .getReference("WatchlistPropertyItem");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

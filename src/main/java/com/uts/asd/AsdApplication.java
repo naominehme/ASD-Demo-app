@@ -11,6 +11,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,18 +21,19 @@ import java.io.IOException;
 public class AsdApplication {
 
 	public static void main(String[] args) throws IOException {
-		//setupFirebase();
+		setupFirebase();
 		SpringApplication.run(AsdApplication.class, args);
 	}
 
 	public static void setupFirebase () throws IOException {
 		// Fetch the service account key JSON file contents
-		FileInputStream serviceAccount = new FileInputStream("path/to/serviceAccount.json");
+        File tmpFile = new File(AsdApplication.class.getClassLoader().getResource("online-auction-system-8c033-firebase-adminsdk-sq85x-3b34b964b3.json").getFile());
+		FileInputStream serviceAccount = new FileInputStream(tmpFile);
 
 		// Initialize the app with a service account, granting admin privileges
 		FirebaseOptions options = new FirebaseOptions.Builder()
 				.setCredentials(GoogleCredentials.fromStream(serviceAccount))
-				.setDatabaseUrl("https://<databaseName>.firebaseio.com")
+				.setDatabaseUrl("https://online-auction-system-8c033.firebaseio.com")
 				.build();
 		FirebaseApp.initializeApp(options);
 	}
