@@ -9,19 +9,28 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.uts.asd.entity.Auction;
+import com.uts.asd.entity.Bid;
 import com.uts.asd.entity.Property;
+import com.uts.asd.service.ActionService;
+import com.uts.asd.service.BidService;
 import com.uts.asd.service.PropertyService;
 
-@RestController
+@Controller
 public class PropertyController {
 	@Autowired
 	private PropertyService propertyService;
+	@Autowired
+	private ActionService actionService;
+	@Autowired
+	private BidService bidService;
 	
 	@RequestMapping("/test")
 	public String test(HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -35,32 +44,36 @@ public class PropertyController {
 		return null;
 	}
 	
-	@RequestMapping("/bid.do")
-	public String bidding(HttpServletRequest request,HttpServletResponse response, @RequestParam Double money) throws IOException {
+	@RequestMapping("/home")
+	public String home(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Gson gson = new Gson();
 		try {
-			//propertyService.addBidding(money);
-			PrintWriter writer=response.getWriter();
-			gson.toJson("Success",writer);
-	        writer.close();
+			List<Property> list = propertyService.searchAll(new Property());
+			request.setAttribute("list", list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return "Homepage";
 	}
-	
-	@RequestMapping("/Home")
-	public String home(HttpServletRequest request,HttpServletResponse response)  {
-		Gson gson = new Gson();
+
+	@RequestMapping("/homedetail/{id}")
+	public String homeDetail(HttpServletRequest request, HttpServletResponse response, @PathVariable("id") Integer id)
+			throws IOException {
 		try {
-			propertyService.searchAll(null);
-			PrintWriter writer=response.getWriter();
-			gson.toJson("Success",writer);
-	        writer.close();
+			Property pp = new Property(id);
+			Property p = propertyService.searchById(pp);
+			if (p.getUrl().contains(";")) {
+				p.getList().add(p.getUrl().split(";"));
+			}
+			List<Auction> alist = actionService.searchCondition(pp);
+			p.setAuction(alist.get(0));
+			List<Bid> blist = bidService.searchCondition(pp);
+			p.setBid(blist);
+			request.setAttribute("p", p);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return "PropertyDetail";
 	}
 	
 	@RequestMapping("/backendAdd")
