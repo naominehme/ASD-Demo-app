@@ -16,4 +16,8 @@ public interface WatchlistMapper {
     public void addPropertyPreferencesToWatchlist (WatchlistPropertyPreference watchlistPropertyPreference);
 
     public void removePropertyPreferencesFromWatchlist (WatchlistPropertyPreference watchlistPropertyPreference);
+
+    public void getWatchlistPropertyItems(String customerID);
+
+    public void getWatchlistPropertyPreferences(String customerID);
 }
