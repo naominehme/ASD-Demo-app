@@ -21,21 +21,7 @@ import java.io.IOException;
 public class AsdApplication {
 
 	public static void main(String[] args) throws IOException {
-		setupFirebase();
 		SpringApplication.run(AsdApplication.class, args);
-	}
-
-	public static void setupFirebase () throws IOException {
-		// Fetch the service account key JSON file contents
-        File tmpFile = new File(AsdApplication.class.getClassLoader().getResource("online-auction-system-8c033-firebase-adminsdk-sq85x-3b34b964b3.json").getFile());
-		FileInputStream serviceAccount = new FileInputStream(tmpFile);
-
-		// Initialize the app with a service account, granting admin privileges
-		FirebaseOptions options = new FirebaseOptions.Builder()
-				.setCredentials(GoogleCredentials.fromStream(serviceAccount))
-				.setDatabaseUrl("https://online-auction-system-8c033.firebaseio.com")
-				.build();
-		FirebaseApp.initializeApp(options);
 	}
 
 }
