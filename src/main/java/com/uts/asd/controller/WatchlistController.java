@@ -25,61 +25,51 @@ public class WatchlistController {
     private WatchlistService watchlistService;
 
     @RequestMapping("/addPropertyToWatchlist")
-    public void addPropertyToWatchlist(HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public void addPropertyToWatchlist(HttpServletRequest request,HttpServletResponse response) {
         String customerID = getCustomerIDFromRequest(request);
         String propertyID = request.getParameter("propertyID");
         WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(customerID, propertyID);
         logger.info("Attempting to add property to watchlist with propertyID {} and customerID {}", propertyID, customerID);
-        try {
-            if (propertyID != null) {
-                watchlistService.addPropertyToWatchlist(watchlistPropertyItem);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        watchlistService.addPropertyToWatchlist(watchlistPropertyItem);
     }
 
     @RequestMapping("/removePropertyFromWatchlist")
-    public void removePropertyFromWatchlist(HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public void removePropertyFromWatchlist(HttpServletRequest request,HttpServletResponse response) {
         String customerID = getCustomerIDFromRequest(request);
         String propertyID = request.getParameter("propertyID");
         WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(customerID, propertyID);
         logger.info("Attempting to remove property from watchlist with propertyID {} and customerID {}", propertyID, customerID);
-        try {
-            if (propertyID != null) {
-                watchlistService.removePropertyFromWatchlist(watchlistPropertyItem);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        watchlistService.removePropertyFromWatchlist(watchlistPropertyItem);
     }
 
     @RequestMapping("/addPropertyPreferenceToWatchlist")
-    public void addPropertyPreferenceToWatchlist(HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public void addPropertyPreferenceToWatchlist(HttpServletRequest request,HttpServletResponse response) {
         String customerID = getCustomerIDFromRequest(request);
         String propertyID = request.getParameter("propertyID");
         WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference();
-        try {
-            if (propertyID != null) {
-                watchlistService.addPropertyPreferencesToWatchlist(watchlistPropertyPreference);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        watchlistService.addPropertyPreferencesToWatchlist(watchlistPropertyPreference);
     }
 
     @RequestMapping("/removePropertyPreferencesFromWatchlist")
-    public void removePropertyPreferencesFromWatchlist(HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public void removePropertyPreferencesFromWatchlist(HttpServletRequest request,HttpServletResponse response) {
         String customerID = getCustomerIDFromRequest(request);
         String propertyID = request.getParameter("propertyID");
         WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference();
-        try {
-            if (propertyID != null) {
-                watchlistService.removePropertyPreferencesFromWatchlist(watchlistPropertyPreference);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        watchlistService.removePropertyPreferencesFromWatchlist(watchlistPropertyPreference);
+    }
+
+    @RequestMapping("/getWatchlistPropertyItems")
+    public void getWatchlistPropertyItems(HttpServletRequest request,HttpServletResponse response) {
+        String customerID = getCustomerIDFromRequest(request);
+        logger.info("Attempting to get property items from watchlist for customerID {}", customerID);
+        watchlistService.getWatchlistPropertyItems(customerID);
+    }
+
+    @RequestMapping("/getWatchlistPropertyPreferences")
+    public void getWatchlistPropertyPreferences(HttpServletRequest request,HttpServletResponse response) {
+        String customerID = getCustomerIDFromRequest(request);
+        logger.info("Attempting to get property preferences from watchlist for customerID {}", customerID);
+        watchlistService.getWatchlistPropertyPreferences(customerID);
     }
 
     private String getCustomerIDFromRequest(HttpServletRequest request) {
