@@ -1,6 +1,5 @@
 package com.uts.asd.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,8 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import com.uts.asd.entity.WatchlistPropertyItem;
 import com.uts.asd.entity.WatchlistPropertyPreference;
-import com.uts.asd.service.WatchlistService;
-import org.slf4j.ILoggerFactory;
+import com.uts.asd.repository.WatchlistRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,7 @@ public class WatchlistController {
     Logger logger = LoggerFactory.getLogger(WatchlistController.class);
 
     @Autowired
-    private WatchlistService watchlistService;
+    private WatchlistRepository watchlistRepository;
 
     @RequestMapping("/addPropertyToWatchlist")
     public void addPropertyToWatchlist(HttpServletRequest request,HttpServletResponse response) {
@@ -32,7 +30,7 @@ public class WatchlistController {
         String propertyID = request.getParameter("propertyID");
         WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(customerID, propertyID);
         logger.info("Attempting to add property to watchlist with propertyID {} and customerID {}", propertyID, customerID);
-        watchlistService.addPropertyToWatchlist(watchlistPropertyItem);
+        watchlistRepository.addPropertyToWatchlist(watchlistPropertyItem);
     }
 
     @RequestMapping("/removePropertyFromWatchlist")
@@ -41,7 +39,7 @@ public class WatchlistController {
         String propertyID = request.getParameter("propertyID");
         WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(customerID, propertyID);
         logger.info("Attempting to remove property from watchlist with propertyID {} and customerID {}", propertyID, customerID);
-        watchlistService.removePropertyFromWatchlist(watchlistPropertyItem);
+        watchlistRepository.removePropertyFromWatchlist(watchlistPropertyItem);
     }
 
     @RequestMapping("/addPropertyPreferenceToWatchlist")
@@ -49,7 +47,7 @@ public class WatchlistController {
         String customerID = getCustomerIDFromRequest(request);
         String propertyID = request.getParameter("propertyID");
         WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference();
-        watchlistService.addPropertyPreferencesToWatchlist(watchlistPropertyPreference);
+        watchlistRepository.addPropertyPreferencesToWatchlist(watchlistPropertyPreference);
     }
 
     @RequestMapping("/removePropertyPreferencesFromWatchlist")
@@ -57,7 +55,7 @@ public class WatchlistController {
         String customerID = getCustomerIDFromRequest(request);
         String propertyID = request.getParameter("propertyID");
         WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference();
-        watchlistService.removePropertyPreferencesFromWatchlist(watchlistPropertyPreference);
+        watchlistRepository.removePropertyPreferencesFromWatchlist(watchlistPropertyPreference);
     }
 
     @RequestMapping("/getWatchlistPropertyItems")
@@ -65,7 +63,7 @@ public class WatchlistController {
         String customerID = getCustomerIDFromRequest(request);
         logger.info("Attempting to get property items from watchlist for customerID {}", customerID);
         DeferredResult result = new DeferredResult();
-        watchlistService.getWatchlistPropertyItems(customerID, result);
+        watchlistRepository.getWatchlistPropertyItems(customerID, result);
         return result;
     }
 
@@ -74,7 +72,7 @@ public class WatchlistController {
         String customerID = getCustomerIDFromRequest(request);
         logger.info("Attempting to get property preferences from watchlist for customerID {}", customerID);
         DeferredResult result = new DeferredResult();
-        watchlistService.getWatchlistPropertyPreferences(customerID, result);
+        watchlistRepository.getWatchlistPropertyPreferences(customerID, result);
         return result;
     }
 
