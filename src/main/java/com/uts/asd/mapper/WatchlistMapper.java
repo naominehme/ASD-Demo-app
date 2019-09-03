@@ -6,6 +6,7 @@ package com.uts.asd.mapper;
 
 import com.uts.asd.entity.WatchlistPropertyItem;
 import com.uts.asd.entity.WatchlistPropertyPreference;
+import org.springframework.web.context.request.async.DeferredResult;
 
 public interface WatchlistMapper {
 
@@ -17,7 +18,7 @@ public interface WatchlistMapper {
 
     public void removePropertyPreferencesFromWatchlist (WatchlistPropertyPreference watchlistPropertyPreference);
 
-    public void getWatchlistPropertyItems(String customerID);
+    public void getWatchlistPropertyItems(String customerID, DeferredResult result);
 
-    public void getWatchlistPropertyPreferences(String customerID);
+    public void getWatchlistPropertyPreferences(String customerID, DeferredResult result);
 }

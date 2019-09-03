@@ -1,6 +1,7 @@
 package com.uts.asd.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
 
 @RestController
 public class WatchlistController {
@@ -59,17 +61,21 @@ public class WatchlistController {
     }
 
     @RequestMapping("/getWatchlistPropertyItems")
-    public void getWatchlistPropertyItems(HttpServletRequest request,HttpServletResponse response) {
+    public DeferredResult<ArrayList<WatchlistPropertyItem>> getWatchlistPropertyItems(HttpServletRequest request, HttpServletResponse response) {
         String customerID = getCustomerIDFromRequest(request);
         logger.info("Attempting to get property items from watchlist for customerID {}", customerID);
-        watchlistService.getWatchlistPropertyItems(customerID);
+        DeferredResult result = new DeferredResult();
+        watchlistService.getWatchlistPropertyItems(customerID, result);
+        return result;
     }
 
     @RequestMapping("/getWatchlistPropertyPreferences")
-    public void getWatchlistPropertyPreferences(HttpServletRequest request,HttpServletResponse response) {
+    public DeferredResult<ArrayList<WatchlistPropertyPreference>> getWatchlistPropertyPreferences(HttpServletRequest request,HttpServletResponse response) {
         String customerID = getCustomerIDFromRequest(request);
         logger.info("Attempting to get property preferences from watchlist for customerID {}", customerID);
-        watchlistService.getWatchlistPropertyPreferences(customerID);
+        DeferredResult result = new DeferredResult();
+        watchlistService.getWatchlistPropertyPreferences(customerID, result);
+        return result;
     }
 
     private String getCustomerIDFromRequest(HttpServletRequest request) {

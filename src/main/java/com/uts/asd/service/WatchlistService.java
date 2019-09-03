@@ -10,6 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.uts.asd.mapper.WatchlistMapper;
+import org.springframework.web.context.request.async.DeferredResult;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 
 /*
  * @author Harold Seefeld
@@ -41,33 +46,35 @@ public class WatchlistService implements WatchlistMapper{
         //watchlistMapper.removePropertyPreferencesFromWatchlist(watchlistPropertyPreference);
     }
 
-    public void getWatchlistPropertyItems(String customerID) {
-        // TODO: Get specific customerID preferences
-        DatabaseReference ref = FirebaseDatabase.getInstance()
-                .getReference("WatchlistPropertyItem/" + customerID);
+    public void getWatchlistPropertyItems(String customerID, DeferredResult result) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("WatchlistPropertyItem/" + customerID);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 logger.info("Data retrieved: " + dataSnapshot.getValue());
-
+                ArrayList<WatchlistPropertyItem> watchlistPropertyItemArrayList = new ArrayList<WatchlistPropertyItem>();
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     // Create new WatchlistPropertyItem object
                     WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(
                             (String)childSnapshot.child("customerID").getValue(),
                             (String)childSnapshot.child("propertyID").getValue(),
                             (String) childSnapshot.child("createdDate").getValue());
+                    watchlistPropertyItemArrayList.add(watchlistPropertyItem);
                     logger.info(watchlistPropertyItem.toString());
                 }
+
+                result.setResult(watchlistPropertyItemArrayList);
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
                 logger.error(error.toString());
+                result.setErrorResult(error);
             }
         });
     }
 
-    public void getWatchlistPropertyPreferences(String customerID) {
+    public void getWatchlistPropertyPreferences(String customerID, DeferredResult result) {
 
     }
 }
