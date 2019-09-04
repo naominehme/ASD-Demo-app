@@ -31,15 +31,30 @@ public class WatchlistRepository implements WatchlistMapper{
     }
 
     public void removePropertyFromWatchlist(WatchlistPropertyItem watchlistPropertyItem) {
-        //watchlistMapper.removePropertyFromWatchlist(watchlistPropertyItem);
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReference("WatchlistPropertyItem/" +
+                        watchlistPropertyItem.getCustomerID() + "/" +
+                        watchlistPropertyItem.getPropertyID());
+
+        ref.setValueAsync(null);
     }
 
     public void addPropertyPreferencesToWatchlist(WatchlistPropertyPreference watchlistPropertyPreference) {
-        //watchlistMapper.addPropertyPreferencesToWatchlist(watchlistPropertyPreference);
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReference("WatchlistPropertyItem/" +
+                        watchlistPropertyPreference.getCustomerID() + "/" +
+                        watchlistPropertyPreference.getPreferenceID());
+
+        ref.setValueAsync(watchlistPropertyPreference);
     }
 
     public void removePropertyPreferencesFromWatchlist(WatchlistPropertyPreference watchlistPropertyPreference) {
-        //watchlistMapper.removePropertyPreferencesFromWatchlist(watchlistPropertyPreference);
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReference("WatchlistPropertyItem/" +
+                        watchlistPropertyPreference.getCustomerID() + "/" +
+                        watchlistPropertyPreference.getPreferenceID());
+
+        ref.setValueAsync(null);
     }
 
     public void getWatchlistPropertyItems(String customerID, DeferredResult result) {
@@ -54,7 +69,7 @@ public class WatchlistRepository implements WatchlistMapper{
                     WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(
                             (String)childSnapshot.child("customerID").getValue(),
                             (String)childSnapshot.child("propertyID").getValue(),
-                            (String) childSnapshot.child("createdDate").getValue());
+                            (String)childSnapshot.child("createdDate").getValue());
                     watchlistPropertyItemArrayList.add(watchlistPropertyItem);
                     logger.info(watchlistPropertyItem.toString());
                 }

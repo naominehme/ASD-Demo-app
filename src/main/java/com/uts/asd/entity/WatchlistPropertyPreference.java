@@ -4,79 +4,92 @@ package com.uts.asd.entity;
  * @author Harold Seefeld
  */
 
+import java.util.UUID;
+
 public class WatchlistPropertyPreference {
 
     public WatchlistPropertyPreference() {}
 
-    public WatchlistPropertyPreference(String customerID, String typeID, int preferenceID, int garageSpaces, int numOfBathrooms, int numOfBedrooms, int postCode) {
-        CustomerID = customerID;
-        TypeID = typeID;
-        PreferenceID = preferenceID;
-        GarageSpaces = garageSpaces;
-        NumOfBathrooms = numOfBathrooms;
-        NumOfBedrooms = numOfBedrooms;
-        PostCode = postCode;
+    public WatchlistPropertyPreference(String customerID, String typeID, String preferenceID, int garageSpaces, int numOfBathrooms, int numOfBedrooms, int postCode) {
+        this.customerID = customerID;
+        this.typeID = typeID;
+        this.preferenceID = preferenceID;
+        this.garageSpaces = garageSpaces;
+        this.numOfBathrooms = numOfBathrooms;
+        this.numOfBedrooms = numOfBedrooms;
+        this.postCode = postCode;
+    }
+
+    public WatchlistPropertyPreference(String customerID, String typeID, int garageSpaces, int numOfBathrooms, int numOfBedrooms, int postCode) {
+        this.customerID = customerID;
+        this.typeID = typeID;
+        this.garageSpaces = garageSpaces;
+        this.numOfBathrooms = numOfBathrooms;
+        this.numOfBedrooms = numOfBedrooms;
+        this.postCode = postCode;
+        // Creating a random UUID (Universally unique identifier).
+        preferenceID = UUID.randomUUID().toString();
     }
 
     // Declare private variables
-    private String CustomerID;
-    private String TypeID;
-    private int PreferenceID;
-    private int GarageSpaces;
-    private int NumOfBathrooms;
-    private int NumOfBedrooms;
-    private int PostCode;
+    private String customerID;
+    private String typeID;
+    private String preferenceID;
+    private int garageSpaces;
+    private int numOfBathrooms;
+    private int numOfBedrooms;
+    private int postCode;
 
     // Getters and setters
     public String getCustomerID() {
-        return CustomerID;
+        return customerID;
     }
 
     public void setCustomerID(String customerID) {
-        CustomerID = customerID;
+        this.customerID = customerID;
     }
 
     public String getTypeID() {
-        return TypeID;
+        return typeID;
     }
 
     public void setTypeID(String typeID) {
-        TypeID = typeID;
+        this.typeID = typeID;
     }
 
     public int getGarageSpaces() {
-        return GarageSpaces;
+        return garageSpaces;
     }
 
     public void setGarageSpaces(int garageSpaces) {
-        GarageSpaces = garageSpaces;
+        this.garageSpaces = garageSpaces;
     }
 
     public int getNumOfBathrooms() {
-        return NumOfBathrooms;
+        return numOfBathrooms;
     }
 
     public void setNumOfBathrooms(int numOfBathrooms) {
-        NumOfBathrooms = numOfBathrooms;
+        this.numOfBathrooms = numOfBathrooms;
     }
 
     public int getNumOfBedrooms() {
-        return NumOfBedrooms;
+        return numOfBedrooms;
     }
 
     public void setNumOfBedrooms(int numOfBedrooms) {
-        NumOfBedrooms = numOfBedrooms;
+        this.numOfBedrooms = numOfBedrooms;
     }
 
     public int getPostCode() {
-        return PostCode;
+        return postCode;
     }
 
     public void setPostCode(int postCode) {
-        PostCode = postCode;
+        this.postCode = postCode;
     }
 
-    public int getPreferenceID() {
-        return PreferenceID;
+    public String getPreferenceID() {
+        return preferenceID;
     }
 }
