@@ -27,8 +27,13 @@ public class WatchlistPropertyPreference {
         this.numOfBathrooms = numOfBathrooms;
         this.numOfBedrooms = numOfBedrooms;
         this.postCode = postCode;
-        // Creating a random UUID (Universally unique identifier).
+        // Creating a random UUID (Universally unique identifier)
         preferenceID = UUID.randomUUID().toString();
+    }
+
+    public WatchlistPropertyPreference(String customerID, String preferenceID) {
+        this.customerID = customerID;
+        this.preferenceID = preferenceID;
     }
 
     // Declare private variables
@@ -91,5 +96,18 @@ public class WatchlistPropertyPreference {
 
     public String getPreferenceID() {
         return preferenceID;
+    }
+
+    @Override
+    public String toString() {
+        return "WatchlistPropertyPreference{" +
+                "customerID='" + customerID + '\'' +
+                ", typeID='" + typeID + '\'' +
+                ", preferenceID='" + preferenceID + '\'' +
+                ", garageSpaces=" + garageSpaces +
+                ", numOfBathrooms=" + numOfBathrooms +
+                ", numOfBedrooms=" + numOfBedrooms +
+                ", postCode=" + postCode +
+                '}';
     }
 }

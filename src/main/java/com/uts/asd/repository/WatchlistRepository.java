@@ -41,7 +41,7 @@ public class WatchlistRepository implements WatchlistMapper{
 
     public void addPropertyPreferencesToWatchlist(WatchlistPropertyPreference watchlistPropertyPreference) {
         DatabaseReference ref = FirebaseDatabase.getInstance()
-                .getReference("WatchlistPropertyItem/" +
+                .getReference("WatchlistPropertyPreference/" +
                         watchlistPropertyPreference.getCustomerID() + "/" +
                         watchlistPropertyPreference.getPreferenceID());
 
@@ -50,7 +50,7 @@ public class WatchlistRepository implements WatchlistMapper{
 
     public void removePropertyPreferencesFromWatchlist(WatchlistPropertyPreference watchlistPropertyPreference) {
         DatabaseReference ref = FirebaseDatabase.getInstance()
-                .getReference("WatchlistPropertyItem/" +
+                .getReference("WatchlistPropertyPreference/" +
                         watchlistPropertyPreference.getCustomerID() + "/" +
                         watchlistPropertyPreference.getPreferenceID());
 
@@ -63,7 +63,7 @@ public class WatchlistRepository implements WatchlistMapper{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 logger.info("Data retrieved: " + dataSnapshot.getValue());
-                ArrayList<WatchlistPropertyItem> watchlistPropertyItemArrayList = new ArrayList<WatchlistPropertyItem>();
+                ArrayList<WatchlistPropertyItem> watchlistPropertyItemArrayList = new ArrayList<>();
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     // Create new WatchlistPropertyItem object
                     WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(
@@ -86,7 +86,35 @@ public class WatchlistRepository implements WatchlistMapper{
     }
 
     public void getWatchlistPropertyPreferences(String customerID, DeferredResult result) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("WatchlistPropertyPreference/" + customerID);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                logger.info("Data retrieved: " + dataSnapshot.getValue());
+                ArrayList<WatchlistPropertyPreference> watchlistPropertyPreferenceArrayListArrayList = new ArrayList<>();
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    // Create new WatchlistPropertyItem object
+                    WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference(
+                            (String)childSnapshot.child("customerID").getValue(),
+                            (String)childSnapshot.child("typeID").getValue(),
+                            (String)childSnapshot.child("preferenceID").getValue(),
+                            ((Number)childSnapshot.child("garageSpaces").getValue()).intValue(),
+                            ((Number)childSnapshot.child("numOfBathrooms").getValue()).intValue(),
+                            ((Number)childSnapshot.child("numOfBedrooms").getValue()).intValue(),
+                            ((Number)childSnapshot.child("postCode").getValue()).intValue());
+                    watchlistPropertyPreferenceArrayListArrayList.add(watchlistPropertyPreference);
+                    logger.info(watchlistPropertyPreference.toString());
+                }
 
+                result.setResult(watchlistPropertyPreferenceArrayListArrayList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                logger.error(error.toString());
+                result.setErrorResult(error);
+            }
+        });
     }
 }
 

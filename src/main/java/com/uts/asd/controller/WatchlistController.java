@@ -47,16 +47,21 @@ public class WatchlistController {
     @RequestMapping("/addPropertyPreferenceToWatchlist")
     public void addPropertyPreferenceToWatchlist(HttpServletRequest request,HttpServletResponse response) {
         String customerID = getCustomerIDFromRequest(request);
-        String propertyID = request.getParameter("propertyID");
-        WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference();
+        String typeID = request.getParameter("typeID");
+        int garageSpaces = Integer.parseInt(request.getParameter("garageSpaces"));
+        int numOfBathrooms = Integer.parseInt(request.getParameter("numOfBathrooms"));
+        int numOfBedrooms = Integer.parseInt(request.getParameter("numOfBedrooms"));
+        int postCode = Integer.parseInt(request.getParameter("postCode"));
+        WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference(customerID, typeID, garageSpaces, numOfBathrooms, numOfBedrooms, postCode);
+        logger.info("Attempting to add property preferences to watchlist: {}", watchlistPropertyPreference.toString());
         watchlistRepository.addPropertyPreferencesToWatchlist(watchlistPropertyPreference);
     }
 
     @RequestMapping("/removePropertyPreferencesFromWatchlist")
     public void removePropertyPreferencesFromWatchlist(HttpServletRequest request,HttpServletResponse response) {
         String customerID = getCustomerIDFromRequest(request);
-        String propertyID = request.getParameter("propertyID");
-        WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference();
+        String preferenceID = request.getParameter("preferenceID");
+        WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference(customerID, preferenceID);
         watchlistRepository.removePropertyPreferencesFromWatchlist(watchlistPropertyPreference);
     }
 
