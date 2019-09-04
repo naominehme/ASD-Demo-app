@@ -30,7 +30,7 @@ async function login(username, password){
 			if(user.username === username && user.password === password){
 				resolve(user);
 			}
-		})
+		});
 		resolve(false);
 	})
 }
