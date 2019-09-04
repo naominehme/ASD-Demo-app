@@ -35,6 +35,7 @@ public class UserController {
 		String username = request.getParameter("username");
 		String address1 = request.getParameter("address1");
 		String address2 = request.getParameter("address2");
+		String state = request.getParameter("state");
 		String postcode = request.getParameter("postcode");
 		String phone = null;
 		try {

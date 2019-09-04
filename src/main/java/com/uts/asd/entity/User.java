@@ -19,6 +19,7 @@ public class User implements Serializable {
     private String city;
     private String state;
     private String postcode;
+    private String username;
     private boolean active;
 
 
@@ -28,7 +29,7 @@ public class User implements Serializable {
         this.ID = ID;
     }
 
-    public User(int ID, String firstName, String lastName, String email, String password, String phoneNumber, String address1, String address2, String city, String state, String postcode, boolean active) {
+    public User(int ID, String firstName, String lastName, String email, String password, String phoneNumber, String address1, String address2, String city, String state, String postcode, String username, boolean active) {
         this.ID = ID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,11 +41,13 @@ public class User implements Serializable {
         this.city = city;
         this.state = state;
         this.postcode = postcode;
+        this.username = username;
         this.active = active;
+
 
     }
 
-    public User(String firstName, String lastName, String email, String password, String phoneNumber, String address1, String address2, String city, String state, String postcode, boolean active) {
+    public User(String firstName, String lastName, String email, String password, String phoneNumber, String address1, String address2, String city, String state, String postcode, String username, boolean active) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -55,6 +58,7 @@ public class User implements Serializable {
         this.city = city;
         this.state = state;
         this.postcode = postcode;
+        this.username = username;
         this.active = active;
     }
     
@@ -130,6 +134,13 @@ public class User implements Serializable {
     public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
+
+    public String getUserName() {
+            return username;
+        }
+    public void setUserName(String username) {
+            this.username = username;
+        }
 
     public boolean isActive() {
         return active;
