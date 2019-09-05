@@ -10,11 +10,11 @@ import org.springframework.web.context.request.async.DeferredResult;
 
 public interface WatchlistMapper {
 
-    public void addPropertyToWatchlist (WatchlistPropertyItem watchlistPropertyItem);
+    public void addPropertyToWatchlist (WatchlistPropertyItem watchlistPropertyItem, DeferredResult result);
 
     public void removePropertyFromWatchlist (WatchlistPropertyItem watchlistPropertyItem);
 
-    public void addPropertyPreferencesToWatchlist (WatchlistPropertyPreference watchlistPropertyPreference);
+    public void addPropertyPreferencesToWatchlist (WatchlistPropertyPreference watchlistPropertyPreference, DeferredResult result);
 
     public void removePropertyPreferencesFromWatchlist (WatchlistPropertyPreference watchlistPropertyPreference);
 

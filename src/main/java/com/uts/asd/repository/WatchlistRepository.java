@@ -21,13 +21,21 @@ public class WatchlistRepository implements WatchlistMapper{
 
     Logger logger = LoggerFactory.getLogger(WatchlistRepository.class);
 
-    public void addPropertyToWatchlist(WatchlistPropertyItem watchlistPropertyItem) {
+    public void addPropertyToWatchlist(WatchlistPropertyItem watchlistPropertyItem, DeferredResult result) {
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference("WatchlistPropertyItem/" +
                         watchlistPropertyItem.getCustomerID() + "/" +
                         watchlistPropertyItem.getPropertyID());
 
-        ref.setValueAsync(watchlistPropertyItem);
+        ref.setValue(watchlistPropertyItem, (databaseError, databaseReference) -> {
+            if (databaseError != null) {
+                logger.error("Data could not be saved " + databaseError.getMessage());
+                result.setResult(databaseError.getMessage());
+            } else {
+                logger.info("Data saved successfully.");
+                result.setResult("Added '" + watchlistPropertyItem.getPropertyID() + "' successfully.");
+            }
+        });
     }
 
     public void removePropertyFromWatchlist(WatchlistPropertyItem watchlistPropertyItem) {
@@ -39,13 +47,21 @@ public class WatchlistRepository implements WatchlistMapper{
         ref.setValueAsync(null);
     }
 
-    public void addPropertyPreferencesToWatchlist(WatchlistPropertyPreference watchlistPropertyPreference) {
+    public void addPropertyPreferencesToWatchlist(WatchlistPropertyPreference watchlistPropertyPreference, DeferredResult result) {
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference("WatchlistPropertyPreference/" +
                         watchlistPropertyPreference.getCustomerID() + "/" +
                         watchlistPropertyPreference.getPreferenceID());
 
-        ref.setValueAsync(watchlistPropertyPreference);
+        ref.setValue(watchlistPropertyPreference, (databaseError, databaseReference) -> {
+            if (databaseError != null) {
+                logger.error("Data could not be saved " + databaseError.getMessage());
+                result.setResult(databaseError.getMessage());
+            } else {
+                logger.info("Data saved successfully.");
+                result.setResult("Added '" + watchlistPropertyPreference.getPreferenceID() + "' successfully.");
+            }
+        });
     }
 
     public void removePropertyPreferencesFromWatchlist(WatchlistPropertyPreference watchlistPropertyPreference) {

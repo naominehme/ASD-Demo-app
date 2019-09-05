@@ -33,7 +33,24 @@ var populateWatchlistPropertyPreferences = function(elementID, customerID) {
             preferenceCount += 1;
         }
         $(elementID).append(content);
-        console.log(data);
+    });
+}
+
+var submitAddPropertyForm = function(elementID) {
+    $.get('/addPropertyToWatchlist?customerID=' + $("#propertyAddCustomerID")[0].value +
+    '&propertyID=' + $("#propertyAddPropertyID")[0].value, function(data) {
+        $(elementID)[0].innerText = data;
+    });
+}
+
+submitAddPropertyPreferenceForm  = function(elementID) {
+    $.get('/addPropertyPreferenceToWatchlist?customerID=' + $("#propertyAddPreferenceCustomerID")[0].value +
+    '&typeID=' + $("#propertyPreferenceAddTypeID")[0].value +
+    '&postCode=' + $("#propertyPreferenceAddPostCode")[0].value +
+    '&numOfBedrooms=' + $("#propertyPreferenceAddNumOfBedrooms")[0].value +
+    '&numOfBathrooms=' + $("#propertyPreferenceAddNumOfBathrooms")[0].value +
+    '&garageSpaces=' + $("#propertyPreferenceAddNumOfGarageSpaces")[0].value, function(data) {
+        $(elementID)[0].innerText = data;
     });
 }
 
