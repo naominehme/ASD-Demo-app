@@ -30,9 +30,14 @@ async function login(username, password){
 			if(user.username === username && user.password === password){
 				resolve(user);
 			}
-		})
+		});
 		resolve(false);
 	})
+}
+
+function logOut(){
+	document.location.pathname = '/ASD-Demo-app/src/main/webapp/login.html';
+	localStorage.loggedInUser = '';
 }
 
 async function getUsers(){
@@ -43,31 +48,71 @@ async function getUsers(){
 				var userObj = user.val();
 				userObj.key = user.key;
 				users.push(userObj);
-			})
+			});
 			resolve(users);
 		})
 		
 	})
 }
 
+async function handleReset(){
+	var username = document.getElementById('username').value;
+	var dob = document.getElementById('dob').value;
+	var newPassword = document.getElementById('password').value;
+	var validKey = await isValidUser(username,dob);
+	console.log(validKey);
+	if(!!validKey){
+		db.ref('/Users/'+validKey).update({password:newPassword});
+		showMessage('Password successfully reset')
+	} else {
+		showMessage('Invalid username or DOB')
+	}
+}
+
+function isValidUser(username,dob){
+	return new Promise((resolve) => {
+		db.ref('/Users').once('value', (snap) => {
+			snap.forEach(user => {
+				var obj = user.val();
+				if(obj.username === username && obj.dob === dob){
+					resolve(user.key)
+				}
+			});
+			resolve(null);
+		})
+	})
+}
+
 async function handleLogin(){
 	var username = document.getElementById('username').value;
 	var password = document.getElementById('password').value;
-	// clearScreen()
 	var auth = await login(username,password);
 	if(!!auth){
-		console.log(auth);
-		document.getElementById('message').innerHTML = "User Found: \n" + JSON.stringify(auth);
+		showMessage("User Found: \n" + JSON.stringify(auth));
+		logUser(auth.key,'login');
+		localStorage.loggedInUser = JSON.stringify({key: auth.key, fname:auth.fname});
+		document.location.pathname = '/ASD-Demo-app/src/main/webapp/index.html'
 	} else {
-		console.log('%c Not Found', 'font-size:20px;color:red;')
-		document.getElementById('message').innerHTML = 'User Not Found';
+		showMessage('User Not Found');
 	}
+}
+
+function logUser(userKey,logType){
+	db.ref('/Users/'+userKey+'/Logs').push({
+		logTime: new Date().toTimeString(),
+		logType:logType
+	})
+}
+
+function isActiveSession(){
+	var data = localStorage.loggedInUser;
+	return !!data;
 }
 
 async function handleRegister(){
 	var username = document.getElementById('username').value;
 	var password = document.getElementById('password').value;
-	clearScreen()
+	clearScreen();
 	addUser(username,password).then(e => {
 		document.getElementById('message').innerHTML = 'User Added';
 	});
@@ -77,5 +122,9 @@ async function handleRegister(){
 function clearScreen(){
 	document.getElementById('username').value = '';
 	document.getElementById('password').value = '';
+}
+
+function showMessage(message){
+	document.getElementById('message').innerHTML = message;
 }
 

@@ -4,8 +4,17 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/
+	firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-database.js">
+    </script>
+    <script src='js/firebase-test.js'></script>
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
     <meta name="format-detection" content="telephone=no">
     <title>Real Estate &amp; Property for Sale in Lidcombe, NSW 2141 - realestate.com.au</title>
@@ -19,6 +28,22 @@
     <style type="text/css">
     	/* .layui-unselect layui-form-checkbox:hover span{background-color: white} */
     </style>
+    <script>
+        $( document ).ready(function() {
+            if (isActiveSession()) {
+                jQuery('.loginBtn').hide();
+                jQuery('.signUpBtn').hide();
+                jQuery('.welcomePanel').show();
+                jQuery('#welcomeText').text('Welcome, '+ JSON.parse(localStorage.loggedInUser).fname +'! ');
+                jQuery('.logoutBtn').show();
+            } else {
+                jQuery('.loginBtn').show();
+                jQuery('.signUpBtn').show();
+                jQuery('.welcomePanel').hide();
+                jQuery('.logoutBtn').hide();
+            }
+        });
+    </script>
 </head>
 <body style="padding-top: 0px;">
 <header class="site-header" style="margin-left:auto; margin-right: auto;max-width:70%;">
@@ -41,11 +66,17 @@
             </div>
             <div class="masthead__column--right column">
                 <div class="row--inline-flex">
-                    <div class="masthead__subscription" style="border: 0px;">
-                        <a ng-subscription-anchor="#subscription-panel">Sign up</a>
+                    <div class="masthead__subscription signUpBtn" style="border: 0px;">
+                        <a>Sign up</a>
                     </div>
-                    <div class="masthead__subscription">
-                        <a ng-subscription-anchor="#subscription-panel">Login</a>
+                    <div class="masthead__subscription loginBtn">
+                        <a>Login</a>
+                    </div>
+                    <div class="masthead__subscription welcomePanel">
+                        <p id="welcomeText"></p>
+                    </div>
+                    <div class="masthead__subscription logoutBtn">
+                        <btn onClick="logOut()">Logout</btn>
                     </div>
                 </div>
             </div>

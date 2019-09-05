@@ -7,7 +7,7 @@
         <packaging>war</packaging>
       </options>
     </properties>
-    <root id="archive" name="asd-1.0.war">
+    <root id="archive" name="ASD-Demo-app-1.0-SNAPSHOT.war">
       <element id="artifact" artifact-name="ASD-Demo-app:war exploded" />
     </root>
   </artifact>
