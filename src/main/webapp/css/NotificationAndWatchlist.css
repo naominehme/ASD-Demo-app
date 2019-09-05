@@ -9,7 +9,7 @@ hgroup, menu, nav, output, section, summary, time, mark, audio, video {
 }
 body {
     background-image: url('../images/bg-01.jpg') ;
-    background-size: 100%;
+    background-size: cover;
 }
 
 /*header*/
@@ -82,6 +82,13 @@ body {
     margin-right: 16px;
     height: 100%;
     border: 4px solid #dedede;
+}
+
+.content-watchlist-preference img {
+    float: left;
+    margin-right: 16px;
+    border: 4px solid #dedede;
+    mix-blend-mode: multiply;
 }
 
 .content-footer {
