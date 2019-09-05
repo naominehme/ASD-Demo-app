@@ -1,0 +1,163 @@
+body {
+    background: url("feit.png")no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;   
+}
+.title{
+
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    font-size: 35px;
+    color: #c9c9c9;
+    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+    text-align: center;
+}
+iframe{
+    background:none transparent;
+}
+.time{
+    position: absolute;
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: #10802c;
+    float: right;
+    right: 15px;
+    color: yellow;
+    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+}
+.text{
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: #ffff00;        
+}
+.link{
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    text-align: right;
+    font-size: large;
+    color: #33ff66;
+    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px cyan;
+
+}
+.header{
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    text-align: left;
+    font-size: 20px;
+    color: white;
+    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px #003399;
+}
+.float {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    font-size: 45px;
+    color: white;
+    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+    position: relative;
+    -webkit-animation: myfirst 5s linear 2s infinite alternate; 
+    animation: myfirst 5s linear 2s infinite alternate;
+}
+
+@-webkit-keyframes myfirst {
+    to   { left:0px; top:0px;}
+    from  {left:220px; top:0px;}
+
+}
+
+@keyframes myfirst {
+    to   {left:0px; top:0px;}
+    from  {left:220px; top:0px;}
+
+}
+.form_title{
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    text-align: left;
+    font-size: 30px;
+    color:#c9c9c9;
+    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px cyan;
+    padding: 5px;
+}
+
+.p{
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    font-size: 16px;
+    color:#c9c9c9;
+    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px cyan;
+}
+.button {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #0066cc;
+    border: none;
+    border-radius: 10px; 
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+.error{
+    color: #ffff00;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    font-size: 1em;
+}
+
+.log{
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    font-size: x-large;
+    color: #10802c;
+    float: right;
+    color: white;
+    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+}
+.table{
+    text-align: left;
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    font-size: large;
+    color:#33ff66;
+    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;   
+}
+.table th{
+    color: white;
+}
+.table thead{
+    background-color:#4CAF50;
+}
+.table td{
+    text-align: left;
+}
+
+input{
+    background-color:#ccccff;
+    color: #ffff00;
+    font-weight: bold;
+    font-size: 18px;
+}
+.date:invalid+span:after{
+    content: '✖';
+    padding-left: 5px;
+}
+.date:valid+span:after{
+    content: '✓';
+    padding-left: 5px;
+}
