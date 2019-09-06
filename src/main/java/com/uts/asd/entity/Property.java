@@ -167,6 +167,19 @@ public class Property {
 		this.suburb = suburb;
 	}
 
+	public Property(Integer id, String address, Integer bedroom, Integer bathroom, Integer garage, Integer state,String title,Integer sqm,String suburb,String url) {
+		super();
+		this.id = id;
+		this.address = address;
+		this.bedroom = bedroom;
+		this.bathroom = bathroom;
+		this.garage = garage;
+		this.state = state;
+		this.title = title;
+		this.sqm = sqm;
+		this.suburb = suburb;
+		this.url =url;
+	}
 	public Property() {
 		super();
 	}

@@ -36,11 +36,13 @@
                 jQuery('.welcomePanel').show();
                 jQuery('#welcomeText').text('Welcome, '+ JSON.parse(localStorage.loggedInUser).fname +'! ');
                 jQuery('.logoutBtn').show();
+                jQuery('.accountBtn').show();
             } else {
                 jQuery('.loginBtn').show();
                 jQuery('.signUpBtn').show();
                 jQuery('.welcomePanel').hide();
                 jQuery('.logoutBtn').hide();
+                jQuery('.accountBtn').hide();
             }
         });
     </script>
@@ -67,16 +69,19 @@
             <div class="masthead__column--right column">
                 <div class="row--inline-flex">
                     <div class="masthead__subscription signUpBtn" style="border: 0px;">
-                        <a>Sign up</a>
+                        <a href="Register.html">Sign up</a>
                     </div>
                     <div class="masthead__subscription loginBtn">
-                        <a>Login</a>
+                        <a href="login.html">Login</a>
                     </div>
                     <div class="masthead__subscription welcomePanel">
                         <p id="welcomeText"></p>
                     </div>
                     <div class="masthead__subscription logoutBtn">
                         <btn onClick="logOut()">Logout</btn>
+                    </div>
+                    <div class="masthead__subscription accountBtn">
+                        <btn onClick="location.href='UserLogs.html'">Account</btn>
                     </div>
                 </div>
             </div>

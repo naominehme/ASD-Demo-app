@@ -1,0 +1,73 @@
+<head>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-database.js"></script>
+    <script src='js/firebase-test.js'></script>
+
+    <script>
+    $(document).ready(function(){
+        (async () => {
+            var logs = await getLogs();
+            generateTable(logs)
+           	$('#loading').hide();
+        })()
+        
+    })
+
+    async function getLogs(){
+        var userId = JSON.parse(localStorage.loggedInUser).key;
+        return new Promise((resolve) => {
+           db.ref('/Users/'+userId).once('value', snap => {
+           	$('#name').text(snap.val().fname+"'s Logs");
+            resolve(Object.values(snap.child('Logs').val()));
+            }); 
+        })
+    }
+
+    function removeEntry(index){
+    	$('#'+index).parent().parent().remove();
+    }
+
+    function generateTable(obj){
+        var tbl = $("<table/>").attr("id","mytable");
+
+        $("#logTable").append(tbl);
+
+            var tr="<tr>";
+            var td1="<td>Time</td>";
+            var td2="<td>Type</td>";
+            var td3="<td>Action</td></tr>";
+        $("#mytable").append(tr+td1+td2+td3); 
+
+        for(var i=0;i<obj.length;i++){
+            var tr="<tr>";
+            var td1="<td>"+obj[i]["logTime"]+"</td>";
+            var td2="<td>"+obj[i]["logType"]+"</td>";
+            var td3="<td><button class='btn' id='"+i+"'>Remove</button></td></tr>";
+
+           $("#mytable").append(tr+td1+td2+td3); 
+
+	        Array.from(document.getElementsByClassName('btn')).forEach(function(element) {
+	      		element.addEventListener('click', function(e){
+	      			removeEntry(e.toElement.id);
+	      		});
+	    	});
+
+        }
+    }
+    </script>
+
+    <style>
+    #mytable,td{
+        border:1px solid black;
+    }
+    </style>
+    <title> User Logs</title>
+
+</head>
+<body>
+    <div id="name"></div>
+    <div id="logTable">
+    	<p id="loading">Loading...</p>
+    </div>
+</body>
