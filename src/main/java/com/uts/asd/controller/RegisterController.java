@@ -9,7 +9,7 @@ import jbr.spring.boot.model.User;
 import jbr.spring.boot.service.UserService;
 
 @Controller
-public class RegistrationController {
+public class RegisterController {
 
   @Autowired
   public UserService userService;

@@ -7,9 +7,9 @@ import javax.persistence.Id;
 /*
  * @author Weixiang Gao
  */
-@Entity
+
 public class User {
-    @Id
+    
     private int ID;
     private String firstName;
     private String lastName;
