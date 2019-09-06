@@ -33,12 +33,22 @@ public class Property {
 	private String title;
 	@JsonProperty("sqm")
 	private Integer sqm;
+	@JsonProperty("suburb")
+	private String suburb;
 	
 	@JsonIgnore
 	private Auction auction;
 	private List<Bid> bid = new ArrayList<Bid>();
 	private List<String[]> list = new ArrayList<String[]>();
 	
+	public String getSuburb() {
+		return suburb;
+	}
+
+	public void setSuburb(String suburb) {
+		this.suburb = suburb;
+	}
+
 	public void setBid(List<Bid> bid) {
 		this.bid = bid;
 	}
@@ -144,7 +154,7 @@ public class Property {
 		this.description = description;
 	}
 	
-	public Property(Integer id, String address, Integer bedroom, Integer bathroom, Integer garage, Integer state,String title,Integer sqm) {
+	public Property(Integer id, String address, Integer bedroom, Integer bathroom, Integer garage, Integer state,String title,Integer sqm,String suburb) {
 		super();
 		this.id = id;
 		this.address = address;
@@ -154,6 +164,7 @@ public class Property {
 		this.state = state;
 		this.title = title;
 		this.sqm = sqm;
+		this.suburb = suburb;
 	}
 
 	public Property() {

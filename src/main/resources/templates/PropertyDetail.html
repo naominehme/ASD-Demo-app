@@ -61,7 +61,7 @@
                         <div class="flag"></div>
                         <div class="layui-carousel" id="imgs">
 		        			<div carousel-item>
-		        				<div th:each="pl:${p.list[0]}">
+		        				<div th:if="${p.list != null}" th:each="pl:${p.list[0]}">
 		        					<img alt="" th:src="${pl}">
 								</div>
 		        			</div>
@@ -85,8 +85,8 @@
                             <div class="price current">
                                 <div class="label" style="background:#ffffff;width: auto;">Current price:</div>
                                 <div class="number"><span>$</span>
-                                	<span role="button" tabindex="0" class="lrc-tooltip-item" th:if="${p.bid} == null" th:text="${p.auction.start}">110,000</span>
-                                	<span role="button" tabindex="0" class="lrc-tooltip-item" th:if="${p.bid} != null" th:text="${p.bid[0].price}">110,000</span>
+                                	<span role="button" tabindex="0" class="lrc-tooltip-item" th:if="${p.bid.size()==0}" th:text="${p.auction.start}">110,000</span>
+                                	<span role="button" tabindex="0" class="lrc-tooltip-item" th:if="${p.bid.size()>0}" th:text="${p.bid[p.bid.size()-1].price}">110,000</span>
                                 </div>
                             </div>
                             <div class="price base">
@@ -106,7 +106,7 @@
                                 <h3 class="smt" th:if="${p.bid ==null}" th:text="'No record found'">This item was bid 5 times</h3>
                                 <div class="smc">
                                     <ul style="font-size:13px;"  id="brecord">
-                                        <li th:each="bid:${p.bid}"><em>20777498</em><em th:text="'$'+${bid.price}"></em><em th:text="${bid.time}"></em></li>
+                                        <li th:if="${p.bid.size()>0}" th:each="bid:${p.bid}"><em>20777498</em><em th:text="'$'+${bid.price}"></em><em th:text="${bid.time}"></em></li>
                                         <!-- <li><em>20769290</em><em>$109000</em><em>19 hours before</em></li>-->
                                     </ul>
                                 </div>
@@ -180,7 +180,8 @@
                         <article class="property-description ">
                             <h2 class="section-heading" th:text="${p.title}"></h2><span class="property-description__address" th:text="${p.address}"></span>
                             <div>
-                                <div class="tell-me-more"><span class="tell-me-more__text"><span class="property-description__content">Completion expected July 2019<br><br>The Pave - "Lead the way to harvest in full" <br><br>Great News - Fantastic location, minutes walk to station and main shopping street. <br>City View Apartments on higher level released - Be the first to select the best ones. <br><br>Harvest your hard work from these prestigious development apartments by one of the most reputable builder in the area. Developer's previous project proved to be the best building in Lidcombe which located the right next to current development. <br><br>Its modern and outstanding architectural design many people talking about this high interest project in Lidcombe.<br><br>We have values offer from the developer to maximise your future investment, so you can harvest in full of this prominent apartment block.<br><br>Each unit are designed to have low maintenance flooring with centeralised ducted air conditioning system, which will increase higher and better rental opportunity to investors and pleasant temperature control in hot and cold weathers. <br><br><br>Relax and enjoy every stage of your investment in these apartments. <br><br>* Short walk to train station and shops <br>* Larger internal space<br>* Short walk to Lidcombe station<br>* Timber flooring <br>* Ducted air-conditioning<br>* Large kitchen with large Caesar stone bench top<br>* Wide fridge space <br><br></span></span>
+                                <div class="tell-me-more"><span class="tell-me-more__text">
+                                	<span class="property-description__content" th:text="${p.description}" id="desc"></span></span>
                                 </div>
                                 <button class="tell-me-more__button tell-me-more__button--more" aria-hidden="true">Read more<span class="rui-icon tell-me-more__caret rui-icon-arrow-down-small"></span></button>
                             </div>
@@ -291,6 +292,8 @@
 	
 	(function () {
 	    //var output = document.getElementById('output');
+	    var desc = document.getElementById('desc').innerHTML;
+	    
 	    document.getElementById('post').onclick = function () {
 	       var value = document.getElementById('money').value;
 	       /*<![CDATA[*/

@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.uts.asd.entity.Bid;
+import com.uts.asd.entity.Increment;
 import com.uts.asd.entity.Property;
 import com.uts.asd.entity.User;
 import com.uts.asd.service.BidService;
 import com.uts.asd.service.PropertyService;
+import com.uts.asd.util.JsonUtil;
 
 @RestController
 public class BiddingController {
@@ -31,7 +33,12 @@ public class BiddingController {
 	public String bidding(HttpServletRequest request, HttpServletResponse response,Bid bid)throws IOException {
 		Gson gson = new Gson();
 		try {
-			bid.setId(1);
+			String json = JsonUtil.readJsonFile("src/main/resources/increment.json");
+			Increment i =gson.fromJson(json, Increment.class);
+			bid.setId(i.getBidid());
+			i.setBidid(i.getBidid()+1);
+			String a2 = gson.toJson(i);
+			JsonUtil.writeJsonFile(a2, "src/main/resources/increment.json");
 			bid.setTime(new Date().getTime());
 			bid.setState("Success");
 			bidService.addAction(bid);
