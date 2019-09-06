@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en-AU" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>802/21-23 James St Lidcombe, NSW 2141</title>
+    <meta name="HandheldFriendly" content="true">
+    <meta name="MobileOptimized" content="320">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" >
+    <link rel="stylesheet" th:href="@{/css/PropertyDetail.css}" >
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/layui.css}">
+    <style>
+    </style>
+</head>
+
+<body style="padding-top: 0px;">
+<header class="site-header" style="margin-left:auto; margin-right: auto;max-width:70%;">
+    <div class="masthead sticky-container" data-sticky-container="" style="height: 60px;">
+        <div class="row expanded collapse">
+            <div class="masthead__column--left column">
+                <div class="row">
+                    <div class="masthead__logo column">
+                        <a href="#">
+                            <img alt="logo" title="logo" class="logo__light" src="#">
+                        </a>
+                    </div>
+                    <div class="masthead__menu column">
+                        <div ng-mega-menu="">
+                            <div ng-transclude="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="masthead__column--right column">
+                <div class="row--inline-flex">
+                    <div class="masthead__subscription" style="border: 0px;">
+                        <a ng-subscription-anchor="#subscription-panel">Sign up</a>
+                    </div>
+                    <div class="masthead__subscription">
+                        <a ng-subscription-anchor="#subscription-panel">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main id="wrapper">
+    <div id="listings-app-container">
+        <div></div>
+        <span><div class="web-inbox-wrapper"></div><div></div></span>
+        <div id="page-wrapper"><span><div class="details"><div class="details__wrapper">
+        <div class="product-intro clearfix" style="margin-left: auto;margin-right: auto;max-width: 1200px;">
+        		<div class="preview-wrap">
+                    <div class="pm-preview">
+                        <div class="flag"></div>
+                        <div class="layui-carousel" id="imgs">
+		        			<div carousel-item>
+		        				<div th:if="${p.list != null}" th:each="pl:${p.list[0]}">
+		        					<img alt="" th:src="${pl}">
+								</div>
+		        			</div>
+	        			</div>
+                    </div>
+                </div>
+                <div class="itemInfo-wrap stage-1" style="width: 720px;">
+                    <div class="name" th:text="${p.title}"></div>
+                    <div class="m summary">
+                        <div class="mt">
+                            <div class="state" style="width:auto;height:auto;" th:switch="${p.state}"><span th:case="0">Upcoming</span><span th:case="1">Happening</span><span th:case="2">Finished</span></div>
+                            <div class="pm-countdown-wrapper" style="padding-left:50px;">
+                                <div class="pm-countdown">
+                                    <div class="countdown">Left：<span><em>21</em>&nbsp;hour</span><span><em>16</em>&nbsp;minute</span><span><em>21</em>&nbsp;second</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mc">
+                            <div class="pm-qrcode">
+                                <canvas height="80" width="80" style="height: 80px; width: 80px;"></canvas></div>
+                            <div class="price current">
+                                <div class="label" style="background:#ffffff;width: auto;">Current price:</div>
+                                <div class="number"><span>$</span>
+                                	<span role="button" tabindex="0" class="lrc-tooltip-item" th:if="${p.bid.size()==0}" th:text="${p.auction.start}">110,000</span>
+                                	<span role="button" tabindex="0" class="lrc-tooltip-item" th:if="${p.bid.size()>0}" th:text="${p.bid[p.bid.size()-1].price}">110,000</span>
+                                </div>
+                            </div>
+                            <div class="price base">
+                                <div class="label" style="background:#ffffff; width: auto;">Start price:</div>
+                                <div class="number"><span>$</span><span role="button" tabindex="0" class="lrc-tooltip-item" th:text="${p.auction.start}"></span></div>
+                            </div>
+                            <div class="buttons">
+                                <!-- <button class="button" clstag="pageclick|keycount|Sifaproduct_Signup|Sifaproduct_0"><span>Pay deposit</span><span>$10,000</span></button> -->
+                                 <input type="text" name="money" id="money" required  placeholder="Price" autocomplete="off" class="layui-input"  style="width:150px;">
+                                 <button class="button" id="post"><span>Submit</span></button>
+                            </div>
+                            <div class="prompt" style="font-size:13px;">If it is not obtained, the deposit will be returned within 24 hours.</div>
+                        </div>
+                        <div class="mb">
+                            <div class="sm pm-deals fold">
+                                <h3 class="smt" th:if="${p.bid !=null}" th:text="'This item was bid '+${p.bid.size()+' times'}">This item was bid 5 times</h3>
+                                <h3 class="smt" th:if="${p.bid ==null}" th:text="'No record found'">This item was bid 5 times</h3>
+                                <div class="smc">
+                                    <ul style="font-size:13px;"  id="brecord">
+                                        <li th:if="${p.bid.size()>0}" th:each="bid:${p.bid}"><em>20777498</em><em th:text="'$'+${bid.price}"></em><em th:text="${bid.time}"></em></li>
+                                        <!-- <li><em>20769290</em><em>$109000</em><em>19 hours before</em></li>-->
+                                    </ul>
+                                </div>
+                                <div class="smb" clstag="pageclick|keycount|Sifaproduct_Morebidlist|Sifaproduct_0"></div>
+                            </div>
+                            <div class="summary-tips">
+                                <div class="list description">
+                                    <h3 style="padding-left: 0px;">Auction description</h3>
+                                    <ul style="font-size:13px;">
+                                        <li><span>Start price:&nbsp;</span><span th:text="'$'+${p.auction.start}"></span></li>
+                                       <!--  <li><span>Estimated price:</span><span th:text="${p.action.}">$</span></li>-->
+                                        <li><span>Increment: &nbsp;</span><span th:text="'$'+${p.auction.increased}"></span></li>
+                                        <li><span>Deposit:&nbsp;</span><span th:text="'$'+${p.auction.deposit}"></span></li>
+                                        <li><span>Reserve price:&nbsp;</span><span>true</span><i role="button" tabindex="0" class="lrc-tooltip-item">?</i></li> 
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="details__main layout" style="max-width: 1200px;">
+            <div class="details__content layout__content" style="max-width: 100%;width: 100%;">
+                <div class="content" role="presentation">
+                    <div class="divided-content">
+                        <div class="map" style="border-top: 1px solid #d2d6da;margin-top: 1.5rem;padding-top: 1.5rem;">
+                            <div class="details-map">
+                                <div class="app-loader details-map__loader">
+                                    <div class="spinner" role="progressbar" style="position: absolute; width: 0px; z-index: 2000000000; left: 50%; top: 50%;">
+                                        <div style="position: absolute; top: -3px; transform: translate3d(0px, 0px, 0px); opacity: 0.25; animation: 1s linear 0s infinite normal none running opacity-60-25-0-11;">
+                                            <div style="position: absolute; width: 6px; height: 6px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px; transform-origin: left center; transform: rotate(0deg) translate(16px, 0px); border-radius: 3px;"></div>
+                                        </div>
+                                        <div style="position: absolute; top: -3px; transform: translate3d(0px, 0px, 0px); opacity: 0.25; animation: 1s linear 0s infinite normal none running opacity-60-25-1-11;">
+                                            <div style="position: absolute; width: 6px; height: 6px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px; transform-origin: left center; transform: rotate(32deg) translate(16px, 0px); border-radius: 3px;"></div>
+                                        </div>
+                                        <div style="position: absolute; top: -3px; transform: translate3d(0px, 0px, 0px); opacity: 0.25; animation: 1s linear 0s infinite normal none running opacity-60-25-2-11;">
+                                            <div style="position: absolute; width: 6px; height: 6px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px; transform-origin: left center; transform: rotate(65deg) translate(16px, 0px); border-radius: 3px;"></div>
+                                        </div>
+                                        <div style="position: absolute; top: -3px; transform: translate3d(0px, 0px, 0px); opacity: 0.25; animation: 1s linear 0s infinite normal none running opacity-60-25-3-11;">
+                                            <div style="position: absolute; width: 6px; height: 6px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px; transform-origin: left center; transform: rotate(98deg) translate(16px, 0px); border-radius: 3px;"></div>
+                                        </div>
+                                        <div style="position: absolute; top: -3px; transform: translate3d(0px, 0px, 0px); opacity: 0.25; animation: 1s linear 0s infinite normal none running opacity-60-25-4-11;">
+                                            <div style="position: absolute; width: 6px; height: 6px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px; transform-origin: left center; transform: rotate(130deg) translate(16px, 0px); border-radius: 3px;"></div>
+                                        </div>
+                                        <div style="position: absolute; top: -3px; transform: translate3d(0px, 0px, 0px); opacity: 0.25; animation: 1s linear 0s infinite normal none running opacity-60-25-5-11;">
+                                            <div style="position: absolute; width: 6px; height: 6px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px; transform-origin: left center; transform: rotate(163deg) translate(16px, 0px); border-radius: 3px;"></div>
+                                        </div>
+                                        <div style="position: absolute; top: -3px; transform: translate3d(0px, 0px, 0px); opacity: 0.25; animation: 1s linear 0s infinite normal none running opacity-60-25-6-11;">
+                                            <div style="position: absolute; width: 6px; height: 6px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px; transform-origin: left center; transform: rotate(196deg) translate(16px, 0px); border-radius: 3px;"></div>
+                                        </div>
+                                        <div style="position: absolute; top: -3px; transform: translate3d(0px, 0px, 0px); opacity: 0.25; animation: 1s linear 0s infinite normal none running opacity-60-25-7-11;">
+                                            <div style="position: absolute; width: 6px; height: 6px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px; transform-origin: left center; transform: rotate(229deg) translate(16px, 0px); border-radius: 3px;"></div>
+                                        </div>
+                                        <div style="position: absolute; top: -3px; transform: translate3d(0px, 0px, 0px); opacity: 0.25; animation: 1s linear 0s infinite normal none running opacity-60-25-8-11;">
+                                            <div style="position: absolute; width: 6px; height: 6px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px; transform-origin: left center; transform: rotate(261deg) translate(16px, 0px); border-radius: 3px;"></div>
+                                        </div>
+                                        <div style="position: absolute; top: -3px; transform: translate3d(0px, 0px, 0px); opacity: 0.25; animation: 1s linear 0s infinite normal none running opacity-60-25-9-11;">
+                                            <div style="position: absolute; width: 6px; height: 6px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px; transform-origin: left center; transform: rotate(294deg) translate(16px, 0px); border-radius: 3px;"></div>
+                                        </div>
+                                        <div style="position: absolute; top: -3px; transform: translate3d(0px, 0px, 0px); opacity: 0.25; animation: 1s linear 0s infinite normal none running opacity-60-25-10-11;">
+                                            <div style="position: absolute; width: 6px; height: 6px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px; transform-origin: left center; transform: rotate(327deg) translate(16px, 0px); border-radius: 3px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="static-map">
+                                    <div class="static-map__img" style="background-image: url(&quot;https://maps.google.com/maps/api/staticmap?zoom=14&amp;size=640x205&amp;maptype=roadmap&amp;format=png&amp;scale=1&amp;client=gme-nsp&amp;markers=icon%3Ahttps%3A%2F%2Fs1.rui.au.reastatic.net%2Frui-static%2Fimg%2Fmapping%2Fmap-pin-v2.png%7C-33.866289%2C151.046842&amp;signature=yrYGQM0Uw6fYYrxmq0HDyK8TM-0&quot;);"></div>
+                                    <button aria-label="Expand to an interactive map" class="static-map__expand-button"><span class="static-map__expand-icon"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <article class="property-description ">
+                            <h2 class="section-heading" th:text="${p.title}"></h2><span class="property-description__address" th:text="${p.address}"></span>
+                            <div>
+                                <div class="tell-me-more"><span class="tell-me-more__text">
+                                	<span class="property-description__content" th:text="${p.description}" id="desc"></span></span>
+                                </div>
+                                <button class="tell-me-more__button tell-me-more__button--more" aria-hidden="true">Read more<span class="rui-icon tell-me-more__caret rui-icon-arrow-down-small"></span></button>
+                            </div>
+                        </article>
+                        <div class="property-features">
+                            <h2 class="section-heading">Property features</h2>
+                            <div class="property-features__section">
+                                <div class="property-features__feature">
+                                    <svg class="property-features__icon" id="icon-airConditioning" width="24" height="24" viewBox="0 0 24 24">
+                                        <path d="M19.3820742,7.94928236 L20.2525766,4.72817273 C20.3246194,4.46159358 20.5991268,4.30389072 20.8657059,4.37593353 C21.1322851,4.44797635 21.2899879,4.72248369 21.2179451,4.98906284 L20.4429774,7.85666641 L23.3747822,8.70860546 C23.6399559,8.785661 23.7924557,9.06309255 23.7154002,9.32826618 C23.6383447,9.59343982 23.3609131,9.74593967 23.0957395,9.66888414 L19.9745547,8.76191408 L13.5,12.5 L19.8820742,16.1846922 L23.1068882,15.3280147 C23.3737739,15.257116 23.6476022,15.4159949 23.7185009,15.6828806 C23.7893996,15.9497663 23.6305207,16.2235947 23.3636349,16.2944934 L20.4927336,17.0571534 L21.2208351,20.0221404 C21.2866899,20.2903153 21.122677,20.5610998 20.8545022,20.6269546 C20.5863273,20.6928094 20.3155428,20.5287965 20.249688,20.2606216 L19.4745547,17.1041113 L13,13.3660254 L13,20.7354099 L15.3543115,23.0998419 C15.5491545,23.2955224 15.5484755,23.6121042 15.352795,23.8069471 C15.1571145,24.00179 14.8405327,24.001111 14.6456898,23.8054305 L12.5497561,21.700487 L10.3460529,23.813535 C10.146734,24.0046543 9.83022129,23.9980073 9.63910196,23.7986884 C9.44798262,23.5993695 9.45462965,23.2828568 9.65394851,23.0917375 L12,20.8421972 L12,13.3660254 L5.1438943,17.3243999 L4.27339211,20.5455086 C4.20134929,20.8120877 3.92684195,20.9697906 3.6602628,20.8977478 C3.39368365,20.8257049 3.23598079,20.5511976 3.3080236,20.2846185 L4.0829913,17.4170149 L1.15118648,16.5650758 C0.886012842,16.4880203 0.733512987,16.2105887 0.810568518,15.9454151 C0.887624049,15.6802415 1.1650556,15.5277416 1.43022924,15.6047972 L4.5514149,16.5117675 L11.5,12.5 L4.6438943,8.54162553 L1.41908125,9.39830286 C1.15219553,9.46920153 0.878367173,9.31032263 0.807468504,9.0434369 C0.736569836,8.77655118 0.895448737,8.50272283 1.16233446,8.43182416 L4.03323585,7.66916409 L3.3051343,4.7041771 C3.23927953,4.43600223 3.40329238,4.16521771 3.67146725,4.09936294 C3.93964212,4.03350817 4.21042664,4.19752101 4.27628141,4.46569588 L5.0514149,7.62220712 L12,11.6339746 L12,3.71722566 L9.64568914,1.3527943 C9.45084623,1.15711381 9.45152522,0.840532052 9.6472057,0.645689142 C9.84288619,0.450846232 10.1594679,0.451525219 10.3543109,0.647205703 L12.4502445,2.7521492 L14.6539478,0.639101271 C14.8532667,0.447981932 15.1697794,0.454628961 15.3608987,0.653947826 C15.5520181,0.85326669 15.545371,1.16977939 15.3460522,1.36089873 L13,3.61043964 L13,11.6339746 L19.3820742,7.94928236 Z"></path>
+                                    </svg>
+                                    <p>Air conditioning</p>
+                                </div>
+                                <div class="property-features__feature">
+                                    <svg class="property-features__icon" id="icon-balcony" width="24" height="24" viewBox="0 0 24 24">
+                                        <path d="M12,13.9499909 L12,17 L19,17 L19,13.9499909 C17.8588798,13.7183558 17,12.709479 17,11.5 C17,10.290521 17.8588798,9.28164422 19,9.05000906 L19,3 L12,3 L12,9.05000906 C13.1411202,9.28164422 14,10.290521 14,11.5 C14,12.709479 13.1411202,13.7183558 12,13.9499909 Z M11,13.9499909 C9.85887984,13.7183558 9,12.709479 9,11.5 C9,10.290521 9.85887984,9.28164422 11,9.05000906 L11,3 L4,3 L4,9.05000906 C5.14112016,9.28164422 6,10.290521 6,11.5 C6,12.709479 5.14112016,13.7183558 4,13.9499909 L4,17 L11,17 L11,13.9499909 Z M11,18 L4,18 L3,18 L1,18 L1,21 L22,21 L22,18 L20,18 L19,18 L12,18 L11,18 Z M20,13.9499909 L20,17 L22.5,17 C22.7761424,17 23,17.2238576 23,17.5 L23,21.5 C23,21.7761424 22.7761424,22 22.5,22 L0.5,22 C0.223857625,22 0,21.7761424 0,21.5 L0,17.5 C0,17.2238576 0.223857625,17 0.5,17 L3,17 L3,13.9499909 C1.85887984,13.7183558 1,12.709479 1,11.5 C1,10.290521 1.85887984,9.28164422 3,9.05000906 L3,3 L0.5,3 C0.223857625,3 0,2.77614237 0,2.5 C0,2.22385763 0.223857625,2 0.5,2 L22.5,2 C22.7761424,2 23,2.22385763 23,2.5 C23,2.77614237 22.7761424,3 22.5,3 L20,3 L20,9.05000906 C21.1411202,9.28164422 22,10.290521 22,11.5 C22,12.709479 21.1411202,13.7183558 20,13.9499909 Z M3.5,13 C4.32842712,13 5,12.3284271 5,11.5 C5,10.6715729 4.32842712,10 3.5,10 C2.67157288,10 2,10.6715729 2,11.5 C2,12.3284271 2.67157288,13 3.5,13 Z M19.5,13 C20.3284271,13 21,12.3284271 21,11.5 C21,10.6715729 20.3284271,10 19.5,10 C18.6715729,10 18,10.6715729 18,11.5 C18,12.3284271 18.6715729,13 19.5,13 Z M11.5,13 C12.3284271,13 13,12.3284271 13,11.5 C13,10.6715729 12.3284271,10 11.5,10 C10.6715729,10 10,10.6715729 10,11.5 C10,12.3284271 10.6715729,13 11.5,13 Z"></path>
+                                    </svg>
+                                    <p>Balcony</p>
+                                </div>
+                                <div class="property-features__feature">
+                                    <svg class="property-features__icon" id="icon-builtInRobes" width="24" height="24" viewBox="0 0 24 24">
+                                        <path d="M2.5,1 L20.5,1 C20.7761424,1 21,1.22385763 21,1.5 L21,22.5 C21,22.7761424 20.7761424,23 20.5,23 L2.5,23 C2.22385763,23 2,22.7761424 2,22.5 L2,1.5 C2,1.22385763 2.22385763,1 2.5,1 Z M3,2 L3,22 L20,22 L20,2 L3,2 Z M11,2 L12,2 L12,22 L11,22 L11,2 Z M11,2 L12,2 L11,2 Z M12,22 L11,22 L12,22 Z M9,14 C8.44771525,14 8,13.5522847 8,13 C8,12.4477153 8.44771525,12 9,12 C9.55228475,12 10,12.4477153 10,13 C10,13.5522847 9.55228475,14 9,14 Z M14,14 C13.4477153,14 13,13.5522847 13,13 C13,12.4477153 13.4477153,12 14,12 C14.5522847,12 15,12.4477153 15,13 C15,13.5522847 14.5522847,14 14,14 Z"></path>
+                                    </svg>
+                                    <p>Built-in wardrobes</p>
+                                </div>
+                                <div class="property-features__feature">
+                                    <svg class="property-features__icon" id="icon-dishwasher" width="24" height="24" viewBox="0 0 24 24">
+                                        <path d="M1,1.5 C1,0.673 1.64240909,0 2.43181818,0 L20.5681818,0 C21.3575909,0 22,0.673 22,1.5 L22,22.5 C22,23.327 21.3575909,24 20.5681818,24 L2.43181818,24 C1.64240909,24 1,23.327 1,22.5 L1,1.5 Z M20.525,23 C20.78625,23 21,22.776 21,22.5 L21,5 L2,5 L2,22.5 C2,22.776 2.21375,23 2.475,23 L20.525,23 Z M21,1.5 C21,1.224 20.78625,1 20.525,1 L2.475,1 C2.21375,1 2,1.224 2,1.5 L2,4 L21,4 L21,1.5 Z M10.9997807,5 L11.9997807,5 L12,8 L14,8 L15.7807807,10.073 C15.9237807,10.161 16.0197807,10.319 16.0197807,10.5 C16.0197807,10.776 15.7957807,11 15.4997807,11 L7.49978073,11 C7.29778073,11 7.11478073,10.878 7.03778073,10.691 C6.96078073,10.504 7.00378073,10.29 7.14578073,10.146 L9,8 L10.9997807,8 L10.9997807,5 Z M10.9997807,5 L11.9997807,5 L10.9997807,5 Z M8.70678073,10 L14.2927807,10 L13.2927807,9 L9.70678073,9 L8.70678073,10 Z M8.49978073,15 C8.77578073,15 8.99978073,15.224 8.99978073,15.5 L8.99978073,16.5 C8.99978073,16.776 8.77578073,17 8.49978073,17 C8.22378073,17 7.99978073,16.776 7.99978073,16.5 L7.99978073,15.5 C7.99978073,15.224 8.22378073,15 8.49978073,15 Z M14.9997807,16.5 C14.9997807,16.776 14.7757807,17 14.4997807,17 C14.2237807,17 13.9997807,16.776 13.9997807,16.5 L13.9997807,15.5 C13.9997807,15.224 14.2237807,15 14.4997807,15 C14.7757807,15 14.9997807,15.224 14.9997807,15.5 L14.9997807,16.5 Z M12.4997807,15 C12.7757807,15 12.9997807,15.224 12.9997807,15.5 L12.9997807,16.5 C12.9997807,16.776 12.7757807,17 12.4997807,17 C12.2237807,17 11.9997807,16.776 11.9997807,16.5 L11.9997807,15.5 C11.9997807,15.224 12.2237807,15 12.4997807,15 Z M10.4997807,15 C10.7757807,15 10.9997807,15.224 10.9997807,15.5 L10.9997807,16.5 C10.9997807,16.776 10.7757807,17 10.4997807,17 C10.2237807,17 9.99978073,16.776 9.99978073,16.5 L9.99978073,15.5 C9.99978073,15.224 10.2237807,15 10.4997807,15 Z M8.99978073,13.5 L8.99978073,12.5 C8.99978073,12.224 9.22378073,12 9.49978073,12 C9.77578073,12 9.99978073,12.224 9.99978073,12.5 L9.99978073,13.5 C9.99978073,13.776 9.77578073,14 9.49978073,14 C9.22378073,14 8.99978073,13.776 8.99978073,13.5 Z M12.9997807,13.5 L12.9997807,12.5 C12.9997807,12.224 13.2237807,12 13.4997807,12 C13.7757807,12 13.9997807,12.224 13.9997807,12.5 L13.9997807,13.5 C13.9997807,13.776 13.7757807,14 13.4997807,14 C13.2237807,14 12.9997807,13.776 12.9997807,13.5 Z M10.9997807,13.5 L10.9997807,12.5 C10.9997807,12.224 11.2237807,12 11.4997807,12 C11.7757807,12 11.9997807,12.224 11.9997807,12.5 L11.9997807,13.5 C11.9997807,13.776 11.7757807,14 11.4997807,14 C11.2237807,14 10.9997807,13.776 10.9997807,13.5 Z M16.5,3 C16.2238576,3 16,2.77614237 16,2.5 C16,2.22385763 16.2238576,2 16.5,2 L18.5,2 C18.7761424,2 19,2.22385763 19,2.5 C19,2.77614237 18.7761424,3 18.5,3 L16.5,3 Z M12.5,3 C12.2238576,3 12,2.77614237 12,2.5 C12,2.22385763 12.2238576,2 12.5,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 C15,2.77614237 14.7761424,3 14.5,3 L12.5,3 Z"></path>
+                                    </svg>
+                                    <p>Dishwasher</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="property-features__section expando-collapso-group expando-collapso-group--hidden">
+                                    <div class="property-features__feature">
+                                        <svg class="property-features__icon" id="icon-ductedCooling" width="24" height="24" viewBox="0 0 24 24">
+                                            <path d="M1.5,2 L22.5,2 C23.327,2 24,2.6057 24,3.35 L24,9.65 C24,10.3943 23.327,11 22.5,11 L1.5,11 C0.673,11 0,10.3943 0,9.65 L0,3.35 C0,2.6057 0.673,2 1.5,2 Z M23,9.5625 L23,3.4375 C23,3.196875 22.776,3 22.5,3 L1.5,3 C1.224,3 1,3.196875 1,3.4375 L1,9.5625 C1,9.803125 1.224,10 1.5,10 L22.5,10 C22.776,10 23,9.803125 23,9.5625 Z M20.5,8 C20.776,8 21,8.224 21,8.5 C21,8.776 20.776,9 20.5,9 L3.5,9 C3.224,9 3,8.776 3,8.5 C3,8.224 3.224,8 3.5,8 L20.5,8 Z M20.5,6 C20.776,6 21,6.224 21,6.5 C21,6.776 20.776,7 20.5,7 L3.5,7 C3.224,7 3,6.776 3,6.5 C3,6.224 3.224,6 3.5,6 L20.5,6 Z M20.5,4 C20.776,4 21,4.224 21,4.5 C21,4.776 20.776,5 20.5,5 L3.5,5 C3.224,5 3,4.776 3,4.5 C3,4.224 3.224,4 3.5,4 L20.5,4 Z M7,17.5 C7,17.224 7.224,17 7.5,17 L10.293,17 L8.647,15.354 C8.452,15.159 8.452,14.842 8.647,14.647 C8.842,14.452 9.159,14.452 9.354,14.647 L11,16.293 L11,13.5 C11,13.224 11.224,13 11.5,13 C11.776,13 12,13.224 12,13.5 L12,16.293 L13.646,14.647 C13.841,14.452 14.158,14.452 14.353,14.647 C14.548,14.842 14.548,15.159 14.353,15.354 L12.707,17 L15.5,17 C15.776,17 16,17.224 16,17.5 C16,17.776 15.776,18 15.5,18 L12.707,18 L14.354,19.647 C14.549,19.842 14.549,20.159 14.354,20.354 C14.256,20.451 14.128,20.5 14,20.5 C13.872,20.5 13.744,20.451 13.646,20.353 L12,18.707 L12,21.5 C12,21.776 11.776,22 11.5,22 C11.224,22 11,21.776 11,21.5 L11,18.707 L9.354,20.354 C9.256,20.451 9.128,20.5 9,20.5 C8.872,20.5 8.744,20.451 8.647,20.353 C8.452,20.158 8.452,19.841 8.647,19.646 L10.293,18 L7.5,18 C7.224,18 7,17.776 7,17.5 Z"></path>
+                                        </svg>
+                                        <p>Ducted cooling</p>
+                                    </div>
+                                    <div class="property-features__feature">
+                                        <svg class="property-features__icon" id="icon-ductedHeating" width="24" height="24" viewBox="0 0 24 24">
+                                            <path d="M22.5,3 L1.5,3 C0.673,3 0,3.6057 0,4.35 L0,10.65 C0,11.3943 0.673,12 1.5,12 L22.5,12 C23.327,12 24,11.3943 24,10.65 L24,4.35 C24,3.6057 23.327,3 22.5,3 L22.5,3 Z M23,10.5625 C23,10.804 22.775,11 22.5,11 L1.5,11 C1.225,11 1,10.804 1,10.5625 L1,4.4375 C1,4.196 1.225,4 1.5,4 L22.5,4 C22.775,4 23,4.196 23,4.4375 L23,10.5625 Z M9.264,16.925 C9.099,17.027 9,17.149 9,17.25 C9,17.351 9.099,17.473 9.264,17.575 C9.731,17.866 10,18.294 10,18.75 C10,19.206 9.731,19.634 9.264,19.925 C9.182,19.976 9.091,20 9,20 C8.833,20 8.67,19.917 8.575,19.764 C8.429,19.529 8.502,19.221 8.736,19.075 C8.901,18.973 9,18.851 9,18.75 C9,18.649 8.901,18.527 8.736,18.425 C8.269,18.134 8,17.706 8,17.25 C8,16.794 8.269,16.366 8.736,16.075 C8.97,15.932 9.279,16 9.425,16.236 C9.571,16.471 9.498,16.779 9.264,16.925 Z M12.264,17.925 C12.099,18.027 12,18.149 12,18.25 C12,18.351 12.099,18.473 12.264,18.575 C12.731,18.866 13,19.294 13,19.75 C13,20.206 12.731,20.634 12.264,20.925 C12.182,20.976 12.091,21 12,21 C11.833,21 11.67,20.917 11.575,20.764 C11.429,20.529 11.502,20.221 11.736,20.075 C11.901,19.973 12,19.851 12,19.75 C12,19.649 11.901,19.527 11.736,19.425 C11.269,19.134 11,18.706 11,18.25 C11,17.794 11.269,17.366 11.737,17.075 C11.97,16.932 12.279,17.001 12.425,17.236 C12.571,17.471 12.498,17.779 12.264,17.925 Z M15.264,16.925 C15.099,17.027 15,17.149 15,17.25 C15,17.351 15.099,17.473 15.264,17.575 C15.731,17.866 16,18.294 16,18.75 C16,19.206 15.731,19.634 15.264,19.925 C15.182,19.976 15.091,20 15,20 C14.833,20 14.67,19.917 14.575,19.764 C14.429,19.529 14.502,19.221 14.736,19.075 C14.901,18.973 15,18.851 15,18.75 C15,18.649 14.901,18.527 14.736,18.425 C14.269,18.134 14,17.706 14,17.25 C14,16.794 14.269,16.366 14.737,16.075 C14.971,15.932 15.279,16.001 15.425,16.236 C15.571,16.471 15.498,16.779 15.264,16.925 Z M20.5,9 L3.5,9 C3.224,9 3,9.224 3,9.5 C3,9.776 3.224,10 3.5,10 L20.5,10 C20.776,10 21,9.776 21,9.5 C21,9.224 20.776,9 20.5,9 Z M20.5,7 L3.5,7 C3.224,7 3,7.224 3,7.5 C3,7.776 3.224,8 3.5,8 L20.5,8 C20.776,8 21,7.776 21,7.5 C21,7.224 20.776,7 20.5,7 Z M20.5,5 L3.5,5 C3.224,5 3,5.224 3,5.5 C3,5.776 3.224,6 3.5,6 L20.5,6 C20.776,6 21,5.776 21,5.5 C21,5.224 20.776,5 20.5,5 Z"></path>
+                                        </svg>
+                                        <p>Ducted heating</p>
+                                    </div>
+                                    <div class="property-features__feature">
+                                        <svg class="property-features__icon" id="icon-floorboards" width="24" height="24" viewBox="0 0 24 24">
+                                            <path d="M7,3 L4,3 L4,14 L7,14 L7,3 Z M7,21 L3,21 L3,15 L3,2 L8,2 L12,2 L15.5,2 L20,2 L20,10 L20,21 L15,21 L12,21 L7,21 Z M7,20 L7,15 L4,15 L4,20 L7,20 Z M12,20 L15,20 L15,15 L12,15 L12,20 Z M19,10 L16,10 L16,15 L16,20 L19,20 L19,10 Z M12,10 L12,14 L15,14 L15,3 L12,3 L12,10 Z M11,10 L8,10 L8,15 L8,20 L11,20 L11,10 Z M16,3 L16,9 L19,9 L19,3 L16,3 Z M8,3 L8,9 L11,9 L11,3 L8,3 Z"></path>
+                                        </svg>
+                                        <p>Floorboards</p>
+                                    </div>
+                                    <div class="property-features__feature">
+                                        <svg class="property-features__icon" id="icon-numGarageSpaces" width="24" height="24" viewBox="0 0 24 24">
+                                            <path d="M19.0130686,12.9752529 C19.0165251,12.9726886 19.0198523,12.9701527 19.0230494,12.9676462 C19.0233282,12.9674276 19.0200012,12.9699632 19.0130686,12.9752529 Z M18.2292689,9.18066868 C17.6317851,7.18139592 16.8741202,6 16.1666667,6 L7.83333333,6 C7.05018559,6 6.28612091,7.16971357 5.70971965,9.17558994 C5.32430396,10.5168365 5.03472195,12.2951965 5.00290791,12.9866719 C5.07215351,13.0344635 5.1831324,13.0909865 5.33022659,13.1498242 C5.70123128,13.298226 6.25446482,13.4438636 6.93549856,13.5709899 C8.36915217,13.8386052 10.2218984,14 12,14 C13.7781016,14 15.6308478,13.8386052 17.0645014,13.5709899 C17.7455352,13.4438636 18.2987687,13.298226 18.6697734,13.1498242 C18.8162666,13.0912269 18.926939,13.0349254 18.9962412,12.9872582 C18.9580394,12.3330463 18.633167,10.5321739 18.2292689,9.18066868 Z M4.97812746,12.970912 C4.97699974,12.9683449 4.97649352,12.9672878 4.97695056,12.9676462 C4.97701065,12.9676933 4.97740295,12.9687819 4.97812746,12.970912 Z M20,20.9934531 L20,22.75 C20,23.5261424 19.5261424,24 18.75,24 L17.25,24 C16.4738576,24 16,23.5261424 16,22.75 L16,21 L8,21 L8,22.75 C8,23.5261424 7.52614237,24 6.75,24 L5.25,24 C4.47385763,24 4,23.5261424 4,22.75 L4,20.9934531 C2.72425252,20.9182511 2,20.1973805 2,18.9444444 L2,15.0555556 C2,13.8020768 2.72488014,13.0811245 4.00165824,13.0064495 C4.02673058,12.2450102 4.33357471,10.3437457 4.74861368,8.89941006 C5.44436728,6.47818755 6.40992922,5 7.83333333,5 L16.1666667,5 C17.5195852,5 18.46336,6.47158958 19.1873978,8.89433132 C19.6240104,10.3553042 19.9696325,12.2897099 19.9981031,13.0115561 C20.2450897,13.0361029 20.5399253,13.1026662 20.8416568,13.2385336 C21.5507349,13.5578261 22,14.164728 22,15.0555556 L22,18.9444444 C22,20.1973805 21.2757475,20.9182511 20,20.9934531 Z M19,21 L17,21 L17,22.75 C17,22.9738576 17.0261424,23 17.25,23 L18.75,23 C18.9738576,23 19,22.9738576 19,22.75 L19,21 Z M5,21 L5,22.75 C5,22.9738576 5.02614237,23 5.25,23 L6.75,23 C6.97385763,23 7,22.9738576 7,22.75 L7,21 L5,21 Z M19.1343068,14 C17.7719445,14.6374693 14.9747135,15 12,15 C9.0252865,15 6.22805548,14.6374693 4.86569323,14 L4.22727273,14 C3.34090424,14 3,14.3070132 3,15.0555556 L3,18.9444444 C3,19.6929868 3.34090424,20 4.22727273,20 L19.7727273,20 C20.6590958,20 21,19.6929868 21,18.9444444 L21,15.0555556 C21,14.585272 20.8015378,14.3171739 20.4310704,14.1503553 C20.1836758,14.0389554 19.9241419,14 19.7727273,14 L19.1343068,14 Z M18,17.5 C18.2761424,17.5 18.5,17.2761424 18.5,17 C18.5,16.7238576 18.2761424,16.5 18,16.5 C17.7238576,16.5 17.5,16.7238576 17.5,17 C17.5,17.2761424 17.7238576,17.5 18,17.5 Z M18,18.5 C17.1715729,18.5 16.5,17.8284271 16.5,17 C16.5,16.1715729 17.1715729,15.5 18,15.5 C18.8284271,15.5 19.5,16.1715729 19.5,17 C19.5,17.8284271 18.8284271,18.5 18,18.5 Z M6,17.5 C6.27614237,17.5 6.5,17.2761424 6.5,17 C6.5,16.7238576 6.27614237,16.5 6,16.5 C5.72385763,16.5 5.5,16.7238576 5.5,17 C5.5,17.2761424 5.72385763,17.5 6,17.5 Z M6,18.5 C5.17157288,18.5 4.5,17.8284271 4.5,17 C4.5,16.1715729 5.17157288,15.5 6,15.5 C6.82842712,15.5 7.5,16.1715729 7.5,17 C7.5,17.8284271 6.82842712,18.5 6,18.5 Z M8.97731949,18 C8.70117712,18 8.47731949,17.7761424 8.47731949,17.5 C8.47731949,17.2238576 8.70117712,17 8.97731949,17 L14.5,17 C14.7761424,17 15,17.2238576 15,17.5 C15,17.7761424 14.7761424,18 14.5,18 L8.97731949,18 Z M1,3 L1,23.5 C1,23.7761424 0.776142375,24 0.5,24 C0.223857625,24 0,23.7761424 0,23.5 L0,2.5 C0,2.22385763 0.223857625,2 0.5,2 L23.5,2 C23.7761424,2 24,2.22385763 24,2.5 L24,23.5 C24,23.7761424 23.7761424,24 23.5,24 C23.2238576,24 23,23.7761424 23,23.5 L23,3 L1,3 Z"></path>
+                                        </svg>
+                                        <p>Garage spaces: <span class="property-features__value">1</span></p>
+                                    </div>
+                                    <div class="property-features__feature">
+                                        <svg class="property-features__icon" id="icon-secureParking" width="24" height="24" viewBox="0 0 24 24">
+                                            <path d="M11.714,2.089 C11.886,1.97 12.114,1.97 12.286,2.089 L23.786,10.089 C23.965,10.214 24.042,10.44 23.977,10.649 C23.912,10.858 23.718,11 23.5,11 L21,11 L21,21.5 C21,21.776 20.776,22 20.5,22 L3.5,22 C3.224,22 3,21.776 3,21.5 L3,11 L0.5,11 C0.282,11 0.089,10.857 0.023,10.649 C-0.043,10.441 0.035,10.214 0.214,10.089 L11.714,2.089 Z M21.906,10 L12,3.109 L2.094,10 L3.5,10 C3.776,10 4,10.224 4,10.5 L4,21 L7,21 L7,13.5 C7,13.224 7.224,13 7.5,13 L16.5,13 C16.776,13 17,13.224 17,13.5 L17,21 L20,21 L20,10.5 C20,10.224 20.224,10 20.5,10 L21.906,10 Z M7,9.5 C7,9.224 7.224,9 7.5,9 L16.5,9 C16.776,9 17,9.224 17,9.5 C17,9.776 16.776,10 16.5,10 L7.5,10 C7.224,10 7,9.776 7,9.5 Z M16,21 L16,14 L8,14 L8,21 L16,21 Z M9.5,20 C9.224,20 9,19.776 9,19.5 C9,19.224 9.224,19 9.5,19 L14.5,19 C14.776,19 15,19.224 15,19.5 C15,19.776 14.776,20 14.5,20 L9.5,20 Z M9.5,18 C9.224,18 9,17.776 9,17.5 C9,17.224 9.224,17 9.5,17 L14.5,17 C14.776,17 15,17.224 15,17.5 C15,17.776 14.776,18 14.5,18 L9.5,18 Z M9.5,16 C9.224,16 9,15.776 9,15.5 C9,15.224 9.224,15 9.5,15 L14.5,15 C14.776,15 15,15.224 15,15.5 C15,15.776 14.776,16 14.5,16 L9.5,16 Z"></path>
+                                        </svg>
+                                        <p>Secure parking</p>
+                                    </div>
+                                    <div class="property-features__feature">
+                                        <svg class="property-features__icon" id="icon-study" width="24" height="24" viewBox="0 0 24 24">
+                                            <path d="M23.5,4 L0.5,4 C0.224,4 0,4.224 0,4.5 L0,20.5 C0,20.776 0.224,21 0.5,21 C0.776,21 1,20.776 1,20.5 L1,8 L14,8 L14,17.5 C14,17.776 14.224,18 14.5,18 L23,18 L23,20.5 C23,20.776 23.224,21 23.5,21 C23.776,21 24,20.776 24,20.5 L24,4.5 C24,4.224 23.776,4 23.5,4 L23.5,4 Z M1,5 L23,5 L23,7 L1,7 L1,5 Z M23,8 L23,12 L15,12 L15,8 L23,8 Z M18.5,10 L19.5,10 C19.776,10 20,9.776 20,9.5 C20,9.224 19.776,9 19.5,9 L18.5,9 C18.224,9 18,9.224 18,9.5 C18,9.776 18.224,10 18.5,10 Z M15,17 L15,13 L23,13 L23,17 L15,17 Z M19.5,14 L18.5,14 C18.224,14 18,14.224 18,14.5 C18,14.776 18.224,15 18.5,15 L19.5,15 C19.776,15 20,14.776 20,14.5 C20,14.224 19.776,14 19.5,14 Z"></path>
+                                        </svg>
+                                        <p>Study</p>
+                                    </div>
+                                </div>
+                                <button type="button" class="expando-collapso-button expando-collapso-button--more"><span>Show more features (6)</span>
+                                    <span class="expando-collapso-button__icon">
+                                        </span></button>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="open-for-inspection">
+                            	<table>
+                            		
+                            	</table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+        </span>
+        </div>
+    </div>
+</main>
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script th:src="@{/js/layui.js}"></script>
+<script th:src="@{/js/qs.min.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+	layui.use('carousel',function(){
+		var carousel = layui.carousel;
+		carousel.render({
+			elem:'#imgs',
+			width:'458px',
+			height:'463px',
+			arrows:'always'
+		});
+	});
+	
+	(function () {
+	    //var output = document.getElementById('output');
+	    var desc = document.getElementById('desc').innerHTML;
+	    
+	    document.getElementById('post').onclick = function () {
+	       var value = document.getElementById('money').value;
+	       /*<![CDATA[*/
+	        var context = /*[[@{/}]]*/;
+	        /*]]>*/
+	        console.log(context);
+	       /* axios.post('bid.do', {
+	    	   data: {
+	    		   money: value
+	    	   } 
+	       }) */
+	       axios({
+	           method: "post",
+	           url: "/bid.do",
+	           transformRequest: [
+	             function(data) {
+	               return Qs.stringify(data);
+	             }
+	           ],
+	           data: {
+	             price: value,
+	             pid:[[${p.id}]]
+	           }
+	         })
+	        .then(function (res) {
+	          /* output.className = 'container';
+	          for(var i = 0;i<res.data.length;i++){
+	        	  output.append(res.data[i].number+" ");
+	          } */
+	          alert(res.data);
+	          document.getElementById('money').value = '';
+	          axios({
+		           method: "post",
+		           url: "/record.do",
+		           transformRequest: [
+		             function(data) {
+		               return Qs.stringify(data);
+		             }
+		           ],
+		           data: {
+		             pid:[[${p.id}]]
+		           }
+		         }).then(function (res){
+		        	 var html="";
+		        	 var output = document.getElementById('brecord');
+		        	 var list = res.data;
+		        	 for(var i = 0; i<list.length;i++){
+		        		 html += "<li><em>20777498</em><em>$"+list[i].price+"</em><em>"+list[i].time+"</em></li>"
+		        	 }
+		        	 output.innerHTML = html;
+		         });
+        	})
+	    }
+	  })();
+</script>
+</html>

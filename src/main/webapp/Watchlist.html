@@ -1,0 +1,82 @@
+<!--Author Harold Seefeld-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Watchlist</title>
+    <link rel="stylesheet" href="css/NotificationAndWatchlist.css">
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="js/populate-watchlist.js"></script>
+<header>
+    <div class="header-line"></div>
+</header>
+
+<div class="content">
+    <h1 class="content-title">Watchlist</h1>
+    <br>
+    <div class="content-form">
+        <h2>Add to Watchlist</h2>
+        <form action="/addPropertyToWatchlist" target="_self">
+            Customer ID:<br>
+            <input id="propertyAddCustomerID" type="text" name="customerID" value="C-1">
+            <br>
+            Property ID:<br>
+            <input id="propertyAddPropertyID" type="text" name="propertyID" value="P-1">
+            <br>
+            <p id="propertyAddResult">&nbsp;</p>
+            <button type="button" onclick="submitAddPropertyForm('#propertyAddResult')";>Submit</button>
+        </form>
+    </div>
+    <br>
+
+    <div class="content-form">
+        <h2>Add to Watchlist Preferences</h2>
+        <form action="/addPropertyPreferenceToWatchlist" target="_self">
+            Customer ID:<br>
+            <input id="propertyAddPreferenceCustomerID" type="text" name="customerID" value="C-1">
+            <br>
+            Property Type:<br>
+            <input id="propertyPreferenceAddTypeID" type="text" name="typeID" value="House">
+            <br>
+            Garage Spaces:<br>
+            <input id="propertyPreferenceAddNumOfGarageSpaces" type="number" name="garageSpaces" value="1">
+            <br>
+            Number Of Bathrooms:<br>
+            <input id="propertyPreferenceAddNumOfBathrooms" type="number" name="numOfBathrooms" value="1">
+            <br>
+            Number Of Bedrooms:<br>
+            <input id="propertyPreferenceAddNumOfBedrooms" type="number" name="numOfBedrooms" value="1">
+            <br>
+            Post Code:<br>
+            <input id="propertyPreferenceAddPostCode" type="number" name="postCode" value="2000">
+            <br>
+            <p id="propertyPreferenceAddResult">&nbsp;</p>
+            <button type="button" onclick="submitAddPropertyPreferenceForm('#propertyPreferenceAddResult')">Submit</button>
+        </form>
+    </div>
+    <br>
+
+    <div class="content-form">
+        <h2>Hi, these are all the properties you have added to your watchlist.</h2>
+        <br>
+        <div id="watchlistPropertyItems">
+            <script>populateWatchlistPropertyItems("#watchlistPropertyItems", "C-1");</script>
+        </div>
+        <br>
+        <h2>Property Preferences</h2>
+        <div id="watchlistPropertyPreferences">
+            <script>populateWatchlistPropertyPreferences("#watchlistPropertyPreferences", "C-1");</script>
+        </div>
+    </div>
+    <br>
+    <div class="content-footer">
+        <div class="content-login-description">Want to return home？</div>
+        <div><a class="content-login-link" href="">Home</a></div>
+    </div>
+</div>
+
+</body>
+</html>

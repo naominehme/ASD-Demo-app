@@ -3,7 +3,7 @@
     <!--
       Name of the app on GAE
     -->
-    <application>ASD-DEMO-APP</application>
+    <application>asd-demo-app</application>
     <version>1</version>
     <runtime>java8</runtime>
     <!--
@@ -13,5 +13,5 @@
     <sessions-enabled>true</sessions-enabled>
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
-    </system-properties>   
+    </system-properties>
 </appengine-web-app>
