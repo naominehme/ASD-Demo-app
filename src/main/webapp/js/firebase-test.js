@@ -36,7 +36,7 @@ async function login(username, password){
 }
 
 function logOut(){
-	document.location.pathname = '/ASD-Demo-app/src/main/webapp/login.html';
+	document.location.pathname = 'login.html';
 	logUser(auth.key,'logout');
 	localStorage.loggedInUser = '';
 }
