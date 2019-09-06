@@ -1,6 +1,8 @@
-/Users/naominehme/Documents/GitHub/ASD-Demo-app/src/main/java/asd/demo/model/User.java
-/Users/naominehme/Documents/GitHub/ASD-Demo-app/src/main/java/asd/demo/model/dao/MongoDBConnector.java
-/Users/naominehme/Documents/GitHub/ASD-Demo-app/src/main/java/asd/demo/controller/ValidatorServlet.java
-/Users/naominehme/Documents/GitHub/ASD-Demo-app/src/main/java/asd/demo/model/Users.java
-/Users/naominehme/Documents/GitHub/ASD-Demo-app/src/main/java/asd/demo/controller/Validator.java
-/Users/naominehme/Documents/GitHub/ASD-Demo-app/src/main/java/asd/demo/controller/ConnServlet.java
+M:\github\asd\src\main\java\com\uts\asd\AsdApplication.java
+M:\github\asd\src\main\java\com\uts\asd\entity\Av.java
+M:\github\asd\src\main\java\com\uts\asd\service\PropertyService.java
+M:\github\asd\src\main\java\com\uts\asd\mapper\PropertyMapper.java
+M:\github\asd\src\main\java\com\uts\asd\mapper\AvMapper.java
+M:\github\asd\src\main\java\com\uts\asd\entity\Property.java
+M:\github\asd\src\main\java\com\uts\asd\service\AvService.java
+M:\github\asd\src\main\java\com\uts\asd\controller\PropertyController.java
