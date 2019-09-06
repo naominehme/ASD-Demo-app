@@ -48,6 +48,7 @@ public class PropertyController {
 	public String home(HttpServletRequest request, HttpServletResponse response,Property property) throws IOException {
 		Gson gson = new Gson();
 		try {
+			gson.toJson(property, Property.class);
 			List<Property> list = propertyService.searchAll(property);
 			request.setAttribute("list", list);
 		} catch (Exception e) {
