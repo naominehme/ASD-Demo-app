@@ -72,50 +72,51 @@
             <div class="layout layout--no-mobile-gutters results-page__content">
                 <div class="layout__content" style="max-width: 1300px;width: 1000px;">
                     <div class="results-set-header rui-clearfix" style="background: #fbfbfb;padding-top: 20px;">
-                        <form class="layui-form" action="" style="margin: 0 auto;">
-                          <div class="layui-form-item">
+                    	<form class="layui-form" action="" style="margin: 0 auto;">
+                        <!-- <form class="layui-form" action="/home" > -->
+                          <!-- <div class="layui-form-item">
                             <label class="layui-form-label">Title:</label>
                             <div class="layui-input-block">
-                              <input type="text" name="title" required  lay-verify="required" placeholder="Search Title" autocomplete="off" class="layui-input">
+                              <input type="text" name="title" placeholder="Search Title" autocomplete="off" class="layui-input">
                             </div>
-                          </div>
+                          </div> -->
                           <div class="layui-form-item">
                             <label class="layui-form-label">Suburb:</label>
                             <div class="layui-input-block">
-                              <select name="city" lay-verify="required" >
-                                <option value="">Search by suburb or region</option>
-                                <option value="0">北京</option>
-                                <option value="1">上海</option>
-                                <option value="2">广州</option>
-                                <option value="3">深圳</option>
-                                <option value="4">杭州</option>
+                              <select name="suburb" >
+                                <option value="">Search by suburb</option>
+                                <option value="Strathfield">Strathfield</option>
+                                <option value="Lidcombe">Lidcombe</option>
+                                <option value="Epping">Epping</option>
+                                <option value="Penrith">Penrith</option>
+                                <option value="Redfern">Redfern</option>
                               </select>
                             </div>
                           </div>
                           <div class="layui-form-item" >
                             <label class="layui-form-label">Bed:</label>
                             <div class="layui-input-block">
-                              <input type="checkbox" name="" title="1-2" >
-                              <input type="checkbox" name="" title="2-3" class="layui-bg-red" checked>
-                              <input type="checkbox" name="" title="3-4">
-                              <input type="checkbox" name="" title="4-5">
-                              <input type="checkbox" name="" title="5-6">
-                              <input type="checkbox" name="" title=">6">
+                              <input type="radio" name="bedroom" title="1" value="1" >
+                              <input type="radio" name="bedroom" title="2" value="2" class="layui-bg-red" >
+                              <input type="radio" name="bedroom" title="3" value="3">
+                              <input type="radio" name="bedroom" title="4" value="4">
+                              <input type="radio" name="bedroom" title="5" value="5">
+                              <input type="radio" name="bedroom" title="6" value="6">
                             </div>
                           </div>
                           <div class="layui-form-item">
                             <label class="layui-form-label">Land Size (m2):</label>
                             <div class="layui-input-block">
-                              <input type="checkbox" name="" title="<=100">
-                              <input type="checkbox" name="" title="100-300">
-                              <input type="checkbox" name="" title="300-600">
-                              <input type="checkbox" name="" title="600-1000"checked>
-                              <input type="checkbox" name="" title="1000-2000">
+                              <input type="radio" name="sqm" title="<=100" value="1">
+                              <input type="radio" name="sqm" title="100-300" value="2">
+                              <input type="radio" name="sqm" title="300-600" value="3">
+                              <input type="radio" name="sqm" title="600-1000" value="4">
+                              <input type="radio" name="sqm" title="1000-2000" value="5">
                             </div>
                           </div>
                           <div class="layui-form-item">
                             <div class="layui-input-block">
-                              <button type="button" class="layui-btn layui-btn-fluid" style="border-radius:20px;background-color:#e4002b ">Submit</button>
+                              <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="formDemo" style="border-radius:20px;background-color:#e4002b ">Submit</button>
                             </div>
                           </div>
                         </form>
@@ -129,7 +130,7 @@
                                          aria-label="69A Yarram Street, Lidcombe">
                                     <div class="branding branding--extra-large "
                                          style="background-color: rgb(241, 142, 43);">
-                                         <img class="branding__image" src="./Real Estate &amp; Property for Sale in Lidcombe, NSW 2141 - realestate.com.au_files/logo.gif"
+                                         <img class="branding__image" src=""
                                                                                            alt="One Realty - Lidcombe">
                                         <div class="agent agent--with-photo " role="text"
                                              aria-label="Agent Ronny HATUMALE">
@@ -141,7 +142,7 @@
                                     </div>
                                     <div aria-hidden="true" class="residential-card__image-wrapper">
                                         <div class="residential-card__image">
-                                            <a href="homedetail/0"
+                                            <a href="homedetail/0" th:href="${'homedetail/'+property.id}"
                                                class="details-link ">
                                                 <div class="carousel  residential-card__images property-card-hero property-card-hero--large">
                                                     <div class="property-image">
@@ -165,7 +166,7 @@
                                                     <h2 class="residential-card__address-heading"><a
                                                             href="#"
                                                             class="details-link residential-card__details-link"><span
-                                                            class="" th:text="${property.address}"></span></a></h2></div>
+                                                            class="" th:text="${property.address}+', '+${property.suburb}"></span></a></h2></div>
                                             </div>
                                             <div class="piped-content">
                                                 <div class="piped-content__outer">
@@ -242,15 +243,36 @@
 
 </body>
 <script type="text/javascript" src="js/layui.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script th:src="@{/js/qs.min.js}"></script>
 <script type="text/javascript">
 	//Demo
 	layui.use('form', function(){
 	var form = layui.form;
 
-	form.on('submit(formDemo)', function(data){
-	  layer.msg(JSON.stringify(data.field));
-	  return false;
+	//form.on('submit(formDemo)', function(data){
+	  //layer.msg(JSON.stringify(data.field));
+	  //console.log(data.field);
+	  /* axios({
+         method: "post",
+         url: "/home",
+         transformRequest: [
+           function(data) {
+             return Qs.stringify(data);
+           }
+         ],
+         data: {
+           bedroom: data.field.bed,
+           sqm:data.field.sqm,
+           suburb:data.field.suburb
+         }
+       })
+      .then(function (res) {
+      	
+      }) */
+	  
+	  //return false;
+	//});
 	});
-});
 </script>
 </html>

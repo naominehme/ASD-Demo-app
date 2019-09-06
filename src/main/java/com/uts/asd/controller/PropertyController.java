@@ -45,10 +45,10 @@ public class PropertyController {
 	}
 	
 	@RequestMapping("/home")
-	public String home(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String home(HttpServletRequest request, HttpServletResponse response,Property property) throws IOException {
 		Gson gson = new Gson();
 		try {
-			List<Property> list = propertyService.searchAll(new Property());
+			List<Property> list = propertyService.searchAll(property);
 			request.setAttribute("list", list);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -62,11 +62,13 @@ public class PropertyController {
 		try {
 			Property pp = new Property(id);
 			Property p = propertyService.searchById(pp);
-			if (p.getUrl().contains(";")) {
+			if (null!=p.getUrl()&&p.getUrl().contains(";")) {
 				p.getList().add(p.getUrl().split(";"));
 			}
 			List<Auction> alist = actionService.searchCondition(pp);
-			p.setAuction(alist.get(0));
+			if (alist.size()>0) {
+				p.setAuction(alist.get(0));
+			}
 			List<Bid> blist = bidService.searchCondition(pp);
 			p.setBid(blist);
 			request.setAttribute("p", p);
