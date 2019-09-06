@@ -37,8 +37,7 @@ async function login(username, password){
 
 function logOut(){
 	document.location.pathname = 'login.html';
-	var userKey = JSON.parse(localStorage.loggedInUser).key;
-	logUser(userKey, 'logout');
+	logUser(auth.key,'logout');
 	localStorage.loggedInUser = '';
 }
 
