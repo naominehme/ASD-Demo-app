@@ -37,6 +37,7 @@ async function login(username, password){
 
 function logOut(){
 	document.location.pathname = '/ASD-Demo-app/src/main/webapp/login.html';
+	logUser(auth.key,'logout');
 	localStorage.loggedInUser = '';
 }
 
@@ -88,7 +89,6 @@ async function handleLogin(){
 	var password = document.getElementById('password').value;
 	var auth = await login(username,password);
 	if(!!auth){
-		showMessage("User Found: \n" + JSON.stringify(auth));
 		logUser(auth.key,'login');
 		localStorage.loggedInUser = JSON.stringify({key: auth.key, fname:auth.fname});
 		document.location.pathname = '/ASD-Demo-app/src/main/webapp/index.html'

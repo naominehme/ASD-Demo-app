@@ -36,11 +36,13 @@
                 jQuery('.welcomePanel').show();
                 jQuery('#welcomeText').text('Welcome, '+ JSON.parse(localStorage.loggedInUser).fname +'! ');
                 jQuery('.logoutBtn').show();
+                jQuery('.accountBtn').show();
             } else {
                 jQuery('.loginBtn').show();
                 jQuery('.signUpBtn').show();
                 jQuery('.welcomePanel').hide();
                 jQuery('.logoutBtn').hide();
+                jQuery('.accountBtn').hide();
             }
         });
     </script>
@@ -77,6 +79,9 @@
                     </div>
                     <div class="masthead__subscription logoutBtn">
                         <btn onClick="logOut()">Logout</btn>
+                    </div>
+                    <div class="masthead__subscription accountBtn">
+                        <btn onClick="location.href='/ASD-Demo-app/src/main/webapp/UserLogs.html'">Account</btn>
                     </div>
                 </div>
             </div>
