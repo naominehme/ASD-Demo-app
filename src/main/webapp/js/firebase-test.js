@@ -91,7 +91,7 @@ async function handleLogin(){
 	if(!!auth){
 		logUser(auth.key,'login');
 		localStorage.loggedInUser = JSON.stringify({key: auth.key, fname:auth.fname});
-		document.location.pathname = '/ASD-Demo-app/src/main/webapp/index.html'
+		document.location.pathname = 'index.html'
 	} else {
 		showMessage('User Not Found');
 	}
