@@ -6,6 +6,7 @@ package com.uts.asd.entity;
 
 import com.google.cloud.Timestamp;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class WatchlistPropertyItem {

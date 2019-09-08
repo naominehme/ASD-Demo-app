@@ -1,15 +1,15 @@
 <!--Author Harold Seefeld-->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Watchlist</title>
     <link rel="stylesheet" href="css/NotificationAndWatchlist.css">
+    <script th:src="@{js/watchlist.js}"></script>
 </head>
 <body>
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script src="js/populate-watchlist.js"></script>
+
 <header>
     <div class="header-line"></div>
 </header>
@@ -19,15 +19,11 @@
     <br>
     <div class="content-form">
         <h2>Add to Watchlist</h2>
-        <form action="/addPropertyToWatchlist" target="_self">
-            Customer ID:<br>
-            <input id="propertyAddCustomerID" type="text" name="customerID" value="C-1">
-            <br>
+        <form action="#" th:action="@{/watchlist/add/property/{propertyID}(propertyID=${item.propertyID})}" th:object="${student}" method="post">
             Property ID:<br>
             <input id="propertyAddPropertyID" type="text" name="propertyID" value="P-1">
             <br>
-            <p id="propertyAddResult">&nbsp;</p>
-            <button type="button" onclick="submitAddPropertyForm('#propertyAddResult')";>Submit</button>
+            <input type="submit" value="Submit" />
         </form>
     </div>
     <br>
@@ -35,9 +31,6 @@
     <div class="content-form">
         <h2>Add to Watchlist Preferences</h2>
         <form action="/addPropertyPreferenceToWatchlist" target="_self">
-            Customer ID:<br>
-            <input id="propertyAddPreferenceCustomerID" type="text" name="customerID" value="C-1">
-            <br>
             Property Type:<br>
             <input id="propertyPreferenceAddTypeID" type="text" name="typeID" value="House">
             <br>
@@ -62,13 +55,26 @@
     <div class="content-form">
         <h2>Hi, these are all the properties you have added to your watchlist.</h2>
         <br>
-        <div id="watchlistPropertyItems">
-            <script>populateWatchlistPropertyItems("#watchlistPropertyItems", "C-1");</script>
+        <div class="content-watchlist-item" th:each="item : ${WatchlistPropertyItems}">
+            <img border="0" alt="" src="https://www.rawsonhomes.com.au/-/media/rawson-homes/home-designs/bronte/facades/hi-res-bronte-hamptons-2168x1355.ashx?thn=0&w=1016&hash=96A840845863F5C11C9429D577F0F76C" width="100" height="100">
+            <p th:text="'Property ID: ' + ${item.propertyID}"></p>
+            <i th:text="'Added to Watchlist on ' + ${item.createdDate}"></i>
+            <a class=remove-watchlist-item th:href="@{/watchlist/remove/property/{propertyID}(propertyID=${item.propertyID})}">Remove from watchlist</a>
         </div>
         <br>
         <h2>Property Preferences</h2>
-        <div id="watchlistPropertyPreferences">
-            <script>populateWatchlistPropertyPreferences("#watchlistPropertyPreferences", "C-1");</script>
+        <br>
+        <div class="content-watchlist-preference" th:each="item : ${WatchlistPropertyPreferences}">
+            <div th:switch="${item.typeID}">
+                <img th:case="'Apartment'" border="0" alt="Apartment" src="http://clipartmag.com/images/apartment-building-clipart-30.png" width="100" height="100">
+                <img th:case="*" border="0" alt="Other" src="http://clipartmag.com/images/house-clipart-images-12.jpg" width="100" height="100">
+            </div>
+            <p th:text="'Property Type: ' + ${item.typeID}"></p>
+            <p th:text="'Post Code: ' + ${item.postCode}"></p>
+            <p th:text="'Bedrooms: ' + ${item.numOfBedrooms}"></p>
+            <p th:text="'Bathrooms: ' + ${item.numOfBathrooms}"></p>
+            <p th:text="'Garage Spaces: ' + ${item.garageSpaces}"></p>
+            <a class=remove-watchlist-item th:href="@{/watchlist/remove/preference/{propertyID}(propertyID=${item.preferenceID})}">Remove from watchlist</a>
         </div>
     </div>
     <br>
