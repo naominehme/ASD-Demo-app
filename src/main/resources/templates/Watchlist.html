@@ -5,8 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Watchlist</title>
-    <link rel="stylesheet" href="css/NotificationAndWatchlist.css">
-    <script th:src="@{js/watchlist.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/NotificationAndWatchlist.css}">
 </head>
 <body>
 
@@ -19,11 +18,14 @@
     <br>
     <div class="content-form">
         <h2>Add to Watchlist</h2>
-        <form action="#" th:action="@{/watchlist/add/property/{propertyID}(propertyID=${item.propertyID})}" th:object="${student}" method="post">
+        <form action="#" th:action="@{/watchlist/add/property}" th:object="${watchlistPropertyItem}" method="post">
             Property ID:<br>
-            <input id="propertyAddPropertyID" type="text" name="propertyID" value="P-1">
+            <input id="propertyAddPropertyID" type="text" th:field="*{propertyID}" value="P-1">
             <br>
             <input type="submit" value="Submit" />
+            <ul>
+                <li th:each="err : ${#fields.errors('propertyID')}" th:text="${err}" />
+            </ul>
         </form>
     </div>
     <br>
@@ -55,7 +57,7 @@
     <div class="content-form">
         <h2>Hi, these are all the properties you have added to your watchlist.</h2>
         <br>
-        <div class="content-watchlist-item" th:each="item : ${WatchlistPropertyItems}">
+        <div class="content-watchlist-item" th:each="item : ${watchlistPropertyItems}">
             <img border="0" alt="" src="https://www.rawsonhomes.com.au/-/media/rawson-homes/home-designs/bronte/facades/hi-res-bronte-hamptons-2168x1355.ashx?thn=0&w=1016&hash=96A840845863F5C11C9429D577F0F76C" width="100" height="100">
             <p th:text="'Property ID: ' + ${item.propertyID}"></p>
             <i th:text="'Added to Watchlist on ' + ${item.createdDate}"></i>
@@ -64,7 +66,7 @@
         <br>
         <h2>Property Preferences</h2>
         <br>
-        <div class="content-watchlist-preference" th:each="item : ${WatchlistPropertyPreferences}">
+        <div class="content-watchlist-preference" th:each="item : ${watchlistPropertyPreferences}">
             <div th:switch="${item.typeID}">
                 <img th:case="'Apartment'" border="0" alt="Apartment" src="http://clipartmag.com/images/apartment-building-clipart-30.png" width="100" height="100">
                 <img th:case="*" border="0" alt="Other" src="http://clipartmag.com/images/house-clipart-images-12.jpg" width="100" height="100">
