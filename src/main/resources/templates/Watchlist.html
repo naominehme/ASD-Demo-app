@@ -15,44 +15,62 @@
 
 <div class="content">
     <h1 class="content-title">Watchlist</h1>
-    <br>
+
+    <div class="content-form" th:if="${defaultCustomer}">
+        <h2>Not Signed In</h2>
+        <p>Please sign in to continue. Displaying functionality and view for our default customer.</p>
+    </div>
+
     <div class="content-form">
         <h2>Add to Watchlist</h2>
         <form action="#" th:action="@{/watchlist/add/property}" th:object="${watchlistPropertyItem}" method="post">
-            Property ID:<br>
-            <input id="propertyAddPropertyID" type="text" th:field="*{propertyID}" value="P-1">
-            <br>
-            <input type="submit" value="Submit" />
-            <ul>
-                <li th:each="err : ${#fields.errors('propertyID')}" th:text="${err}" />
-            </ul>
+            <table>
+                <tr>
+                    <td><label>Property ID:</label></td>
+                    <td><input type="text" th:field="*{propertyID}" value="P-1"></td>
+                </tr>
+                <tr><td><p th:each="err : ${#fields.errors('propertyID')}" th:text="${err}"></p></td></tr>
+                <tr>
+                    <td><input type="submit" value="Submit" /></td>
+                </tr>
+            </table>
         </form>
     </div>
-    <br>
 
     <div class="content-form">
         <h2>Add to Watchlist Preferences</h2>
-        <form action="/addPropertyPreferenceToWatchlist" target="_self">
-            Property Type:<br>
-            <input id="propertyPreferenceAddTypeID" type="text" name="typeID" value="House">
-            <br>
-            Garage Spaces:<br>
-            <input id="propertyPreferenceAddNumOfGarageSpaces" type="number" name="garageSpaces" value="1">
-            <br>
-            Number Of Bathrooms:<br>
-            <input id="propertyPreferenceAddNumOfBathrooms" type="number" name="numOfBathrooms" value="1">
-            <br>
-            Number Of Bedrooms:<br>
-            <input id="propertyPreferenceAddNumOfBedrooms" type="number" name="numOfBedrooms" value="1">
-            <br>
-            Post Code:<br>
-            <input id="propertyPreferenceAddPostCode" type="number" name="postCode" value="2000">
-            <br>
-            <p id="propertyPreferenceAddResult">&nbsp;</p>
-            <button type="button" onclick="submitAddPropertyPreferenceForm('#propertyPreferenceAddResult')">Submit</button>
+        <form action="#" th:action="@{/watchlist/add/preference}" th:object="${watchlistPropertyPreference}" method="post">
+            <table>
+                <tr>
+                    <td><label>Property Type:</label></td>
+                    <td><select th:field="*{typeID}">
+                        <option th:value="${null}"/>
+                        <option th:value="${'House'}" th:text="${'House'}"/>
+                        <option th:value="${'Apartment'}" th:text="${'Apartment'}"/>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td><label>Garage Spaces:</label></td>
+                    <td><input type="number" th:field="*{garageSpaces}" th:value="1"></td>
+                </tr>
+                <tr>
+                    <td><label>Bedrooms:</label></td>
+                    <td><input type="number" th:field="*{numOfBedrooms}" th:value="1"></td>
+                </tr>
+                <tr>
+                    <td><label>Bathrooms:</label></td>
+                    <td><input type="number" th:field="*{numOfBathrooms}" th:value="1"></td>
+                </tr>
+                <tr>
+                    <td><label>Post Code:</label></td>
+                    <td><input type="number" th:field="*{postCode}" th:value="2000"></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Submit" /></td>
+                </tr>
+            </table>
         </form>
     </div>
-    <br>
 
     <div class="content-form">
         <h2>Hi, these are all the properties you have added to your watchlist.</h2>
@@ -79,7 +97,7 @@
             <a class=remove-watchlist-item th:href="@{/watchlist/remove/preference/{propertyID}(propertyID=${item.preferenceID})}">Remove from watchlist</a>
         </div>
     </div>
-    <br>
+
     <div class="content-footer">
         <div class="content-login-description">Want to return home？</div>
         <div><a class="content-login-link" href="">Home</a></div>

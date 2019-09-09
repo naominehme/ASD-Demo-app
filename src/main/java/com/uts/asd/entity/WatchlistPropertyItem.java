@@ -13,7 +13,7 @@ public class WatchlistPropertyItem {
 
     // Declare private variables
     private String customerID;
-    @NotNull @NotBlank
+    @NotNull(message = "Property ID cannot be null.")  @NotBlank(message = "Property ID cannot be empty.")
     private String propertyID;
     private String createdDate;
 

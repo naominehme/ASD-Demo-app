@@ -42,7 +42,7 @@ public class WatchlistController {
 
     private final String DEFAULT_CUSTOMER_ID="C-1";
 
-    private void loadWatchlistData(Model model, String customerID, WatchlistPropertyItem watchlistPropertyItem) throws ExecutionException, InterruptedException {
+    private void loadWatchlistData(Model model, String customerID, WatchlistPropertyItem watchlistPropertyItem, WatchlistPropertyPreference watchlistPropertyPreference) throws ExecutionException, InterruptedException {
         // Launch async lookups
         CompletableFuture<ArrayList<WatchlistPropertyItem>> watchlistPropertyItems = watchlistService.getWatchlistPropertyItems(customerID);
         CompletableFuture<ArrayList<WatchlistPropertyPreference>> watchlistPropertyPreferences = watchlistService.getWatchlistPropertyPreferences(customerID);
@@ -54,20 +54,22 @@ public class WatchlistController {
         model.addAttribute("watchlistPropertyItems", watchlistPropertyItems.get());
         model.addAttribute("watchlistPropertyPreferences", watchlistPropertyPreferences.get());
         model.addAttribute("watchlistPropertyItem", watchlistPropertyItem);
+        model.addAttribute("watchlistPropertyPreference", watchlistPropertyPreference);
+        model.addAttribute("defaultCustomer", customerID == DEFAULT_CUSTOMER_ID ? true : false);
     }
 
     @GetMapping("/watchlist")
     public String getWatchlist(Model model, HttpServletRequest request) throws ExecutionException, InterruptedException {
         String customerID = getCustomerIDFromRequest(request);
 
-        loadWatchlistData(model, customerID, new WatchlistPropertyItem());
+        loadWatchlistData(model, customerID, new WatchlistPropertyItem(), new WatchlistPropertyPreference());
         return "Watchlist";
     }
 
     @PostMapping("/watchlist/add/property")
     public String addPropertyToWatchlist(Model model, @Validated WatchlistPropertyItem watchlistPropertyItem, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) throws IOException, ExecutionException, InterruptedException {
         if (bindingResult.hasErrors()) {
-            loadWatchlistData(model, getCustomerIDFromRequest(request), watchlistPropertyItem);
+            loadWatchlistData(model, getCustomerIDFromRequest(request), watchlistPropertyItem, new WatchlistPropertyPreference());
             return "Watchlist";
         }
 
@@ -92,28 +94,23 @@ public class WatchlistController {
         response.sendRedirect("/watchlist");
     }
 
-    @RequestMapping("/addPropertyPreferenceToWatchlist")
-    public DeferredResult<String> addPropertyPreferenceToWatchlist(HttpServletRequest request,HttpServletResponse response) {
-        DeferredResult deferredResult = new DeferredResult();
-        WatchlistPropertyPreference watchlistPropertyPreference = null;
-
-        try {
-            String customerID = getCustomerIDFromRequest(request);
-            String typeID = request.getParameter("typeID");
-            int garageSpaces = Integer.parseInt(request.getParameter("garageSpaces"));
-            int numOfBathrooms = Integer.parseInt(request.getParameter("numOfBathrooms"));
-            int numOfBedrooms = Integer.parseInt(request.getParameter("numOfBedrooms"));
-            int postCode = Integer.parseInt(request.getParameter("postCode"));
-
-            watchlistPropertyPreference = new WatchlistPropertyPreference(customerID, typeID, garageSpaces, numOfBathrooms, numOfBedrooms, postCode);
-        } catch (Exception e) {
-            deferredResult.setResult(e.getMessage());
-            return deferredResult;
+    @PostMapping("/watchlist/add/preference")
+    public String addPropertyPreferenceToWatchlist(Model model, @Validated WatchlistPropertyPreference watchlistPropertyPreference, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) throws IOException, ExecutionException, InterruptedException {
+        if (bindingResult.hasErrors()) {
+            loadWatchlistData(model, getCustomerIDFromRequest(request), new WatchlistPropertyItem(), watchlistPropertyPreference);
+            return "Watchlist";
         }
 
-        logger.info("Attempting to add property preferences to watchlist: {}", watchlistPropertyPreference.toString());
+        DeferredResult deferredResult = new DeferredResult();
+        // Set server-controlled variables
+        watchlistPropertyPreference.setCustomerID(getCustomerIDFromRequest(request));
+        watchlistPropertyPreference.assignPreferenceID();
+
+        logger.info("Attempting to add property to watchlist: {}", watchlistPropertyPreference);
         watchlistRepository.addPropertyPreferencesToWatchlist(watchlistPropertyPreference, deferredResult);
-        return deferredResult;
+
+        response.sendRedirect("/watchlist");
+        return null;
     }
 
     @RequestMapping("/watchlist/remove/preference/{preferenceID}")

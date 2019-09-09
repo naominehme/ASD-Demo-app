@@ -98,6 +98,11 @@ public class WatchlistPropertyPreference {
         return preferenceID;
     }
 
+    public void assignPreferenceID() {
+        // Creating a random UUID (Universally unique identifier)
+        preferenceID = UUID.randomUUID().toString();
+    }
+
     @Override
     public String toString() {
         return "WatchlistPropertyPreference{" +
