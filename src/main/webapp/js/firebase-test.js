@@ -100,7 +100,7 @@ async function handleLogin(){
 
 function logUser(userKey,logType){
 	db.ref('/Users/'+userKey+'/Logs').push({
-		logTime: new Date().toTimeString(),
+		logTime: new Date().getTime(),
 		logType:logType
 	})
 }
