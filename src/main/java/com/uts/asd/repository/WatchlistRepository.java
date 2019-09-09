@@ -117,7 +117,7 @@ public class WatchlistRepository implements WatchlistMapper{
                             ((Number)childSnapshot.child("garageSpaces").getValue()).intValue(),
                             ((Number)childSnapshot.child("numOfBathrooms").getValue()).intValue(),
                             ((Number)childSnapshot.child("numOfBedrooms").getValue()).intValue(),
-                            ((Number)childSnapshot.child("postCode").getValue()).intValue());
+                            (String)childSnapshot.child("suburb").getValue());
                     watchlistPropertyPreferenceArrayListArrayList.add(watchlistPropertyPreference);
                     logger.info(watchlistPropertyPreference.toString());
                 }

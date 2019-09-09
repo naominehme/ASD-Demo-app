@@ -102,6 +102,10 @@ body {
     margin: 8px;
 }
 
+.error {
+    color: red;
+}
+
 .content-form form div {
      margin-bottom: 19px;
      width: 80%;

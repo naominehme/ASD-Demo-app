@@ -4,46 +4,42 @@ package com.uts.asd.entity;
  * @author Harold Seefeld
  */
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.UUID;
 
 public class WatchlistPropertyPreference {
 
+    // Declare private variables
+    private String customerID;
+    @NotBlank (message = "Property type cannot be left empty.") @NotNull (message = "Property type cannot be left empty.")
+    private String typeID;
+    private String preferenceID;
+    private int garageSpaces;
+    private int numOfBathrooms;
+    private int numOfBedrooms;
+    @Size(min=2, max=20, message = "Suburb must be between 2 and 20 characters long.")
+    @Pattern(regexp = "^[A-Za-z]+$", message = "Suburb must consist of alphabetical letters only.")
+    private String suburb;
+
     public WatchlistPropertyPreference() {}
 
-    public WatchlistPropertyPreference(String customerID, String typeID, String preferenceID, int garageSpaces, int numOfBathrooms, int numOfBedrooms, int postCode) {
+    public WatchlistPropertyPreference(String customerID, String typeID, String preferenceID, int garageSpaces, int numOfBathrooms, int numOfBedrooms, String suburb) {
         this.customerID = customerID;
         this.typeID = typeID;
         this.preferenceID = preferenceID;
         this.garageSpaces = garageSpaces;
         this.numOfBathrooms = numOfBathrooms;
         this.numOfBedrooms = numOfBedrooms;
-        this.postCode = postCode;
-    }
-
-    public WatchlistPropertyPreference(String customerID, String typeID, int garageSpaces, int numOfBathrooms, int numOfBedrooms, int postCode) {
-        this.customerID = customerID;
-        this.typeID = typeID;
-        this.garageSpaces = garageSpaces;
-        this.numOfBathrooms = numOfBathrooms;
-        this.numOfBedrooms = numOfBedrooms;
-        this.postCode = postCode;
-        // Creating a random UUID (Universally unique identifier)
-        preferenceID = UUID.randomUUID().toString();
+        this.suburb = suburb;
     }
 
     public WatchlistPropertyPreference(String customerID, String preferenceID) {
         this.customerID = customerID;
         this.preferenceID = preferenceID;
     }
-
-    // Declare private variables
-    private String customerID;
-    private String typeID;
-    private String preferenceID;
-    private int garageSpaces;
-    private int numOfBathrooms;
-    private int numOfBedrooms;
-    private int postCode;
 
     // Getters and setters
     public String getCustomerID() {
@@ -86,13 +82,9 @@ public class WatchlistPropertyPreference {
         this.numOfBedrooms = numOfBedrooms;
     }
 
-    public int getPostCode() {
-        return postCode;
-    }
+    public String getSuburb() { return suburb; }
 
-    public void setPostCode(int postCode) {
-        this.postCode = postCode;
-    }
+    public void setSuburb(String suburb) { this.suburb = suburb; }
 
     public String getPreferenceID() {
         return preferenceID;
@@ -112,7 +104,7 @@ public class WatchlistPropertyPreference {
                 ", garageSpaces=" + garageSpaces +
                 ", numOfBathrooms=" + numOfBathrooms +
                 ", numOfBedrooms=" + numOfBedrooms +
-                ", postCode=" + postCode +
+                ", suburb=" + suburb +
                 '}';
     }
 }
