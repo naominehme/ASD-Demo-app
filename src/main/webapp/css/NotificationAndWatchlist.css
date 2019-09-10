@@ -20,8 +20,18 @@ body {
 }
 .nav {
     text-align: center;
-    font-size: 2em;
+    font-size: 3em;
 }
+.nav a {
+    text-decoration: none;
+    color: white;
+    padding: 4px;
+    -webkit-text-stroke: #833ab4 2px;
+}
+.nav a:hover {
+    text-decoration: underline;
+}
+
 /*content*/
 .content {
     width: 75%;
