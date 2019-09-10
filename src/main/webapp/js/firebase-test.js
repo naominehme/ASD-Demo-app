@@ -93,7 +93,8 @@ async function handleLogin(){
 		logUser(auth.key,'login');
 		localStorage.loggedInUser = JSON.stringify({key: auth.key, fname:auth.fname});
 		document.location.pathname = 'index.html'
-	} else {
+	}
+	else {
 		showMessage('User Not Found');
 	}
 }

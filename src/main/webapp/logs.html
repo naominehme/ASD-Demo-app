@@ -31,24 +31,67 @@
     $(document).ready(function(){
         (async () => {
             var logs = await getLogs();
-            generateTable(logs)
-           	$('#loading').hide();
+            window.logStore = logs;
+            if(logs !== false) {
+                generateTable(logs);
+                $('#loading').hide();
+            } else {
+                $('#loading').show();
+                $('#delete').hide();
+                $('#loading').text('No Logs Found');
+            }
         })()
         
-    })
+    });
 
     async function getLogs(){
         var userId = JSON.parse(localStorage.loggedInUser).key;
         return new Promise((resolve) => {
            db.ref('/Users/'+userId).once('value', snap => {
            	$('#name').text(snap.val().fname+"'s Logs");
-            resolve(Object.values(snap.child('Logs').val()));
+           	try {
+                // var data = Object.values(snap.child('Logs').val());
+                var data = [];
+                snap.child('Logs').forEach(log => {
+                    var logObj = log.val();
+                    logObj.key = log.key;
+                    data.push(logObj);
+                });
+
+                if(data.length === 0){
+                    data = false;
+                }
+            } catch(e){
+           	    data = false;
+           } finally {
+                resolve(data)
+            }
+
             }); 
         })
     }
 
-    function removeEntry(index){
+    function removeEntry(e){
+        var userKey = JSON.parse(localStorage.loggedInUser).key;
+        var logKey = e.path[2].cells[0].innerHTML;
+        db.ref('/Users/'+ userKey + '/Logs/'+logKey).remove();
+        var index = e.toElement.id;
     	$('#'+index).parent().parent().remove();
+    	if($('.btn').length === 0){
+            $('#logTable').hide();
+    	    $('#loading').show();
+            $('#delete').hide();
+            $('#loading').text('No Logs Found');
+        }
+    }
+
+    async function removeLogs(){
+        var userKey = JSON.parse(localStorage.loggedInUser).key;
+        db.ref('/Users/'+userKey+'/Logs').remove();
+        $('#logTable').hide();
+        $('#loading').show();
+        $('#delete').hide();
+        $('#loading').text('No Logs Found');
     }
 
     function generateTable(obj){
@@ -57,22 +100,27 @@
         $("#logTable").append(tbl);
 
             var tr="<tr>";
-            var td1="<td>Time</td>";
+            var td0="<td>Log ID</td>";
+            var td1="<td>Date/Time</td>";
             var td2="<td>Type</td>";
             var td3="<td>Action</td></tr>";
-        $("#mytable").append(tr+td1+td2+td3); 
+        $("#mytable").append(tr+td0+td1+td2+td3);
 
         for(var i=0;i<obj.length;i++){
+            var dateRaw = obj[i]["logTime"];
+            var formattedDate = new Date(dateRaw).toDateString() + ' ' + new Date(dateRaw).toTimeString() ;
+            formattedDate = formattedDate.split('GMT')[0];
             var tr="<tr>";
-            var td1="<td>"+obj[i]["logTime"]+"</td>";
+            var td0="<td>"+obj[i]['key']+"</td>";
+            var td1="<td>"+formattedDate+"</td>";
             var td2="<td>"+obj[i]["logType"]+"</td>";
             var td3="<td><button class='btn' id='"+i+"'>Remove</button></td></tr>";
 
-           $("#mytable").append(tr+td1+td2+td3); 
+           $("#mytable").append(tr+td0+td1+td2+td3);
 
 	        Array.from(document.getElementsByClassName('btn')).forEach(function(element) {
 	      		element.addEventListener('click', function(e){
-	      			removeEntry(e.toElement.id);
+	      			removeEntry(e);
 	      		});
 	    	});
 
@@ -123,12 +171,29 @@
         }
     </script>
     <style>
-    #mytable,td{
-        border:1px solid black;
-        width: 70%;
-        font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;}
+        #mytable,td{
+            border:1px solid black;
+            width: 60%;
+            text-align: center;
+            margin-left:28vh;
+            margin-right:28vh;
+            font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+        }
         #myInput{
-            width: 30%;
+            width: 47%;
+        }
+        #name{
+            margin-left:28vh;
+        }
+
+        #loading {
+            margin-left:28vh;
+
+        }
+
+        #delete{
+            margin-left:28vh;
+
         }
     </style>
     <title> User Logs</title>
@@ -180,16 +245,15 @@
         </div>
     </div>
 </header>
-    <div id="name"></div>
-    <div id="logTable">
-        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for ids..">
-        <p id="loading">Loading...</p>
-        <div class="container-login100-form-btn pb-4">
-            <button class="login100-form-btn" onClick="">
-                Delete All
-            </button>
-        </div>
+    <div class="layui-col-xs6">
+        <div class="pl-4 mt-5" id="name"></div>
     </div>
+    <div class="layui-col-xs6 mt-5">
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for ids..">
+    </div>
+    <p class="pl-4 mt-5" id="loading">Loading...</p>
+    <div id="logTable"></div>
+    <button class="login100-form-btn pt-10" id="delete" onClick="removeLogs()">Delete All</button>
 
 <div id="dropDownSelect1"></div>
 <!--===============================================================================================-->
