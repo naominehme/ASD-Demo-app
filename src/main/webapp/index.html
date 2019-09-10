@@ -14,7 +14,7 @@
     </script>
     <script src='js/firebase-test.js'></script>
 
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
     <meta name="format-detection" content="telephone=no">
     <title>Real Estate &amp; Property for Sale in Lidcombe, NSW 2141 - realestate.com.au</title>
@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="css/layui.css">
     <link rel="stylesheet" href="css/styles.css">
     <style type="text/css">
-    	/* .layui-unselect layui-form-checkbox:hover span{background-color: white} */
+        /* .layui-unselect layui-form-checkbox:hover span{background-color: white} */
     </style>
     <script>
         $( document ).ready(function() {
@@ -37,13 +37,19 @@
                 jQuery('#welcomeText').text('Welcome, '+ JSON.parse(localStorage.loggedInUser).fname +'! ');
                 jQuery('.logoutBtn').show();
                 jQuery('.accountBtn').show();
-                jQuery('.staffBtn').hide();
+                jQuery('.watchlistBtn').show();
+                if(getActiveUser().isAdmin){
+                    jQuery('.staffBtn').show();
+                } else {
+                    jQuery('.staffBtn').hide();
+                }
             } else {
                 jQuery('.loginBtn').show();
                 jQuery('.signUpBtn').show();
                 jQuery('.welcomePanel').hide();
                 jQuery('.logoutBtn').hide();
                 jQuery('.accountBtn').hide();
+                jQuery('.watchlistBtn').hide();
                 jQuery('.staffBtn').hide();
             }
         });
@@ -78,6 +84,9 @@
                     </div>
                     <div class="masthead__subscription welcomePanel">
                         <btn id="welcomeText"></btn>
+                    </div>
+                    <div class="masthead__subscription staffBtn">
+                        <btn onClick="location.href='StaffPortal.html'">Staff Portal</btn>
                     </div>
                     <div class="masthead__subscription accountBtn">
                         <btn onClick="location.href='UserLogs.html'">My Account</btn>
@@ -447,14 +456,14 @@
 </body>
 <script type="text/javascript" src="js/layui.js"></script>
 <script type="text/javascript">
-	//Demo
-	layui.use('form', function(){
-	var form = layui.form;
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
 
-	form.on('submit(formDemo)', function(data){
-	  layer.msg(JSON.stringify(data.field));
-	  return false;
-	});
-});
+        form.on('submit(formDemo)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
 </script>
 </html>
