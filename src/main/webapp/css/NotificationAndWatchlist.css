@@ -20,8 +20,18 @@ body {
 }
 .nav {
     text-align: center;
-    font-size: 2em;
+    font-size: 3em;
 }
+.nav a {
+    text-decoration: none;
+    color: white;
+    padding: 4px;
+    -webkit-text-stroke: #833ab4 2px;
+}
+.nav a:hover {
+    text-decoration: underline;
+}
+
 /*content*/
 .content {
     width: 75%;
@@ -42,6 +52,7 @@ body {
     border: 4px solid #dedede;
     background: #fff;
     text-align: left;
+    margin: 8px;
 }
 
 .content-notification {
@@ -98,6 +109,11 @@ body {
     background: lightgray;
     text-align: center;
     margin-bottom: 50px;
+    margin: 8px;
+}
+
+.error {
+    color: red;
 }
 
 .content-form form div {

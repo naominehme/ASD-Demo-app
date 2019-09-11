@@ -1,0 +1,25 @@
+<!--Author Harold Seefeld-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Navbar</title>
+    <link rel="stylesheet" th:href="@{/css/NotificationAndWatchlist.css}">
+</head>
+<body>
+
+<header>
+    <div class="header-line"></div>
+</header>
+
+<div th:fragment="navbar" class="nav">
+    <a href="/home">Home</a>
+    <a href="/register.html">Register</a>
+    <a href="/login.html">Login</a>
+    <a href="/search">Search</a>
+    <a href="/watchlist">Watchlist</a>
+</div>
+
+</body>
+</html>

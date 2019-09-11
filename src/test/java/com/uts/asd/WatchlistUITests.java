@@ -28,7 +28,7 @@ public class WatchlistUITests {
 
     @Test
     public void getWatchlist_Works() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/Watchlist.html"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/watchlist"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }

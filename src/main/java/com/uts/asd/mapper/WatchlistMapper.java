@@ -12,11 +12,11 @@ public interface WatchlistMapper {
 
     public void addPropertyToWatchlist (WatchlistPropertyItem watchlistPropertyItem, DeferredResult result);
 
-    public void removePropertyFromWatchlist (WatchlistPropertyItem watchlistPropertyItem);
+    public void removePropertyFromWatchlist (WatchlistPropertyItem watchlistPropertyItem, DeferredResult result);
 
     public void addPropertyPreferencesToWatchlist (WatchlistPropertyPreference watchlistPropertyPreference, DeferredResult result);
 
-    public void removePropertyPreferencesFromWatchlist (WatchlistPropertyPreference watchlistPropertyPreference);
+    public void removePropertyPreferencesFromWatchlist (WatchlistPropertyPreference watchlistPropertyPreference, DeferredResult result);
 
     public void getWatchlistPropertyItems(String customerID, DeferredResult result);
 

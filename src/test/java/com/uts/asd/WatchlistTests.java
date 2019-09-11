@@ -1,11 +1,9 @@
 package com.uts.asd;
 
-import com.sun.org.apache.bcel.internal.classfile.Constant;
 import com.uts.asd.entity.WatchlistPropertyItem;
 import com.uts.asd.repository.WatchlistRepository;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +20,21 @@ public class WatchlistTests {
     @Autowired
     private WatchlistRepository repository;
 
-    final private String CUSTOMER_ID = "TestCustomer";
+    final private String VALID_CUSTOMER_ID = "TestCustomer";
+    final private String VALID_PROPERTY_ID = "TestProperty";
     final private String INVALID_CUSTOMER_ID = "InvalidTestCustomer";
-    final private String PROPERTY_ID = "TestProperty";
+    final private String INVALID_PROPERTY_ID = "InvalidProperty";
 
     @Before
     public void beforeClass() {
-        WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(CUSTOMER_ID, PROPERTY_ID);
+        WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(VALID_CUSTOMER_ID, VALID_PROPERTY_ID);
         DeferredResult deferredResult = new DeferredResult();
         repository.addPropertyToWatchlist(watchlistPropertyItem, deferredResult);
     }
 
     @Test
     public void addProperty_WithValidData_ReturnWorks() {
-        WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(CUSTOMER_ID, PROPERTY_ID);
+        WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(VALID_CUSTOMER_ID, VALID_PROPERTY_ID);
         DeferredResult deferredResult = new DeferredResult();
         repository.addPropertyToWatchlist(watchlistPropertyItem, deferredResult);
         while (!deferredResult.hasResult()) {
@@ -47,7 +46,7 @@ public class WatchlistTests {
     @Test
     public void getProperty_WithValidData_ReturnWorks() {
         DeferredResult deferredResult = new DeferredResult();
-        repository.getWatchlistPropertyItems(CUSTOMER_ID, deferredResult);
+        repository.getWatchlistPropertyItems(VALID_CUSTOMER_ID, deferredResult);
         while (!deferredResult.hasResult()) {
             // Do nothing
         }

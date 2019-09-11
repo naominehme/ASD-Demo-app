@@ -6,14 +6,18 @@ package com.uts.asd.entity;
 
 import com.google.cloud.Timestamp;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class WatchlistPropertyItem {
 
     // Declare private variables
     private String customerID;
+    @NotNull(message = "Property ID cannot be null.")  @NotBlank(message = "Property ID cannot be empty.")
     private String propertyID;
     private String createdDate;
+
+    public WatchlistPropertyItem () {}
 
     public WatchlistPropertyItem(String customerID, String propertyID) {
         setCustomerID(customerID);

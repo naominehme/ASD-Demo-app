@@ -38,13 +38,21 @@ public class WatchlistRepository implements WatchlistMapper{
         });
     }
 
-    public void removePropertyFromWatchlist(WatchlistPropertyItem watchlistPropertyItem) {
+    public void removePropertyFromWatchlist(WatchlistPropertyItem watchlistPropertyItem, DeferredResult result) {
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference("WatchlistPropertyItem/" +
                         watchlistPropertyItem.getCustomerID() + "/" +
                         watchlistPropertyItem.getPropertyID());
 
-        ref.setValueAsync(null);
+        ref.setValue(null, (databaseError, databaseReference) -> {
+            if (databaseError != null) {
+                logger.error("Data could not be saved " + databaseError.getMessage());
+                result.setResult(databaseError.getMessage());
+            } else {
+                logger.info("Data saved successfully.");
+                result.setResult("Added '" + watchlistPropertyItem.getPropertyID() + "' successfully.");
+            }
+        });
     }
 
     public void addPropertyPreferencesToWatchlist(WatchlistPropertyPreference watchlistPropertyPreference, DeferredResult result) {
@@ -64,13 +72,21 @@ public class WatchlistRepository implements WatchlistMapper{
         });
     }
 
-    public void removePropertyPreferencesFromWatchlist(WatchlistPropertyPreference watchlistPropertyPreference) {
+    public void removePropertyPreferencesFromWatchlist(WatchlistPropertyPreference watchlistPropertyPreference, DeferredResult result) {
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference("WatchlistPropertyPreference/" +
                         watchlistPropertyPreference.getCustomerID() + "/" +
                         watchlistPropertyPreference.getPreferenceID());
 
-        ref.setValueAsync(null);
+        ref.setValue(null, (databaseError, databaseReference) -> {
+            if (databaseError != null) {
+                logger.error("Data could not be saved " + databaseError.getMessage());
+                result.setResult(databaseError.getMessage());
+            } else {
+                logger.info("Data saved successfully.");
+                result.setResult("Added '" + watchlistPropertyPreference.getPreferenceID() + "' successfully.");
+            }
+        });
     }
 
     public void getWatchlistPropertyItems(String customerID, DeferredResult result) {
@@ -117,7 +133,7 @@ public class WatchlistRepository implements WatchlistMapper{
                             ((Number)childSnapshot.child("garageSpaces").getValue()).intValue(),
                             ((Number)childSnapshot.child("numOfBathrooms").getValue()).intValue(),
                             ((Number)childSnapshot.child("numOfBedrooms").getValue()).intValue(),
-                            ((Number)childSnapshot.child("postCode").getValue()).intValue());
+                            (String)childSnapshot.child("suburb").getValue());
                     watchlistPropertyPreferenceArrayListArrayList.add(watchlistPropertyPreference);
                     logger.info(watchlistPropertyPreference.toString());
                 }
