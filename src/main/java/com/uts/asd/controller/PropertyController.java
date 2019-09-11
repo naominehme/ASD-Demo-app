@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 import com.uts.asd.entity.Auction;
 import com.uts.asd.entity.Bid;
+import com.uts.asd.entity.Increment;
 import com.uts.asd.entity.Property;
 import com.uts.asd.service.ActionService;
 import com.uts.asd.service.BidService;
 import com.uts.asd.service.PropertyService;
+import com.uts.asd.util.JsonUtil;
 
 @Controller
 public class PropertyController {
@@ -83,10 +85,38 @@ public class PropertyController {
 	public String backendAdd(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		Gson gson = new Gson();
 		try {
-			propertyService.addProperty(null);
-			PrintWriter writer=response.getWriter();
-			gson.toJson("Success",writer);
-	        writer.close();
+			 //String id = request.getParameter("id");
+            String address = request.getParameter("address");             
+	         String bedroom = request.getParameter("bedroom");
+            String bathroom = request.getParameter("bathroom");
+	         String garage = request.getParameter("garage");
+            String state = request.getParameter("state");
+            String title = request.getParameter("title");
+            String sqm = request.getParameter("sqm");
+            String suburb = request.getParameter("suburb");
+           
+           int bedroomInt = Integer.parseInt(bedroom);
+           int bathroomInt = Integer.parseInt(bathroom);
+           int garageInt = Integer.parseInt(garage);
+           int stateInt = Integer.parseInt(state);
+           int sqmInt = Integer.parseInt(sqm);
+           
+			Property p = new Property();
+			String json = JsonUtil.readJsonFile("src/main/resources/increment.json");
+			Increment i =gson.fromJson(json, Increment.class);
+			p.setId(i.getPropertyid());                   
+			i.setBidid(i.getBidid()+1);
+			String a2 = gson.toJson(i);
+			JsonUtil.writeJsonFile(a2, "src/main/resources/increment.json");
+		    p.setAddress(address);
+		    p.setBedroom(bedroomInt);
+		    p.setBathroom(bathroomInt);
+		    p.setGarage(garageInt);
+		    p.setState(stateInt);
+		    p.setTitle(address);
+		    p.setSqm(sqmInt);
+		    p.setSuburb(suburb);
+		    propertyService.addProperty(p);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
