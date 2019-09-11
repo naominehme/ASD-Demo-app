@@ -91,7 +91,7 @@ async function handleLogin(){
 	var auth = await login(username,password);
 	if(!!auth){
 		logUser(auth.key,'login');
-		localStorage.loggedInUser = JSON.stringify({key: auth.key, fname:auth.fname});
+		localStorage.loggedInUser = JSON.stringify({key: auth.key, fname:auth.fname, emailaddress:auth.emailaddress});
 		document.location.pathname = 'index.html'
 	}
 	else {
