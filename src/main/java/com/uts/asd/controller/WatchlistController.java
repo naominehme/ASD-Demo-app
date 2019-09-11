@@ -9,7 +9,6 @@ import java.util.concurrent.ExecutionException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import com.google.cloud.Timestamp;
 import com.uts.asd.entity.WatchlistPropertyItem;
@@ -27,7 +26,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.request.async.DeferredResult;
 
 @Controller
 public class WatchlistController {
@@ -73,13 +71,15 @@ public class WatchlistController {
             return "Watchlist";
         }
 
-        DeferredResult deferredResult = new DeferredResult();
         // Set server-controlled variables
         watchlistPropertyItem.setCustomerID(getCustomerIDFromRequest(request));
         watchlistPropertyItem.setCreatedDate(Timestamp.now().toString());
 
         logger.info("Attempting to add property to watchlist: {}", watchlistPropertyItem);
-        watchlistRepository.addPropertyToWatchlist(watchlistPropertyItem, deferredResult);
+        // Launch async lookup
+        CompletableFuture<String> result = watchlistService.runAsyncAddProperty(watchlistPropertyItem);
+        // Wait until done
+        CompletableFuture.allOf(result).join();
 
         response.sendRedirect("/watchlist");
         return null;
@@ -90,7 +90,10 @@ public class WatchlistController {
         String customerID = getCustomerIDFromRequest(request);
         WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(customerID, propertyID);
         logger.info("Attempting to remove property from watchlist with propertyID {} and customerID {}", propertyID, customerID);
-        watchlistRepository.removePropertyFromWatchlist(watchlistPropertyItem);
+        // Launch async lookup
+        CompletableFuture<String> result = watchlistService.runAsyncRemoveProperty(watchlistPropertyItem);
+        // Wait until done
+        CompletableFuture.allOf(result).join();
         response.sendRedirect("/watchlist");
     }
 
@@ -101,13 +104,15 @@ public class WatchlistController {
             return "Watchlist";
         }
 
-        DeferredResult deferredResult = new DeferredResult();
         // Set server-controlled variables
         watchlistPropertyPreference.setCustomerID(getCustomerIDFromRequest(request));
         watchlistPropertyPreference.assignPreferenceID();
 
         logger.info("Attempting to add property to watchlist: {}", watchlistPropertyPreference);
-        watchlistRepository.addPropertyPreferencesToWatchlist(watchlistPropertyPreference, deferredResult);
+        // Launch async lookup
+        CompletableFuture<String> result = watchlistService.runAsyncAddPreference(watchlistPropertyPreference);
+        // Wait until done
+        CompletableFuture.allOf(result).join();
 
         response.sendRedirect("/watchlist");
         return null;
@@ -117,7 +122,10 @@ public class WatchlistController {
     public void removePropertyPreferencesFromWatchlist(HttpServletRequest request, HttpServletResponse response, @PathVariable("preferenceID") String preferenceID) throws IOException {
         String customerID = getCustomerIDFromRequest(request);
         WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference(customerID, preferenceID);
-        watchlistRepository.removePropertyPreferencesFromWatchlist(watchlistPropertyPreference);
+        // Launch async lookup
+        CompletableFuture<String> result = watchlistService.runAsyncRemovePreference(watchlistPropertyPreference);
+        // Wait until done
+        CompletableFuture.allOf(result).join();
         response.sendRedirect("/watchlist");
     }
 
