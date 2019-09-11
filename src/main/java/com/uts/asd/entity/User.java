@@ -2,12 +2,11 @@ package com.uts.asd.entity;
 
 import java.io.Serializable;
 
-
 /*
  * @author Weixiang Gao
  */
 
-public class User implements Serializable{
+public class User implements Serializable {
 
     private int ID;
     private String firstName;

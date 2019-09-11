@@ -2,12 +2,11 @@ package com.uts.asd.service;
 
 import java.util.List;
 
-import com.uts.asd.entity.User;
-import com.uts.asd.mapper.UserMapper;
-
-import jbr.spring.boot.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.uts.asd.entity.User;
+import com.uts.asd.mapper.UserMapper;
 
 /*
  * @author Weixiang Gao
@@ -22,6 +21,3 @@ public class UserService {
 		userMapper.register(user);
 	}
 }
-
-
-
