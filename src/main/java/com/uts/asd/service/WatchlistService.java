@@ -2,13 +2,13 @@ package com.uts.asd.service;
 
 import com.uts.asd.entity.WatchlistPropertyItem;
 import com.uts.asd.entity.WatchlistPropertyPreference;
+import com.uts.asd.mapper.PropertyRepository;
 import com.uts.asd.repository.WatchlistRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.ArrayList;
@@ -26,18 +26,31 @@ public class WatchlistService {
     @Autowired
     WatchlistRepository watchlistRepository;
 
+    @Autowired
+    PropertyRepository propertyRepository;
+
     @Async
-    public CompletableFuture<ArrayList<WatchlistPropertyItem>> getWatchlistPropertyItems(String customerID) {
+    public CompletableFuture<ArrayList<WatchlistPropertyItem>> getWatchlistPropertyItems(int customerID) {
         logger.info("Attempting to get property items from watchlist for customerID {}", customerID);
         DeferredResult result = new DeferredResult();
         watchlistRepository.getWatchlistPropertyItems(customerID, result);
         // No nothing while waiting for result from the DeferredResult
         do {} while (!result.hasResult());
+        ArrayList<WatchlistPropertyItem> results = (ArrayList<WatchlistPropertyItem>)result.getResult();
+        // Retrieve property information for each watchlist property item
+        for (WatchlistPropertyItem watchlistPropertyItem : results) {
+            try {
+                watchlistPropertyItem.setProperty(propertyRepository.searchById(watchlistPropertyItem.getPropertyID()));
+            }
+            catch (Exception e) {
+                logger.error(e.toString());
+            }
+        }
         return CompletableFuture.completedFuture((ArrayList<WatchlistPropertyItem>)result.getResult());
     }
 
     @Async
-    public CompletableFuture<ArrayList<WatchlistPropertyPreference>> getWatchlistPropertyPreferences(String customerID) {
+    public CompletableFuture<ArrayList<WatchlistPropertyPreference>> getWatchlistPropertyPreferences(int customerID) {
         logger.info("Attempting to get property preferences from watchlist for customerID {}", customerID);
         DeferredResult result = new DeferredResult();
         watchlistRepository.getWatchlistPropertyPreferences(customerID, result);

@@ -13,7 +13,7 @@ import java.util.UUID;
 public class WatchlistPropertyPreference {
 
     // Declare private variables
-    private String customerID;
+    private int customerID;
     @NotBlank (message = "Property type cannot be left empty.") @NotNull (message = "Property type cannot be left empty.")
     private String typeID;
     private String preferenceID;
@@ -26,7 +26,7 @@ public class WatchlistPropertyPreference {
 
     public WatchlistPropertyPreference() {}
 
-    public WatchlistPropertyPreference(String customerID, String typeID, String preferenceID, int garageSpaces, int numOfBathrooms, int numOfBedrooms, String suburb) {
+    public WatchlistPropertyPreference(int customerID, String typeID, String preferenceID, int garageSpaces, int numOfBathrooms, int numOfBedrooms, String suburb) {
         this.customerID = customerID;
         this.typeID = typeID;
         this.preferenceID = preferenceID;
@@ -36,17 +36,17 @@ public class WatchlistPropertyPreference {
         this.suburb = suburb;
     }
 
-    public WatchlistPropertyPreference(String customerID, String preferenceID) {
+    public WatchlistPropertyPreference(int customerID, String preferenceID) {
         this.customerID = customerID;
         this.preferenceID = preferenceID;
     }
 
     // Getters and setters
-    public String getCustomerID() {
+    public int getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(String customerID) {
+    public void setCustomerID(int customerID) {
         this.customerID = customerID;
     }
 

@@ -20,10 +20,10 @@ public class WatchlistTests {
     @Autowired
     private WatchlistRepository repository;
 
-    final private String VALID_CUSTOMER_ID = "TestCustomer";
-    final private String VALID_PROPERTY_ID = "TestProperty";
-    final private String INVALID_CUSTOMER_ID = "InvalidTestCustomer";
-    final private String INVALID_PROPERTY_ID = "InvalidProperty";
+    final private int VALID_CUSTOMER_ID = -1;
+    final private int VALID_PROPERTY_ID = -1;
+    final private int INVALID_CUSTOMER_ID = -999;
+    final private int INVALID_PROPERTY_ID = -999;
 
     @Before
     public void beforeClass() {

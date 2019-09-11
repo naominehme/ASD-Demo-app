@@ -12,42 +12,45 @@ import javax.validation.constraints.NotNull;
 public class WatchlistPropertyItem {
 
     // Declare private variables
-    private String customerID;
-    @NotNull(message = "Property ID cannot be null.")  @NotBlank(message = "Property ID cannot be empty.")
-    private String propertyID;
+    private int customerID;
+    private int propertyID;
     private String createdDate;
+
+    private Property property;
 
     public WatchlistPropertyItem () {}
 
-    public WatchlistPropertyItem(String customerID, String propertyID) {
+    public WatchlistPropertyItem(int customerID, int propertyID) {
         setCustomerID(customerID);
         setPropertyID(propertyID);
         setCreatedDate(Timestamp.now().toString());
     }
 
-    public WatchlistPropertyItem(String customerID, String propertyID, String createdDate) {
+    public WatchlistPropertyItem(int customerID, int propertyID, String createdDate) {
         setCustomerID(customerID);
         setPropertyID(propertyID);
         setCreatedDate(createdDate);
     }
 
-    public String getCustomerID() {
+    public int getCustomerID() {
         return customerID;
     }
 
-    public String getPropertyID() {
-        return propertyID;
-    }
+    public int getPropertyID() { return propertyID; }
 
     public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCustomerID(String customerID) {
+    public Property getProperty() { return property; }
+
+    public void setProperty(Property property) { this.property = property; }
+
+    public void setCustomerID(int customerID) {
         this.customerID = customerID;
     }
 
-    public void setPropertyID(String propertyID) {
+    public void setPropertyID(int propertyID) {
         this.propertyID = propertyID;
     }
 
@@ -60,7 +63,8 @@ public class WatchlistPropertyItem {
         return "WatchlistPropertyItem{" +
                 "customerID='" + customerID + '\'' +
                 ", propertyID='" + propertyID + '\'' +
-                ", createdDate=" + createdDate +
+                ", createdDate='" + createdDate + '\'' +
+                ", property=" + property +
                 '}';
     }
 }

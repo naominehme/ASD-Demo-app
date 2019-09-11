@@ -89,7 +89,7 @@ public class WatchlistRepository implements WatchlistMapper{
         });
     }
 
-    public void getWatchlistPropertyItems(String customerID, DeferredResult result) {
+    public void getWatchlistPropertyItems(int customerID, DeferredResult result) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("WatchlistPropertyItem/" + customerID);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -99,9 +99,9 @@ public class WatchlistRepository implements WatchlistMapper{
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     // Create new WatchlistPropertyItem object
                     WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(
-                            (String)childSnapshot.child("customerID").getValue(),
-                            (String)childSnapshot.child("propertyID").getValue(),
-                            (String)childSnapshot.child("createdDate").getValue());
+                            childSnapshot.child("customerID").getValue(long.class).intValue(),
+                            childSnapshot.child("propertyID").getValue(long.class).intValue(),
+                            childSnapshot.child("createdDate").getValue(String.class));
                     watchlistPropertyItemArrayList.add(watchlistPropertyItem);
                     logger.info(watchlistPropertyItem.toString());
                 }
@@ -117,7 +117,7 @@ public class WatchlistRepository implements WatchlistMapper{
         });
     }
 
-    public void getWatchlistPropertyPreferences(String customerID, DeferredResult result) {
+    public void getWatchlistPropertyPreferences(int customerID, DeferredResult result) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("WatchlistPropertyPreference/" + customerID);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -127,13 +127,13 @@ public class WatchlistRepository implements WatchlistMapper{
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     // Create new WatchlistPropertyItem object
                     WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference(
-                            (String)childSnapshot.child("customerID").getValue(),
-                            (String)childSnapshot.child("typeID").getValue(),
-                            (String)childSnapshot.child("preferenceID").getValue(),
-                            ((Number)childSnapshot.child("garageSpaces").getValue()).intValue(),
-                            ((Number)childSnapshot.child("numOfBathrooms").getValue()).intValue(),
-                            ((Number)childSnapshot.child("numOfBedrooms").getValue()).intValue(),
-                            (String)childSnapshot.child("suburb").getValue());
+                            childSnapshot.child("customerID").getValue(long.class).intValue(),
+                            childSnapshot.child("typeID").getValue(String.class),
+                            childSnapshot.child("preferenceID").getValue(String.class),
+                            childSnapshot.child("garageSpaces").getValue(long.class).intValue(),
+                            childSnapshot.child("numOfBathrooms").getValue(long.class).intValue(),
+                            childSnapshot.child("numOfBedrooms").getValue(long.class).intValue(),
+                            childSnapshot.child("suburb").getValue(String.class));
                     watchlistPropertyPreferenceArrayListArrayList.add(watchlistPropertyPreference);
                     logger.info(watchlistPropertyPreference.toString());
                 }
