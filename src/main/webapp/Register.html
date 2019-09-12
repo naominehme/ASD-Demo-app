@@ -3,6 +3,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/
+	firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-database.js">
+    </script>
+    <script src='js/firebase-test.js'>
+    </script>
     <meta charset="UTF-8">
     <title>Register</title>
     <link rel="stylesheet" href="css/Register.css">
@@ -12,9 +19,9 @@
     <div class="header-line"></div>
 </header>
 <div class="nav">
-   <!--  <ul>
-        <li><a href="main.html">MainPage</a></li>
-    </ul> -->
+    <!--  <ul>
+         <li><a href="main.html">MainPage</a></li>
+     </ul> -->
 </div>
 <div class="content-title"> <lable>Already have an account？</lable>
     <a href="login.html">Login Now</a></div>
@@ -22,69 +29,69 @@
 <div class="content">
     <h1 class="content-title">ONLINE AUCTION SIGN UP</h1>
     <div class="content-form">
-        <form method="post" action="" onsubmit="return submitTest()">
+        <form method="post" action="">
 
-            <div id="firstname">
+            <div>
                 <label>First Name:</label>
-                <input class="user" type="text" name="firstName" placeholder="First Name" onblur="oBlur_1()" onfocus="oFocus_1()">
+                <input id="fname" class="user" type="text" name="firstName" placeholder="First Name" onblur="oBlur_1()" onfocus="oFocus_1()">
             </div>
 
-            <div id="lastName">
+            <div>
                 <label>Last Name:</label>
-                <input class="user" type="text" name="lastName" placeholder="Last Name" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="lname" class="user" type="text" name="lastName" placeholder="Last Name" onblur="oBlur_2()" onfocus="oFocus_2()">
             </div>
 
-            <div id="email">
+            <div>
                 <label>Email:</label>
-                <input class="user" type="text" name="email" placeholder="Email" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="emailaddress" class="user" type="text" name="email" placeholder="Email" onblur="oBlur_2()" onfocus="oFocus_2()">
             </div>
 
-            <div id="phone">
+            <div>
                 <label>Phone:</label>
-                <input class="user" type="text" name="phone" placeholder="Phone" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="phone" class="user" type="text" name="phone" placeholder="Phone" onblur="oBlur_2()" onfocus="oFocus_2()">
             </div>
 
-            <div id="birthday">
+            <div>
                 <label>Date of Birth:</label>
-                <input class="user" type="text" name="birthday" placeholder="DD/MM/YYYY" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="DOB" class="user" type="text" name="DOB" placeholder="DD/MM/YYYY" onblur="oBlur_2()" onfocus="oFocus_2()">
             </div>
 
-            <div id="streetname">
+            <div>
                 <label>Street Name:</label>
-                <input class="user" type="text" name="streetName" placeholder="Street Name" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="streetname" class="user" type="text" name="streetName" placeholder="Street Name" onblur="oBlur_2()" onfocus="oFocus_2()">
             </div>
 
-            <div id="addressnumber">
+            <div>
                 <label>Street Number:</label>
-                <input class="user" type="text" name="streetNumber" placeholder="Street Number" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="streetnumber" class="user" type="text" name="streetNumber" placeholder="Street Number" onblur="oBlur_2()" onfocus="oFocus_2()">
             </div>
 
-            <div id="postcode">
+            <div>
                 <label>Postcode:</label>
-                <input class="user" type="text" name="postcode" placeholder="Postcode" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="postcode" class="user" type="text" name="postcode" placeholder="Postcode" onblur="oBlur_2()" onfocus="oFocus_2()">
             </div>
 
-            <div id="state">
+            <div>
                 <label>State:</label>
-                <input class="user" type="text" name="state" placeholder="State" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="state" class="user" type="text" name="state" placeholder="State" onblur="oBlur_2()" onfocus="oFocus_2()">
             </div>
 
-            <div id="username">
+            <div>
                 <label>Username:</label>
-                <input class="user" type="text" name="username" placeholder="Username" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="username" class="user" type="text" name="username" placeholder="Username" onblur="oBlur_2()" onfocus="oFocus_2()">
             </div>
 
-            <div id="password">
+            <div>
                 <label>Password:</label>
-                <input class="password" type="password" name="password" placeholder="Password" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="password" class="password" type="password" name="password" placeholder="Password" onblur="oBlur_2()" onfocus="oFocus_2()">
             </div>
 
             <div id="submit">
-                <input class="content-form-signup" type="submit" value="Register">
+                <input class="content-form-signup" type="submit" value="Register" onclick="handleRegister()">
             </div>
         </form>
     </div>
-    </div>
+</div>
 
 </body>
 </html>

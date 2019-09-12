@@ -1,25 +1,35 @@
+
 // const firebase = require('firebase');
 
 //this is the controller
 
 var app = firebase.initializeApp({
-  apiKey: "AIzaSyBgiU018OFcZn-eV2rRBR-zSG1yZ0VZXes",
-  authDomain: "online-auction-system-8c033.firebaseapp.com",
-  databaseURL: "https://online-auction-system-8c033.firebaseio.com",
-  projectId: "online-auction-system-8c033",
-  storageBucket: "online-auction-system-8c033.appspot.com",
-  messagingSenderId: "384713657821",
-  appId: "1:384713657821:web:1b299fa83e19757c"
+	apiKey: "AIzaSyBgiU018OFcZn-eV2rRBR-zSG1yZ0VZXes",
+	authDomain: "online-auction-system-8c033.firebaseapp.com",
+	databaseURL: "https://online-auction-system-8c033.firebaseio.com",
+	projectId: "online-auction-system-8c033",
+	storageBucket: "online-auction-system-8c033.appspot.com",
+	messagingSenderId: "384713657821",
+	appId: "1:384713657821:web:1b299fa83e19757c"
 });
 
 
 //firebase live database is the model
 var db = app.database();
 
-function addUser(username,password){
+function addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname){
 	return db.ref('/Users').push({
 		username: username,
-		password: password
+		password: password,
+		phone: phone,
+		emailaddress: emailaddress,
+		streetname: streetname,
+		streetnumber: streetnumber,
+		postcode: postcode,
+		state: state,
+		DOB: DOB,
+		fname: fname,
+		lname: lname
 	})
 }
 
@@ -53,7 +63,7 @@ async function getUsers(){
 			});
 			resolve(users);
 		})
-		
+
 	})
 }
 
@@ -114,11 +124,16 @@ function isActiveSession(){
 async function handleRegister(){
 	var username = document.getElementById('username').value;
 	var password = document.getElementById('password').value;
-	clearScreen();
-	addUser(username,password).then(e => {
-		document.getElementById('message').innerHTML = 'User Added';
-	});
-	
+	var phone = document.getElementById('phone').value;
+	var emailaddress = document.getElementById('emailaddress').value;
+	var streetname = document.getElementById('streetname').value;
+	var streetnumber = document.getElementById('streetnumber').value;
+	var postcode = document.getElementById('postcode').value;
+	var state = document.getElementById('state').value;
+	var DOB = document.getElementById('DOB').value;
+	var fname = document.getElementById('fname').value;
+	var lname = document.getElementById('lname').value;
+	addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname).then(e => {});
 }
 
 function clearScreen(){
@@ -129,4 +144,3 @@ function clearScreen(){
 function showMessage(message){
 	document.getElementById('message').innerHTML = message;
 }
-
