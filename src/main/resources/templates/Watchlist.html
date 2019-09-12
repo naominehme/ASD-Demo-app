@@ -95,7 +95,13 @@
                 <br>
                 <p th:text="'Property ID: ' + ${item.propertyID}"></p>
             </span>
-            <i th:text="'Added to Watchlist on ' + ${item.createdDate}"></i>
+            <i>
+                <script th:inline="javascript">
+                    /*<![CDATA[*/
+                        document.write('Added to Watchlist on ' + new Date([[${item.createdDate}]]).toLocaleDateString() + " at " + new Date([[${item.createdDate}]]).toLocaleTimeString())
+                    /*]]>*/
+                 </script>
+            </i>
             <a class=remove-watchlist-item th:href="@{/watchlist/remove/property/{propertyID}(propertyID=${item.propertyID})}">Remove from watchlist</a>
         </div>
         <br>
