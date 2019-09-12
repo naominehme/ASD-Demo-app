@@ -1,53 +1,35 @@
 package com.uts.asd.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.uts.asd.entity.User;
 import com.uts.asd.service.UserService;
 
-/*
- * @author Weixiang Gao
- */
-
 @Controller
+@EnableAutoConfiguration
 public class UserController {
-	@Autowired
-	private UserService userService;
 
-	@RequestMapping("/register.do")
-	public String register(HttpServletRequest request, HttpServletResponse response) {
-		String userId = request.getParameter("userId");
-		String firstName = request.getParameter("firstname");
-		String lastName = request.getParameter("lastname");
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		String username = request.getParameter("username");
-		String address1 = request.getParameter("address1");
-		String address2 = request.getParameter("address2");
-		String state = request.getParameter("state");
-		String postcode = request.getParameter("postcode");
-		String phone = null;
-		try {
-			if (null != email && null != password && null != username && null != firstName && null != lastName
-					&& null != phone) {
-				UserService.register(new User());
-			}
+    @Autowired
+    private UserService userService;
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "login.html";
-	}
+
+
+    @RequestMapping("/register")
+    String register(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
+    }
+
+    @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
+    @ResponseBody
+    String registerUser(User user, Model model) {
+        return userService.registerUser(user);
+    }
 
 }

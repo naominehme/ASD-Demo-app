@@ -1,23 +1,37 @@
 package com.uts.asd.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uts.asd.mapper.UserRepository;
 import com.uts.asd.entity.User;
-import com.uts.asd.mapper.UserMapper;
-
-/*
- * @author Weixiang Gao
- */
 
 @Service
 public class UserService {
-	@Autowired
-	private static UserMapper userMapper;
 
-	public static void register(User user) {
-		userMapper.register(user);
-	}
+    @Autowired
+    private UserRepository userRepository;
+
+    public boolean verifyUser(User user) {
+
+        if (userRepository.findByNameAndPassword(user.getName(), user.getPassword()).isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    public String registerUser(User user) {
+
+        if (userRepository.findByName(user.getName()).isEmpty()) {
+            userRepository.save(user);
+            return "Sign Up Succeed";
+
+        } else {
+
+            return "Username " + user.getName() + "already exits";
+        }
+
+    }
 }

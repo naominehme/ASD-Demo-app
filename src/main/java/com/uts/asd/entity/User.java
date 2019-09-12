@@ -1,12 +1,15 @@
 package com.uts.asd.entity;
 
-import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
 /*
  * @author Weixiang Gao
  */
-
-public class User implements Serializable {
+@Entity
+public class User {
 
     private int ID;
     private String firstName;

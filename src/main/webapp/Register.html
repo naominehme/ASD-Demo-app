@@ -1,7 +1,7 @@
 <!--Author Weixiang Gao-->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
@@ -22,7 +22,7 @@
 <div class="content">
     <h1 class="content-title">ONLINE AUCTION SIGN UP</h1>
     <div class="content-form">
-        <form method="post" action="" onsubmit="return submitTest()">
+        <form role="form" method="POST" th:action="@{/registerUser}" th:object="${user}">
 
             <div id="firstname">
                 <label>First Name:</label>
@@ -80,7 +80,7 @@
             </div>
 
             <div id="submit">
-                <input class="content-form-signup" type="submit" value="Register">
+                    <button type="submit" class="content-form-signup" value="Register">Sign up</button>
             </div>
         </form>
     </div>
