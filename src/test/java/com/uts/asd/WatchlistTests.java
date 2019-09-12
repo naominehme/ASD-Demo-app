@@ -20,8 +20,8 @@ public class WatchlistTests {
     @Autowired
     private WatchlistRepository repository;
 
-    final private int VALID_CUSTOMER_ID = -1;
-    final private int VALID_PROPERTY_ID = -1;
+    final private int VALID_CUSTOMER_ID = -2;
+    final private int VALID_PROPERTY_ID = -2;
     final private int INVALID_CUSTOMER_ID = -999;
     final private int INVALID_PROPERTY_ID = -999;
 

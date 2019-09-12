@@ -80,8 +80,21 @@
         <h2>Properties</h2>
         <br>
         <div class="content-watchlist-item" th:each="item : ${watchlistPropertyItems}">
-            <img border="0" alt="" src="https://www.rawsonhomes.com.au/-/media/rawson-homes/home-designs/bronte/facades/hi-res-bronte-hamptons-2168x1355.ashx?thn=0&w=1016&hash=96A840845863F5C11C9429D577F0F76C" width="100" height="100">
-            <p th:text="'Property ID: ' + ${item.propertyID}"></p>
+            <span th:if="${item.property != null}">
+                <h3><a th:href="@{/homedetail/{propertyID}(propertyID=${item.propertyID})}" th:text="${item.property.title}"></a></h3>
+                <br>
+                <img border="0" alt="" th:src="${item.property.url}" width="100" height="100">
+                <p th:text="'Suburb: ' + ${item.property.suburb}"></p>
+                <p th:text="'Bedrooms: ' + ${item.property.bedroom}"></p>
+                <p th:text="'Bathrooms: ' + ${item.property.bathroom}"></p>
+                <p th:text="'Garage Spaces: ' + ${item.property.garage}"></p>
+            </span>
+            <span th:unless="${item.property  != null}">
+                <img border="0" alt="" src="https://www.rawsonhomes.com.au/-/media/rawson-homes/home-designs/bronte/facades/hi-res-bronte-hamptons-2168x1355.ashx?thn=0&w=1016&hash=96A840845863F5C11C9429D577F0F76C" width="100" height="100">
+                <p>The property has been removed from the site.</p>
+                <br>
+                <p th:text="'Property ID: ' + ${item.propertyID}"></p>
+            </span>
             <i th:text="'Added to Watchlist on ' + ${item.createdDate}"></i>
             <a class=remove-watchlist-item th:href="@{/watchlist/remove/property/{propertyID}(propertyID=${item.propertyID})}">Remove from watchlist</a>
         </div>

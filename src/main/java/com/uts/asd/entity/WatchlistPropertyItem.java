@@ -15,7 +15,6 @@ public class WatchlistPropertyItem {
     private int customerID;
     private int propertyID;
     private String createdDate;
-
     private Property property;
 
     public WatchlistPropertyItem () {}

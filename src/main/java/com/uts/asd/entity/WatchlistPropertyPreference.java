@@ -20,7 +20,7 @@ public class WatchlistPropertyPreference {
     private int garageSpaces;
     private int numOfBathrooms;
     private int numOfBedrooms;
-    @Size(min=2, max=20, message = "Suburb must be between 2 and 20 characters long.")
+    @Size(min=2, max=30, message = "Suburb must be between 2 and 30 characters long.")
     @Pattern(regexp = "^[A-Za-z]+$", message = "Suburb must consist of alphabetical letters only.")
     private String suburb;
 

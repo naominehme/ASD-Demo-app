@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.cloud.Timestamp;
+import com.uts.asd.entity.Property;
 import com.uts.asd.entity.WatchlistPropertyItem;
 import com.uts.asd.entity.WatchlistPropertyPreference;
 import com.uts.asd.repository.WatchlistRepository;
@@ -47,6 +48,13 @@ public class WatchlistController {
 
         // Wait until all are done
         CompletableFuture.allOf(watchlistPropertyItems, watchlistPropertyPreferences).join();
+
+        // Set Watchlist Item to get first image URL only
+        for (WatchlistPropertyItem propertyItem : watchlistPropertyItems.get()) {
+            Property property = propertyItem.getProperty();
+            if (property == null) { continue; }
+            property.setUrl(property.getUrl().split(";")[0]);
+        }
 
         // Add to model
         model.addAttribute("watchlistPropertyItems", watchlistPropertyItems.get());
