@@ -1,0 +1,23 @@
+{
+  "name": "ASD-Demo-app",
+  "version": "1.0.0",
+  "description": "<<<<<<< HEAD =======",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naominehme/ASD-Demo-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/naominehme/ASD-Demo-app/issues"
+  },
+  "homepage": "https://github.com/naominehme/ASD-Demo-app#readme",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
+}
