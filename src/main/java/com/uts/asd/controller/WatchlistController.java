@@ -90,6 +90,30 @@ public class WatchlistController {
         return null;
     }
 
+    @GetMapping("/watchlist/add/property/id")
+    public void addPropertyToWatchlist(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem();
+        int propertyID = -1;
+        try {
+            propertyID = Integer.parseInt(request.getParameter("propertyID"));
+        } catch (Exception e) {
+            logger.error(e.toString());
+            return;
+        }
+        watchlistPropertyItem.setPropertyID(propertyID);
+        // Set server-controlled variables
+        watchlistPropertyItem.setCustomerID(getCustomerIDFromRequest(request));
+        watchlistPropertyItem.setCreatedDate(Timestamp.now().toString());
+
+        logger.info("Attempting to add property to watchlist: {}", watchlistPropertyItem);
+        // Launch async lookup
+        CompletableFuture<String> result = watchlistService.runAsyncAddProperty(watchlistPropertyItem);
+        // Wait until done
+        CompletableFuture.allOf(result).join();
+
+        response.sendRedirect("/watchlist");
+    }
+
     @RequestMapping("/watchlist/remove/property/{propertyID}")
     public void removePropertyFromWatchlist(HttpServletRequest request, HttpServletResponse response, @PathVariable("propertyID") int propertyID) throws IOException {
         int customerID = getCustomerIDFromRequest(request);

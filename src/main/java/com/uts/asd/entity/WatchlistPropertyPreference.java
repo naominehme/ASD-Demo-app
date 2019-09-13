@@ -4,10 +4,7 @@ package com.uts.asd.entity;
  * @author Harold Seefeld
  */
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.UUID;
 
 public class WatchlistPropertyPreference {
@@ -17,8 +14,11 @@ public class WatchlistPropertyPreference {
     @NotBlank (message = "Property type cannot be left empty.") @NotNull (message = "Property type cannot be left empty.")
     private String typeID;
     private String preferenceID;
+    @Min(0)
     private int garageSpaces;
+    @Min(0)
     private int numOfBathrooms;
+    @Min(0)
     private int numOfBedrooms;
     @Size(min=2, max=30, message = "Suburb must be between 2 and 30 characters long.")
     @Pattern(regexp = "^[A-Za-z]+$", message = "Suburb must consist of alphabetical letters only.")
