@@ -29,7 +29,7 @@
             <table>
                 <tr>
                     <td><label>Property ID:</label></td>
-                    <td><input type="text" th:field="*{propertyID}" value="P-1"></td>
+                    <td><input type="number" th:field="*{propertyID}" value="0"></td>
                 </tr>
                 <tr><td><p class='error' th:each="err : ${#fields.errors('propertyID')}" th:text="${err}"></p></td></tr>
                 <tr>
