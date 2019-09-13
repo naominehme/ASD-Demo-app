@@ -87,7 +87,7 @@
             </div>
 		
 	    <div id="submit">
-                <button type="submit" class="content-form-signup" value="Register" onClick="handleRegister()">Sign up</button>
+                <button type="submit" class="content-form-signup" value="Register" onClick="handleRegister(),showRegister()">Sign up</button>
             </div>
         </form>
     </div>
@@ -190,7 +190,11 @@
              alert("email format wrong！")
          }
     }
+	function showRegister()
+     {
+              alert("Sign Up Succeed!");
 
+     }
      
 </script>
 </body>
