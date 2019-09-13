@@ -1,32 +1,26 @@
 <head xmlns="http://www.w3.org/1999/html">
+    <!--Importing JQuery and Firebase connection -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-database.js"></script>
-    <script src='js/firebase-test.js'></script>
+    <script src='js/loginfunction.js'></script>
+    <!--Importing StyleSheet -->
     <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="js/vendor/bootstrap/css/bootstrap.min.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="js/vendor/animate/animate.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="js/vendor/css-hamburgers/hamburgers.min.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="js/vendor/animsition/css/animsition.min.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="js/vendor/select2/select2.min.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="js/vendor/daterangepicker/daterangepicker.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="css/util.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" href="css/Homepage.css"/>
     <link rel="stylesheet" href="css/layui.css">
     <link rel="stylesheet" href="css/styles.css">
     <style type="text/css"> </style>
+    <!--Creation of log table logic -->
     <script>
     $(document).ready(function(){
         (async () => {
@@ -43,7 +37,7 @@
         })()
         
     });
-
+    <!--Retreival of Logs-->
     async function getLogs(){
         var userId = JSON.parse(localStorage.loggedInUser).key;
         return new Promise((resolve) => {
@@ -70,7 +64,7 @@
             }); 
         })
     }
-
+    <!--Removal OF single logs-->
     function removeEntry(e){
         var userKey = JSON.parse(localStorage.loggedInUser).key;
         var logKey = e.path[2].cells[0].innerHTML;
@@ -84,7 +78,7 @@
             $('#loading').text('No Logs Found');
         }
     }
-
+    <!--Removal of all Logs-->
     async function removeLogs(){
         var userKey = JSON.parse(localStorage.loggedInUser).key;
         db.ref('/Users/'+userKey+'/Logs').remove();
@@ -93,7 +87,7 @@
         $('#delete').hide();
         $('#loading').text('No Logs Found');
     }
-
+    <!--Generation of actual log table -->
     function generateTable(obj){
         var tbl = $("<table/>").attr("id","mytable");
 
@@ -127,6 +121,7 @@
         }
     }
     </script>
+    <!--Navbar logic-->
     <script>
         $( document ).ready(function() {
             if (isActiveSession()) {
@@ -170,6 +165,7 @@
             }
         }
     </script>
+    <!--csss for table and buttons -->
     <style>
         #mytable,td{
             border:1px solid black;
@@ -199,6 +195,7 @@
     <title> User Logs</title>
 </head>
 <body style="padding-top: 0px;">
+<!--NavBar-->
 <header class="site-header" style="margin-left:auto; margin-right: auto;max-width:70%;">
     <div class="masthead sticky-container" data-sticky-container="" style="height: 60px;">
         <div class="row expanded collapse">
@@ -252,25 +249,7 @@
         <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for ids..">
     </div>
     <p class="pl-4 mt-5" id="loading">Loading...</p>
+<!--Delete Button -->
     <div id="logTable"></div>
     <button class="login100-form-btn pt-10" id="delete" onClick="removeLogs()">Delete All</button>
-
-<div id="dropDownSelect1"></div>
-<!--===============================================================================================-->
-<script src="js/vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-<script src="js/vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
-<script src="js/vendor/bootstrap/js/popper.js"></script>
-<script src="js/vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-<script src="js/vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-<script src="js/vendor/daterangepicker/moment.min.js"></script>
-<script src="js/vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
-<script src="js/vendor/countdowntime/countdowntime.js"></script>
-<!--===============================================================================================-->
-<script src="js/main.js"></script>
-
 </body>

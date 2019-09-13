@@ -1,8 +1,6 @@
-
 // const firebase = require('firebase');
-
 //this is the controller
-
+//initialising the firebase connection
 var app = firebase.initializeApp({
 	apiKey: "AIzaSyBgiU018OFcZn-eV2rRBR-zSG1yZ0VZXes",
 	authDomain: "online-auction-system-8c033.firebaseapp.com",
@@ -13,10 +11,10 @@ var app = firebase.initializeApp({
 	appId: "1:384713657821:web:1b299fa83e19757c"
 });
 
-
 //firebase live database is the model
 var db = app.database();
 
+//function to add the user in the firebase db
 function addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname){
 	return db.ref('/Users').push({
 		username: username,
@@ -33,6 +31,7 @@ function addUser(username,password,phone,emailaddress,streetname,streetnumber,po
 	})
 }
 
+//function to verify if the user exists so they can login, will resolve user
 async function login(username, password){
 	var users = await getUsers();
 	return new Promise((resolve, reject) => {
@@ -45,6 +44,7 @@ async function login(username, password){
 	})
 }
 
+//function to logout session, loguser and clear local storage
 function logOut(){
 	document.location.pathname = 'login.html';
 	var userKey = JSON.parse(localStorage.loggedInUser).key;
@@ -52,6 +52,7 @@ function logOut(){
 	localStorage.loggedInUser = '';
 }
 
+//function to return all users in firebase db
 async function getUsers(){
 	return new Promise((resolve, reject) => {
 		var users = [];
@@ -67,6 +68,7 @@ async function getUsers(){
 	})
 }
 
+//function to reset the password when the user is valid
 async function handleReset(){
 	var username = document.getElementById('username').value;
 	var dob = document.getElementById('dob').value;
@@ -81,6 +83,7 @@ async function handleReset(){
 	}
 }
 
+//function to verify users credentials  of username and DOB
 function isValidUser(username,dob){
 	return new Promise((resolve) => {
 		db.ref('/Users').once('value', (snap) => {
@@ -95,6 +98,7 @@ function isValidUser(username,dob){
 	})
 }
 
+//function to actually handle process of login with front end fields, including session, local storage, logs and validation
 async function handleLogin(){
 	var username = document.getElementById('username').value;
 	var password = document.getElementById('password').value;
@@ -109,6 +113,7 @@ async function handleLogin(){
 	}
 }
 
+//function to actually generate logs document within firebase db in the user collection, with the datetime and logtype
 function logUser(userKey,logType){
 	db.ref('/Users/'+userKey+'/Logs').push({
 		logTime: new Date().getTime(),
@@ -116,11 +121,13 @@ function logUser(userKey,logType){
 	})
 }
 
+//function to identify whether the session is active based on the localstorage
 function isActiveSession(){
 	var data = localStorage.loggedInUser;
 	return !!data;
 }
 
+//function to handle process of register and add the user to db with all fields from front end
 async function handleRegister(){
 	var username = document.getElementById('username').value;
 	var password = document.getElementById('password').value;
@@ -134,13 +141,16 @@ async function handleRegister(){
 	var fname = document.getElementById('fname').value;
 	var lname = document.getElementById('lname').value;
 	addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname).then(e => {});
+	showRegister()
 }
 
-function clearScreen(){
-	document.getElementById('username').value = '';
-	document.getElementById('password').value = '';
-}
-
+//function to show message on screen
 function showMessage(message){
 	document.getElementById('message').innerHTML = message;
+}
+
+//funciton to show message as alert for register
+function showRegister()
+{
+	alert("Sign Up Succeed!");
 }
