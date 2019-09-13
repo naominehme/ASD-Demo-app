@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.cloud.Timestamp;
+import com.uts.asd.entity.Property;
 import com.uts.asd.entity.WatchlistPropertyItem;
 import com.uts.asd.entity.WatchlistPropertyPreference;
 import com.uts.asd.repository.WatchlistRepository;
@@ -38,15 +39,19 @@ public class WatchlistController {
     @Autowired
     WatchlistService watchlistService;
 
-    private final String DEFAULT_CUSTOMER_ID="C-1";
+    private final int DEFAULT_CUSTOMER_ID = -1;
 
-    private void loadWatchlistData(Model model, String customerID, WatchlistPropertyItem watchlistPropertyItem, WatchlistPropertyPreference watchlistPropertyPreference) throws ExecutionException, InterruptedException {
+    private void loadWatchlistData(Model model, int customerID, WatchlistPropertyItem watchlistPropertyItem, WatchlistPropertyPreference watchlistPropertyPreference) throws ExecutionException, InterruptedException {
         // Launch async lookups
         CompletableFuture<ArrayList<WatchlistPropertyItem>> watchlistPropertyItems = watchlistService.getWatchlistPropertyItems(customerID);
         CompletableFuture<ArrayList<WatchlistPropertyPreference>> watchlistPropertyPreferences = watchlistService.getWatchlistPropertyPreferences(customerID);
 
-        // Wait until all are done
-        CompletableFuture.allOf(watchlistPropertyItems, watchlistPropertyPreferences).join();
+        // Set Watchlist Item to get first image URL only
+        for (WatchlistPropertyItem propertyItem : watchlistPropertyItems.get()) {
+            Property property = propertyItem.getProperty();
+            if (property == null) { continue; }
+            property.setUrl(property.getUrl().split(";")[0]);
+        }
 
         // Add to model
         model.addAttribute("watchlistPropertyItems", watchlistPropertyItems.get());
@@ -58,7 +63,7 @@ public class WatchlistController {
 
     @GetMapping("/watchlist")
     public String getWatchlist(Model model, HttpServletRequest request) throws ExecutionException, InterruptedException {
-        String customerID = getCustomerIDFromRequest(request);
+        int customerID = getCustomerIDFromRequest(request);
 
         loadWatchlistData(model, customerID, new WatchlistPropertyItem(), new WatchlistPropertyPreference());
         return "Watchlist";
@@ -86,8 +91,8 @@ public class WatchlistController {
     }
 
     @RequestMapping("/watchlist/remove/property/{propertyID}")
-    public void removePropertyFromWatchlist(HttpServletRequest request, HttpServletResponse response, @PathVariable("propertyID") String propertyID) throws IOException {
-        String customerID = getCustomerIDFromRequest(request);
+    public void removePropertyFromWatchlist(HttpServletRequest request, HttpServletResponse response, @PathVariable("propertyID") int propertyID) throws IOException {
+        int customerID = getCustomerIDFromRequest(request);
         WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(customerID, propertyID);
         logger.info("Attempting to remove property from watchlist with propertyID {} and customerID {}", propertyID, customerID);
         // Launch async lookup
@@ -120,7 +125,7 @@ public class WatchlistController {
 
     @RequestMapping("/watchlist/remove/preference/{preferenceID}")
     public void removePropertyPreferencesFromWatchlist(HttpServletRequest request, HttpServletResponse response, @PathVariable("preferenceID") String preferenceID) throws IOException {
-        String customerID = getCustomerIDFromRequest(request);
+        int customerID = getCustomerIDFromRequest(request);
         WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference(customerID, preferenceID);
         // Launch async lookup
         CompletableFuture<String> result = watchlistService.runAsyncRemovePreference(watchlistPropertyPreference);
@@ -129,11 +134,14 @@ public class WatchlistController {
         response.sendRedirect("/watchlist");
     }
 
-    private String getCustomerIDFromRequest(HttpServletRequest request) {
+    private int getCustomerIDFromRequest(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        String customerID = request.getParameter("customerID");
-        if (customerID == null) {
+        int customerID;
+        String customerIDString = request.getParameter("customerID");
+        if (customerIDString == null) {
             customerID = DEFAULT_CUSTOMER_ID;
+        } else {
+            customerID = Integer.parseInt(customerIDString);
         }
         return customerID;
     }

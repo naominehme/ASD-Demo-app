@@ -13,6 +13,10 @@ public class PropertyRepository extends DefaultFirebaseRealtimeDatabaseRepositor
 	public Property searchById(Property property) {
 		return get(property.getId(), property);
 	}
+
+	public Property searchById(int propertyID) {
+		return get(propertyID, Property.class);
+	}
 	
 	public List<Property> searchAll(Property p,Filter filter) {
 		return find(filter,p);

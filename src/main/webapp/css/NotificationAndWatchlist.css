@@ -91,6 +91,7 @@ body {
 .content-watchlist-item img {
     float: left;
     margin-right: 16px;
+    min-height: 80px;
     height: 100%;
     border: 4px solid #dedede;
 }

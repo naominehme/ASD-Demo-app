@@ -183,5 +183,24 @@ public class Property {
 	public Property() {
 		super();
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Property{" +
+				"id=" + id +
+				", address='" + address + '\'' +
+				", bedroom=" + bedroom +
+				", bathroom=" + bathroom +
+				", garage=" + garage +
+				", state=" + state +
+				", url='" + url + '\'' +
+				", description='" + description + '\'' +
+				", title='" + title + '\'' +
+				", sqm=" + sqm +
+				", suburb='" + suburb + '\'' +
+				", auction=" + auction +
+				", bid=" + bid +
+				", list=" + list +
+				'}';
+	}
 }
