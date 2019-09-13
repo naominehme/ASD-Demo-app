@@ -94,7 +94,27 @@
 </div>
 <script src="js/jquery.min.js"></script>
 <script type="text/javascript">
-    
+	
+     $('button[type="submit"]')[0].onclick=function(event){
+        var firstName=$("input[name='firstName']"),
+         lastName=$("input[name='lastName']"),
+         email=$("input[name='email']"),
+         password=$("input[name='password']"),
+         phoneNumber=$("input[name='phoneNumber']"),
+         streetName=$("input[name='streetName']"),
+         streetNumber=$("input[name='streetNumber']"),
+         DOB=$("input[name='DOB']"),
+         state=$("input[name='state']"),
+         postcode=$("input[name='postcode']"),
+         username=$("input[name='username']");
+
+        if(firstName.val()==""|| lastName.val()==""|| email.val()==""|| password.val()==""|| phoneNumber.val()==""|| streetName.val()==""|| streetNumber.val()==""|| DOB.val()==""|| state.val()==""|| postcode.val()==""|| username.val()==""){
+            event.preventDefault();
+            alert("information not complete！");
+            
+
+        }
+     }
      function oBlur_2(){
          var firstName=$("input[name='firstName']"),
              lastName=$("input[name='lastName']"),
