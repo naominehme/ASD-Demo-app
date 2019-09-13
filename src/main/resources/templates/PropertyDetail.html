@@ -97,6 +97,11 @@
                                 <!-- <button class="button" clstag="pageclick|keycount|Sifaproduct_Signup|Sifaproduct_0"><span>Pay deposit</span><span>$10,000</span></button> -->
                                  <input type="text" name="money" id="money" required  placeholder="Price" autocomplete="off" class="layui-input"  style="width:150px;">
                                  <button class="button" id="post"><span>Submit</span></button>
+                                 <form action="#" th:action="@{/watchlist/add/property/id}" method="get">
+                                    <input hidden type="text" th:name="propertyID" th:value="${p.id}">
+                                    <input class="button" type="submit" value="Add to watchlist"/>
+                                 </form>
+                                <br>
                             </div>
                             <div class="prompt" style="font-size:13px;">If it is not obtained, the deposit will be returned within 24 hours.</div>
                         </div>
