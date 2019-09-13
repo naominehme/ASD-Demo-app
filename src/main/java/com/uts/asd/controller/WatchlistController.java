@@ -46,9 +46,6 @@ public class WatchlistController {
         CompletableFuture<ArrayList<WatchlistPropertyItem>> watchlistPropertyItems = watchlistService.getWatchlistPropertyItems(customerID);
         CompletableFuture<ArrayList<WatchlistPropertyPreference>> watchlistPropertyPreferences = watchlistService.getWatchlistPropertyPreferences(customerID);
 
-        // Wait until all are done
-        CompletableFuture.allOf(watchlistPropertyItems, watchlistPropertyPreferences).join();
-
         // Set Watchlist Item to get first image URL only
         for (WatchlistPropertyItem propertyItem : watchlistPropertyItems.get()) {
             Property property = propertyItem.getProperty();

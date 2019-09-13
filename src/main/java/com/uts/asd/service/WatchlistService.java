@@ -32,13 +32,9 @@ public class WatchlistService {
     @Async
     public CompletableFuture<ArrayList<WatchlistPropertyItem>> getWatchlistPropertyItems(int customerID) {
         logger.info("Attempting to get property items from watchlist for customerID {}", customerID);
-        DeferredResult result = new DeferredResult();
-        watchlistRepository.getWatchlistPropertyItems(customerID, result);
-        // No nothing while waiting for result from the DeferredResult
-        do {} while (!result.hasResult());
-        ArrayList<WatchlistPropertyItem> results = (ArrayList<WatchlistPropertyItem>)result.getResult();
+        ArrayList<WatchlistPropertyItem> watchlistPropertyItems = watchlistRepository.getWatchlistPropertyItems(customerID);
         // Retrieve property information for each watchlist property item
-        for (WatchlistPropertyItem watchlistPropertyItem : results) {
+        for (WatchlistPropertyItem watchlistPropertyItem : watchlistPropertyItems) {
             try {
                 watchlistPropertyItem.setProperty(propertyRepository.searchById(watchlistPropertyItem.getPropertyID()));
             }
@@ -46,53 +42,38 @@ public class WatchlistService {
                 logger.error(e.toString());
             }
         }
-        return CompletableFuture.completedFuture((ArrayList<WatchlistPropertyItem>)result.getResult());
+        return CompletableFuture.completedFuture(watchlistPropertyItems);
     }
 
     @Async
     public CompletableFuture<ArrayList<WatchlistPropertyPreference>> getWatchlistPropertyPreferences(int customerID) {
         logger.info("Attempting to get property preferences from watchlist for customerID {}", customerID);
-        DeferredResult result = new DeferredResult();
-        watchlistRepository.getWatchlistPropertyPreferences(customerID, result);
-        // No nothing while waiting for result from the DeferredResult
-        do {} while (!result.hasResult());
-        return CompletableFuture.completedFuture((ArrayList<WatchlistPropertyPreference>)result.getResult());
+        ArrayList<WatchlistPropertyPreference> watchlistPropertyPreferences = watchlistRepository.getWatchlistPropertyPreferences(customerID);
+        return CompletableFuture.completedFuture(watchlistPropertyPreferences);
     }
 
     @Async
     public CompletableFuture<String> runAsyncAddProperty(WatchlistPropertyItem watchlistPropertyItem) {
-        DeferredResult result = new DeferredResult();
-        watchlistRepository.addPropertyToWatchlist(watchlistPropertyItem, result);
-        // No nothing while waiting for result from the DeferredResult
-        do {} while (!result.hasResult());
-        return CompletableFuture.completedFuture((String)result.getResult());
+        String result = watchlistRepository.addPropertyToWatchlist(watchlistPropertyItem);
+        return CompletableFuture.completedFuture(result);
     }
 
     @Async
     public CompletableFuture<String> runAsyncAddPreference(WatchlistPropertyPreference watchlistPropertyPreference) {
-        DeferredResult result = new DeferredResult();
-        watchlistRepository.addPropertyPreferencesToWatchlist(watchlistPropertyPreference, result);
-        // No nothing while waiting for result from the DeferredResult
-        do {} while (!result.hasResult());
-        return CompletableFuture.completedFuture((String)result.getResult());
+        String result = watchlistRepository.addPropertyPreferencesToWatchlist(watchlistPropertyPreference);
+        return CompletableFuture.completedFuture(result);
     }
 
     @Async
     public CompletableFuture<String> runAsyncRemoveProperty(WatchlistPropertyItem watchlistPropertyItem) {
-        DeferredResult result = new DeferredResult();
-        watchlistRepository.removePropertyFromWatchlist(watchlistPropertyItem, result);
-        // No nothing while waiting for result from the DeferredResult
-        do {} while (!result.hasResult());
-        return CompletableFuture.completedFuture((String)result.getResult());
+        String result = watchlistRepository.removePropertyFromWatchlist(watchlistPropertyItem);
+        return CompletableFuture.completedFuture(result);
     }
 
     @Async
     public CompletableFuture<String> runAsyncRemovePreference(WatchlistPropertyPreference watchlistPropertyPreference) {
-        DeferredResult result = new DeferredResult();
-        watchlistRepository.removePropertyPreferencesFromWatchlist(watchlistPropertyPreference, result);
-        // No nothing while waiting for result from the DeferredResult
-        do {} while (!result.hasResult());
-        return CompletableFuture.completedFuture((String)result.getResult());
+        String result = watchlistRepository.removePropertyPreferencesFromWatchlist(watchlistPropertyPreference);
+        return CompletableFuture.completedFuture(result);
     }
 
 }

@@ -8,9 +8,10 @@ import org.slf4j.LoggerFactory;
 
 import com.uts.asd.mapper.WatchlistMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 /*
  * @author Harold Seefeld
@@ -21,75 +22,100 @@ public class WatchlistRepository implements WatchlistMapper{
 
     Logger logger = LoggerFactory.getLogger(WatchlistRepository.class);
 
-    public void addPropertyToWatchlist(WatchlistPropertyItem watchlistPropertyItem, DeferredResult result) {
+    public String addPropertyToWatchlist(WatchlistPropertyItem watchlistPropertyItem) {
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference("WatchlistPropertyItem/" +
                         watchlistPropertyItem.getCustomerID() + "/" +
                         watchlistPropertyItem.getPropertyID());
 
+        CompletableFuture<String> completableFuture = new CompletableFuture();
         ref.setValue(watchlistPropertyItem, (databaseError, databaseReference) -> {
             if (databaseError != null) {
                 logger.error("Data could not be saved " + databaseError.getMessage());
-                result.setResult(databaseError.getMessage());
+                completableFuture.complete(databaseError.getMessage());
             } else {
                 logger.info("Data saved successfully.");
-                result.setResult("Added '" + watchlistPropertyItem.getPropertyID() + "' successfully.");
+                completableFuture.complete("Added '" + watchlistPropertyItem.getPropertyID() + "' successfully.");
             }
         });
+
+        return getStringFromCompletableFuture(completableFuture);
     }
 
-    public void removePropertyFromWatchlist(WatchlistPropertyItem watchlistPropertyItem, DeferredResult result) {
+    public String removePropertyFromWatchlist(WatchlistPropertyItem watchlistPropertyItem) {
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference("WatchlistPropertyItem/" +
                         watchlistPropertyItem.getCustomerID() + "/" +
                         watchlistPropertyItem.getPropertyID());
 
+        CompletableFuture<String> completableFuture = new CompletableFuture();
         ref.setValue(null, (databaseError, databaseReference) -> {
             if (databaseError != null) {
                 logger.error("Data could not be saved " + databaseError.getMessage());
-                result.setResult(databaseError.getMessage());
+                completableFuture.complete(databaseError.getMessage());
             } else {
                 logger.info("Data saved successfully.");
-                result.setResult("Added '" + watchlistPropertyItem.getPropertyID() + "' successfully.");
+                completableFuture.complete("Added '" + watchlistPropertyItem.getPropertyID() + "' successfully.");
             }
         });
+
+        return getStringFromCompletableFuture(completableFuture);
     }
 
-    public void addPropertyPreferencesToWatchlist(WatchlistPropertyPreference watchlistPropertyPreference, DeferredResult result) {
+    public String addPropertyPreferencesToWatchlist(WatchlistPropertyPreference watchlistPropertyPreference) {
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference("WatchlistPropertyPreference/" +
                         watchlistPropertyPreference.getCustomerID() + "/" +
                         watchlistPropertyPreference.getPreferenceID());
 
+        CompletableFuture<String> completableFuture = new CompletableFuture();
         ref.setValue(watchlistPropertyPreference, (databaseError, databaseReference) -> {
             if (databaseError != null) {
                 logger.error("Data could not be saved " + databaseError.getMessage());
-                result.setResult(databaseError.getMessage());
+                completableFuture.complete(databaseError.getMessage());
             } else {
                 logger.info("Data saved successfully.");
-                result.setResult("Added '" + watchlistPropertyPreference.getPreferenceID() + "' successfully.");
+                completableFuture.complete("Added '" + watchlistPropertyPreference.getPreferenceID() + "' successfully.");
             }
         });
+
+        return getStringFromCompletableFuture(completableFuture);
     }
 
-    public void removePropertyPreferencesFromWatchlist(WatchlistPropertyPreference watchlistPropertyPreference, DeferredResult result) {
+    public String removePropertyPreferencesFromWatchlist(WatchlistPropertyPreference watchlistPropertyPreference) {
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference("WatchlistPropertyPreference/" +
                         watchlistPropertyPreference.getCustomerID() + "/" +
                         watchlistPropertyPreference.getPreferenceID());
 
+        CompletableFuture<String> completableFuture = new CompletableFuture();
         ref.setValue(null, (databaseError, databaseReference) -> {
             if (databaseError != null) {
                 logger.error("Data could not be saved " + databaseError.getMessage());
-                result.setResult(databaseError.getMessage());
+                completableFuture.complete(databaseError.getMessage());
             } else {
                 logger.info("Data saved successfully.");
-                result.setResult("Added '" + watchlistPropertyPreference.getPreferenceID() + "' successfully.");
+                completableFuture.complete("Added '" + watchlistPropertyPreference.getPreferenceID() + "' successfully.");
             }
         });
+
+        return getStringFromCompletableFuture(completableFuture);
     }
 
-    public void getWatchlistPropertyItems(int customerID, DeferredResult result) {
+    private String getStringFromCompletableFuture(CompletableFuture<String> completableFuture) {
+        String result = "";
+        // Wait for request to complete
+        try {
+            result = completableFuture.get(10, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            logger.error(e.toString());
+        }
+        return result;
+    }
+
+    public ArrayList<WatchlistPropertyItem> getWatchlistPropertyItems(int customerID) {
+        CompletableFuture<ArrayList<WatchlistPropertyItem>> completableFuture = new CompletableFuture<>();
+        // Get data from NoSQL
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("WatchlistPropertyItem/" + customerID);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -105,25 +131,35 @@ public class WatchlistRepository implements WatchlistMapper{
                     watchlistPropertyItemArrayList.add(watchlistPropertyItem);
                     logger.info(watchlistPropertyItem.toString());
                 }
-
-                result.setResult(watchlistPropertyItemArrayList);
+                // Complete the Async request
+                completableFuture.complete(watchlistPropertyItemArrayList);
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
                 logger.error(error.toString());
-                result.setErrorResult(error);
             }
         });
+
+        ArrayList<WatchlistPropertyItem> watchlistPropertyItems = new ArrayList<>();
+        // Wait for request to complete
+        try {
+            watchlistPropertyItems = completableFuture.get(10, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            logger.error(e.toString());
+        }
+        return watchlistPropertyItems;
     }
 
-    public void getWatchlistPropertyPreferences(int customerID, DeferredResult result) {
+    public ArrayList<WatchlistPropertyPreference> getWatchlistPropertyPreferences(int customerID) {
+        CompletableFuture<ArrayList<WatchlistPropertyPreference>> completableFuture = new CompletableFuture<>();
+        // Get data from NoSQL
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("WatchlistPropertyPreference/" + customerID);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 logger.info("Data retrieved: " + dataSnapshot.getValue());
-                ArrayList<WatchlistPropertyPreference> watchlistPropertyPreferenceArrayListArrayList = new ArrayList<>();
+                ArrayList<WatchlistPropertyPreference> watchlistPropertyPreferenceArrayList = new ArrayList<>();
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     // Create new WatchlistPropertyItem object
                     WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference(
@@ -134,19 +170,27 @@ public class WatchlistRepository implements WatchlistMapper{
                             childSnapshot.child("numOfBathrooms").getValue(long.class).intValue(),
                             childSnapshot.child("numOfBedrooms").getValue(long.class).intValue(),
                             childSnapshot.child("suburb").getValue(String.class));
-                    watchlistPropertyPreferenceArrayListArrayList.add(watchlistPropertyPreference);
+                    watchlistPropertyPreferenceArrayList.add(watchlistPropertyPreference);
                     logger.info(watchlistPropertyPreference.toString());
                 }
 
-                result.setResult(watchlistPropertyPreferenceArrayListArrayList);
+                completableFuture.complete(watchlistPropertyPreferenceArrayList);
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
                 logger.error(error.toString());
-                result.setErrorResult(error);
             }
         });
+
+        ArrayList<WatchlistPropertyPreference> watchlistPropertyPreferences = new ArrayList<>();
+        // Wait for request to complete
+        try {
+            watchlistPropertyPreferences = completableFuture.get(10, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            logger.error(e.toString());
+        }
+        return watchlistPropertyPreferences;
     }
 }
 
