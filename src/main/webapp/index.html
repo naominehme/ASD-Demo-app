@@ -38,12 +38,8 @@
                 jQuery('.logoutBtn').show();
                 jQuery('.accountBtn').show();
                 jQuery('.watchlistBtn').show();
-                if(getActiveUser().isAdmin){
-                    jQuery('.staffBtn').show();
-                } else {
-                    jQuery('.staffBtn').hide();
-                }
-            } else {
+                jQuery('.staffBtn').show();}
+             else {
                 jQuery('.loginBtn').show();
                 jQuery('.signUpBtn').show();
                 jQuery('.welcomePanel').hide();
