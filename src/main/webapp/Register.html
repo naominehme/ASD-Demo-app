@@ -86,7 +86,7 @@
             </div>
 
             <div id="submit">
-                <button type="submit" class="content-form-signup" value="Register" onClick="handleRegister()">Sign up</button>
+                <button type="submit" class="content-form-signup" value="Register" onClick="handleRegister();showRegister()">Sign up</button>
             </div>
         </form>
     </div>
@@ -156,5 +156,10 @@
     empty_input("DOB",reBirthday,"birthday format wrong！");
     var reEmail =/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
     empty_input("email",reEmail,"email format wrong！");
+    function showRegister()
+    {
+        alert("Sign Up Succeed!");
+    }
 </script>
 </body>
+</html>

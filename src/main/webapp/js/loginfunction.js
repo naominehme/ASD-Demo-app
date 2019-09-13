@@ -141,7 +141,6 @@ async function handleRegister(){
 	var fname = document.getElementById('fname').value;
 	var lname = document.getElementById('lname').value;
 	addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname).then(e => {});
-	showRegister()
 }
 
 //function to show message on screen
