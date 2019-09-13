@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -20,48 +21,34 @@ public class WatchlistTests {
     @Autowired
     private WatchlistRepository repository;
 
-    final private String VALID_CUSTOMER_ID = "TestCustomer";
-    final private String VALID_PROPERTY_ID = "TestProperty";
-    final private String INVALID_CUSTOMER_ID = "InvalidTestCustomer";
-    final private String INVALID_PROPERTY_ID = "InvalidProperty";
+    final private int VALID_CUSTOMER_ID = -2;
+    final private int VALID_PROPERTY_ID = -2;
+    final private int INVALID_CUSTOMER_ID = -999;
+    final private int INVALID_PROPERTY_ID = -999;
 
     @Before
     public void beforeClass() {
         WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(VALID_CUSTOMER_ID, VALID_PROPERTY_ID);
         DeferredResult deferredResult = new DeferredResult();
-        repository.addPropertyToWatchlist(watchlistPropertyItem, deferredResult);
+        repository.addPropertyToWatchlist(watchlistPropertyItem);
     }
 
     @Test
     public void addProperty_WithValidData_ReturnWorks() {
         WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(VALID_CUSTOMER_ID, VALID_PROPERTY_ID);
-        DeferredResult deferredResult = new DeferredResult();
-        repository.addPropertyToWatchlist(watchlistPropertyItem, deferredResult);
-        while (!deferredResult.hasResult()) {
-            // Do nothing
-        }
-        Assert.assertTrue(String.valueOf(deferredResult.getResult()).contains("successful"));
+        String result = repository.addPropertyToWatchlist(watchlistPropertyItem);
+        Assert.assertTrue(result.contains("successful"));
     }
 
     @Test
     public void getProperty_WithValidData_ReturnWorks() {
-        DeferredResult deferredResult = new DeferredResult();
-        repository.getWatchlistPropertyItems(VALID_CUSTOMER_ID, deferredResult);
-        while (!deferredResult.hasResult()) {
-            // Do nothing
-        }
-        System.out.println(deferredResult.getResult());
-        Assert.assertNotEquals(deferredResult.getResult().toString(), "[]");
+        ArrayList<WatchlistPropertyItem> watchlistPropertyItems = repository.getWatchlistPropertyItems(VALID_CUSTOMER_ID);
+        Assert.assertNotEquals("[]", watchlistPropertyItems.toString());
     }
 
     @Test
     public void getProperty_WithInvalidData_ReturnNull() {
-        DeferredResult deferredResult = new DeferredResult();
-        repository.getWatchlistPropertyItems(INVALID_CUSTOMER_ID, deferredResult);
-        while (!deferredResult.hasResult()) {
-            // Do nothing
-        }
-        System.out.println(deferredResult.getResult());
-        Assert.assertEquals(deferredResult.getResult().toString(), "[]");
+        ArrayList<WatchlistPropertyItem> watchlistPropertyItems = repository.getWatchlistPropertyItems(INVALID_CUSTOMER_ID);
+        Assert.assertEquals("[]", watchlistPropertyItems.toString());
     }
 }
