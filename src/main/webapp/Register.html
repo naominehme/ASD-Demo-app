@@ -111,85 +111,44 @@
          
        
      }
+    var key=1;
     //验证 不可空
-    function empty_input(name){
+    function empty_input(name,re,info){
         $("input[name='"+name+"']")[0].onblur = function(){
             
              var value=this.value;
              
-             if(value==""){
-                 //alert(name+"不可以空！");
+             if(value=="" && key==1){
+                 key=0;
+                 alert(name+"不可以空！");
+             }else if(value!="" && re!="" && !(re.test(value))){
+                 alert(info);
              }
+        }
+        
+        $("input[name='"+name+"']")[0].onfocus = function(){
+             setTimeout(function(){key=1;},2000)
         }
     }
 
-    empty_input("password");
-    empty_input("streetName");
-    empty_input("streetNumber");
-    empty_input("state");
-    empty_input("postcode");
-    empty_input("username");
+    empty_input("password","","");
+    empty_input("address1","","");
+    empty_input("address2","","");
+    empty_input("state","","");
+    empty_input("postcode","","");
+    empty_input("username","","");
     
 
-    //firstName
-    $("input[name='firstName']")[0].onblur = function(){
-        
-         var value=this.value;
-         
-         if(value==""){
-             console.log("2");  
-             //alert("firstName 不可以空！");
-
-         }else if(value!="" && !(/[A-Za-z]/.test(value))){
-             alert("firstname only contains letters！")
-         }
-    }
-
-    $("input[name='lastName']")[0].onblur = function(){
-        
-         var value=this.value;
-         
-         if(value==""){
-             //alert("lastName 不可以空！");
-         }else if(value!="" && !(/[A-Za-z]/.test(value))){
-             alert("lastname only contains letters！")
-         }
-    }
-
-    $("input[name='phoneNumber']")[0].onblur = function(){
-        
-         var value=this.value;
-         
-         if(value==""){
-             //alert("phoneNumber 不可以空！");
-         }else if(value!="" && !(/^0\d{9}$/.test(value))){
-             alert("phoneNumber format wrong！")
-         }
-    }
-
+    empty_input("firstName",/[A-Za-z]/,"firstName only contain letters！");
+    empty_input("lastName",/[A-Za-z]/,"lastName only contain letters！");
+    empty_input("phoneNumber",/^0\d{8}$/,"phoneNumber format wrong！");
     
-    $("input[name='DOB']")[0].onblur = function(){
-        
-         var value=this.value;
-         var reDateTime = /^(?:(?:[0-2][1-9])|(?:[1-3][0-1]))\/(?:(?:0[1-9])|(?:1[0-2]))\/(?:19|20)[0-9][0-9]$/;
-         if(value==""){
-             //alert("birthday 不可以空！");
-         }else if(value!="" && !(reDateTime.test(value))){
-             alert("birthday format wrong！")
-         }
-    }
-
+    var reBirthday = /^(?:(?:[0-2][1-9])|(?:[1-3][0-1]))\/(?:(?:0[1-9])|(?:1[0-2]))\/(?:19|20)[0-9][0-9]$/;
+    empty_input("DOB",reBirthday,"birthday format wrong！");
     
-    $("input[name='email']")[0].onblur = function(){
-        
-         var value=this.value;
-         var reDateTime =/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
-         if(value==""){
-             //alert("email 不可以空！");
-         }else if(value!="" && !(reDateTime.test(value))){
-             alert("email format wrong！")
-         }
-    }
+    var reEmail =/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+    empty_input("email",reEmail,"email format wrong！");
+	
 	function showRegister()
      {
               alert("Sign Up Succeed!");
