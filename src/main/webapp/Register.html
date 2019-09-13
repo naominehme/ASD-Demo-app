@@ -33,57 +33,57 @@
 
             <div>
                 <label>First Name:</label>
-                <input id="fname" class="user" type="text" name="firstName" placeholder="First Name" onblur="oBlur_1()" onfocus="oFocus_1()">
+                <input id="fname" class="user" type="text" name="firstName" placeholder="First Name">
             </div>
 
             <div>
                 <label>Last Name:</label>
-                <input id="lname" class="user" type="text" name="lastName" placeholder="Last Name" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="lname" class="user" type="text" name="lastName" placeholder="Last Name">
             </div>
 
             <div>
                 <label>Email:</label>
-                <input id="emailaddress" class="user" type="text" name="email" placeholder="Email" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="emailaddress" class="user" type="text" name="email" placeholder="Email">
             </div>
 
             <div>
                 <label>Phone:</label>
-                <input id="phone" class="user" type="text" name="phone" placeholder="Phone" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="phone" class="user" type="text" name="phone" placeholder="Phone">
             </div>
 
             <div>
                 <label>Date of Birth:</label>
-                <input id="DOB" class="user" type="text" name="DOB" placeholder="DD/MM/YYYY" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="DOB" class="user" type="text" name="DOB" placeholder="DD/MM/YYYY">
             </div>
 
             <div>
                 <label>Street Name:</label>
-                <input id="streetname" class="user" type="text" name="streetName" placeholder="Street Name" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="streetname" class="user" type="text" name="streetName" placeholder="Street Name">
             </div>
 
             <div>
                 <label>Street Number:</label>
-                <input id="streetnumber" class="user" type="text" name="streetNumber" placeholder="Street Number" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="streetnumber" class="user" type="text" name="streetNumber" placeholder="Street Number">
             </div>
 
             <div>
                 <label>Postcode:</label>
-                <input id="postcode" class="user" type="text" name="postcode" placeholder="Postcode" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="postcode" class="user" type="text" name="postcode" placeholder="Postcode">
             </div>
 
             <div>
                 <label>State:</label>
-                <input id="state" class="user" type="text" name="state" placeholder="State" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="state" class="user" type="text" name="state" placeholder="State">
             </div>
 
             <div>
                 <label>Username:</label>
-                <input id="username" class="user" type="text" name="username" placeholder="Username" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="username" class="user" type="text" name="username" placeholder="Username">
             </div>
 
             <div>
                 <label>Password:</label>
-                <input id="password" class="password" type="password" name="password" placeholder="Password" onblur="oBlur_2()" onfocus="oFocus_2()">
+                <input id="password" class="password" type="password" name="password" placeholder="Password">
             </div>
 		
 	    <div id="submit">
@@ -95,66 +95,60 @@
 <script src="js/jquery.min.js"></script>
 <script type="text/javascript">
     
-    
      function oBlur_2(){
-        var firstName=$("input[name='firstName']"),
-         lastName=$("input[name='lastName']"),
-         email=$("input[name='email']"),
-         password=$("input[name='password']"),
-         phoneNumber=$("input[name='phoneNumber']"),
-         streetName=$("input[name='streetName']"),
-         streetNumber=$("input[name='streetNumber']"),
-         DOB=$("input[name='DOB']"),
-         state=$("input[name='state']"),
-         postcode=$("input[name='postcode']"),
-         username=$("input[name='username']");
-         
-       
+         var firstName=$("input[name='firstName']"),
+             lastName=$("input[name='lastName']"),
+             email=$("input[name='email']"),
+             password=$("input[name='password']"),
+             phoneNumber=$("input[name='phoneNumber']"),
+             streetName=$("input[name='streetName']"),
+             streetNumber=$("input[name='streetNumber']"),
+             DOB=$("input[name='DOB']"),
+             state=$("input[name='state']"),
+             postcode=$("input[name='postcode']"),
+             username=$("input[name='username']");
+
+
      }
-    var key=1;
-    //验证 不可空
-    function empty_input(name,re,info){
-        $("input[name='"+name+"']")[0].onblur = function(){
-            
+     var key=1;
+     //验证 不可空
+     function empty_input(name,re,info){
+         $("input[name='"+name+"']")[0].onblur = function(){
+
              var value=this.value;
-             
+
              if(value=="" && key==1){
                  key=0;
-                 alert(name+"不可以空！");
+                 alert(name+" can not be empty！");
              }else if(value!="" && re!="" && !(re.test(value))){
                  alert(info);
              }
-        }
-        
-        $("input[name='"+name+"']")[0].onfocus = function(){
+         }
+
+         $("input[name='"+name+"']")[0].onfocus = function(){
              setTimeout(function(){key=1;},2000)
-        }
-    }
-
-    empty_input("password","","");
-    empty_input("address1","","");
-    empty_input("address2","","");
-    empty_input("state","","");
-    empty_input("postcode","","");
-    empty_input("username","","");
-    
-
-    empty_input("firstName",/[A-Za-z]/,"firstName only contain letters！");
-    empty_input("lastName",/[A-Za-z]/,"lastName only contain letters！");
-    empty_input("phoneNumber",/^0\d{8}$/,"phoneNumber format wrong！");
-    
-    var reBirthday = /^(?:(?:[0-2][1-9])|(?:[1-3][0-1]))\/(?:(?:0[1-9])|(?:1[0-2]))\/(?:19|20)[0-9][0-9]$/;
-    empty_input("DOB",reBirthday,"birthday format wrong！");
-    
-    var reEmail =/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
-    empty_input("email",reEmail,"email format wrong！");
-	
-	function showRegister()
-     {
-              alert("Sign Up Succeed!");
-
+         }
      }
-     
+     empty_input("password","","");
+     empty_input("streetName","","");
+     empty_input("streetNumber","","");
+     empty_input("state","","");
+     empty_input("postcode","","");
+     empty_input("username","","");
+     empty_input("firstName",/[A-Za-z]/,"firstName only contain letters！");
+     empty_input("lastName",/[A-Za-z]/,"lastName only contain letters！");
+     empty_input("phoneNumber",/^0\d{9}$/,"phoneNumber format wrong！");
+
+     var reBirthday = /^(?:(?:[0-2][1-9])|(?:[1-3][0-1]))\/(?:(?:0[1-9])|(?:1[0-2]))\/(?:19|20)[0-9][0-9]$/;
+     empty_input("DOB",reBirthday,"birthday format wrong！");
+
+     var reEmail =/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+     empty_input("email",reEmail,"email format wrong！");
+
+     function showRegister()
+     {
+         alert("Sign Up Succeed!");
+     }
 </script>
 </body>
 </html>
