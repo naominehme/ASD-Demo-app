@@ -77,7 +77,7 @@ Core.getSessions = function(){
     return [true]
 };
 isValidUser
-    .whenI('Veirfy Users Exist')
+    .whenI('Veirfy the user auth')
     .using(Core.getSessions)
     .IShouldGet((user) => {
         user == user.userame && user ==user.DOB
