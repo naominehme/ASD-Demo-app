@@ -51,8 +51,8 @@ context('Register test', () => {
             const streetNumber = '12';
             const postcode = '2000';
             const state = 'NSW';
-            const username = 'test123';
-            const password = '123';
+            const username = 'testregister';
+            const password = 'test';
 
             cy.get('input[name=firstName]').type(firstName);
             cy.get('input[name=lastName]').type(lastName);
