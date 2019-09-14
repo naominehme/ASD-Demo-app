@@ -39,7 +39,11 @@ public class WatchlistController {
     @Autowired
     WatchlistService watchlistService;
 
-    private final int DEFAULT_CUSTOMER_ID = -1;
+    private int DEFAULT_CUSTOMER_ID = -1;
+
+    public void setDefaultCustomerID(int id) {
+        DEFAULT_CUSTOMER_ID = id;
+    }
 
     private void loadWatchlistData(Model model, int customerID, WatchlistPropertyItem watchlistPropertyItem, WatchlistPropertyPreference watchlistPropertyPreference) throws ExecutionException, InterruptedException {
         // Launch async lookups
@@ -161,7 +165,7 @@ public class WatchlistController {
     private int getCustomerIDFromRequest(HttpServletRequest request) {
         HttpSession session = request.getSession();
         int customerID;
-        String customerIDString = request.getParameter("customerID");
+        String customerIDString = (String)request.getSession().getAttribute("customerID");
         if (customerIDString == null) {
             customerID = DEFAULT_CUSTOMER_ID;
         } else {

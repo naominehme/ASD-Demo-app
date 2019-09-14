@@ -1,7 +1,10 @@
 @RunWith
-Feature: the watchlist can be retrieved
+Feature: The watchlist can be retrieved
   # A simple get scenario
-  Scenario: client makes call to GET /watchlist
-    Given I have opened the browser
+  Scenario: Client makes call to GET /watchlist using Google Chrome
+    Given I have opened Google Chrome
+    Given I am using the Test User
     When the client calls /watchlist
     Then the title is Watchlist
+    And the watchlist properties are populated
+    And the watchlist preferences are populated

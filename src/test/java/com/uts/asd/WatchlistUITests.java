@@ -1,12 +1,15 @@
 package com.uts.asd;
 
+import com.uts.asd.controller.WatchlistController;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.api.junit.Cucumber;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,21 +36,45 @@ public class WatchlistUITests {
     @Value("${local.server.port}")
     int randomServerPort;
 
-    @Given("^I have opened the browser$")
-    public void givenStatement() throws IllegalAccessException, InstantiationException {
+    @Autowired
+    WatchlistController watchlistController;
+
+    private String getBaseURL() {
+        return "http://localhost:" + randomServerPort;
+    }
+
+    @Given("^I have opened Google Chrome")
+    public void openedGoogleChrome() throws IllegalAccessException, InstantiationException {
         Class<?extends WebDriver> driverClass = ChromeDriver.class;
         WebDriverManager.getInstance(driverClass).setup();
         driver = driverClass.newInstance();
-        driver.get("http://localhost:" + randomServerPort);
+        driver.get(getBaseURL());
+    }
+
+    @Given("^I am using the Test User")
+    public void useTestUser() {
+        watchlistController.setDefaultCustomerID(-2);
     }
 
     @When("^the client calls /watchlist$")
-    public void the_client_calls_watchlist() throws Throwable {
-        driver.get("http://localhost:" + randomServerPort + "/watchlist");
+    public void watchlistPageIsCalled() throws Throwable {
+        driver.get(getBaseURL() + "/watchlist");
     }
 
     @Then("^the title is Watchlist$")
-    public void the_client_receives_status_code_of() throws Throwable {
+    public void confirmTitleIsWatchlist() throws Throwable {
         Assert.assertEquals("Watchlist", driver.getTitle());
+    }
+
+    @Then("^the watchlist properties are populated$")
+    public void confirmPropertiesAreRetrieved() throws Throwable {
+        int elementSize = driver.findElements(By.className("content-watchlist-item")).size();
+        Assert.assertTrue(elementSize > 0);
+    }
+
+    @Then("^the watchlist preferences are populated$")
+    public void confirmPreferencesAreRetrieved() throws Throwable {
+        int elementSize = driver.findElements(By.className("content-watchlist-preference")).size();
+        Assert.assertTrue(elementSize > 0);
     }
 }
