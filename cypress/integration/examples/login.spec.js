@@ -12,8 +12,8 @@ context('Login Function', () => {
   cy.contains('User Not Found')
 })
   it('User Forgot Password', () => {
-    const username = 'matty12';
-    const dob = '2000-03-31';
+    const username = 'harry123';
+    const dob = '1999-11-12';
     const password = '123ee';
     cy.contains('Forgot Password').click()
     cy.get('input[id=username]').type(username);
