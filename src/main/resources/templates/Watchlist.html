@@ -29,7 +29,7 @@
             <table>
                 <tr>
                     <td><label>Property ID:</label></td>
-                    <td><input type="text" th:field="*{propertyID}" value="P-1"></td>
+                    <td><input type="number" th:field="*{propertyID}" value="0"></td>
                 </tr>
                 <tr><td><p class='error' th:each="err : ${#fields.errors('propertyID')}" th:text="${err}"></p></td></tr>
                 <tr>
@@ -56,14 +56,17 @@
                     <td><label>Garage Spaces:</label></td>
                     <td><input type="number" th:field="*{garageSpaces}" th:value="1"></td>
                 </tr>
+                <tr><td><p class='error' th:each="err : ${#fields.errors('garageSpaces')}" th:text="${err}"></p></td></tr>
                 <tr>
                     <td><label>Bedrooms:</label></td>
                     <td><input type="number" th:field="*{numOfBedrooms}" th:value="1"></td>
                 </tr>
+                <tr><td><p class='error' th:each="err : ${#fields.errors('numOfBedrooms')}" th:text="${err}"></p></td></tr>
                 <tr>
                     <td><label>Bathrooms:</label></td>
                     <td><input type="number" th:field="*{numOfBathrooms}" th:value="1"></td>
                 </tr>
+                <tr><td><p class='error' th:each="err : ${#fields.errors('numOfBathrooms')}" th:text="${err}"></p></td></tr>
                 <tr>
                     <td><label>Suburb:</label></td>
                     <td><input type="text" th:field="*{suburb}" th:value="2000"></td>
@@ -108,7 +111,7 @@
         <h2>Property Preferences</h2>
         <br>
         <div class="content-watchlist-preference" th:each="item : ${watchlistPropertyPreferences}">
-            <h3><a th:href="@{/search/typeID={typeID}(typeID=${item.typeID})}">Search Preference</a></h3>
+            <h3><a th:href="@{'/home?suburb='+${item.suburb}+'&bedroom='+${item.numOfBedrooms}+'&bathroom='+${item.numOfBathrooms}+'&garage='+${item.garageSpaces}+'&type='+${item.typeID}}">Search Preference</a></h3>
             <br>
             <div th:switch="${item.typeID}">
                 <img th:case="'Apartment'" border="0" alt="Apartment" src="http://clipartmag.com/images/apartment-building-clipart-30.png" width="100" height="100">
@@ -122,6 +125,18 @@
             <a class=remove-watchlist-item th:href="@{/watchlist/remove/preference/{propertyID}(propertyID=${item.preferenceID})}">Remove from watchlist</a>
         </div>
     </div>
+
+    <script type="text/javascript">
+        const numInputs = document.querySelectorAll('input[type=number]')
+
+        numInputs.forEach(function (input) {
+          input.addEventListener('change', function (e) {
+            if (e.target.value == '') {
+              e.target.value = 0
+            }
+          })
+        })
+    </script>
 
     <div class="content-footer">
         <div class="content-login-description">Want to return home？</div>
