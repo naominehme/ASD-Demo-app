@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,9 +57,40 @@ public class WatchlistUITests {
         watchlistController.setDefaultCustomerID(-2);
     }
 
+    @Given("^I am using the Empty Test User")
+    public void useEmptyTestUser() {
+        watchlistController.setDefaultCustomerID(-999);
+    }
+
     @When("^the client calls /watchlist$")
     public void watchlistPageIsCalled() throws Throwable {
         driver.get(getBaseURL() + "/watchlist");
+    }
+
+    @When("^the add property form is submitted with valid values$")
+    public void theAddPropertyFormIsSubmittedWithValidValues() throws Throwable {
+        driver.findElement(By.id("propertyID")).click();
+        driver.findElement(By.id("propertyID")).sendKeys(Keys.BACK_SPACE, "0");
+        driver.findElement(By.id("addPropertySubmit")).click();
+    }
+
+    @When("^the add property form is submitted with invalid values$")
+    public void theAddPropertyFormIsSubmittedWithInvalidValues() throws Throwable {
+        driver.findElement(By.id("propertyID")).click();
+        driver.findElement(By.id("propertyID")).sendKeys(Keys.BACK_SPACE, "-", "1");
+        driver.findElement(By.id("addPropertySubmit")).click();
+    }
+
+    @Then("^there should be errors$")
+    public void thereShouldBeErrors() throws Throwable {
+        int elementSize = driver.findElements(By.className("error")).size();
+        Assert.assertTrue(elementSize > 0);
+    }
+
+    @Then("^there should be no errors$")
+    public void thereShouldBeNoErrors() throws Throwable {
+        int elementSize = driver.findElements(By.className("error")).size();
+        Assert.assertTrue(elementSize == 0);
     }
 
     @Then("^the title is Watchlist$")
@@ -76,5 +108,17 @@ public class WatchlistUITests {
     public void confirmPreferencesAreRetrieved() throws Throwable {
         int elementSize = driver.findElements(By.className("content-watchlist-preference")).size();
         Assert.assertTrue(elementSize > 0);
+    }
+
+    @Then("^the watchlist properties are not populated$")
+    public void confirmPropertiesAreNotRetrieved() throws Throwable {
+        int elementSize = driver.findElements(By.className("content-watchlist-item")).size();
+        Assert.assertTrue(elementSize == 0);
+    }
+
+    @Then("^the watchlist preferences are not populated$")
+    public void confirmPreferencesAreNotRetrieved() throws Throwable {
+        int elementSize = driver.findElements(By.className("content-watchlist-preference")).size();
+        Assert.assertTrue(elementSize == 0);
     }
 }

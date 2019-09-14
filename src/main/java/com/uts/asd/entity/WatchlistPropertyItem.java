@@ -6,6 +6,7 @@ package com.uts.asd.entity;
 
 import com.google.cloud.Timestamp;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -13,6 +14,7 @@ public class WatchlistPropertyItem {
 
     // Declare private variables
     private int customerID;
+    @Min(0)
     private int propertyID;
     private String createdDate;
     private Property property;
