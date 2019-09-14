@@ -1,6 +1,7 @@
 package com.uts.asd;
 
 import com.uts.asd.entity.WatchlistPropertyItem;
+import com.uts.asd.entity.WatchlistPropertyPreference;
 import com.uts.asd.repository.WatchlistRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -41,6 +42,15 @@ public class WatchlistTests {
     }
 
     @Test
+    public void addPropertyPreference_WithValidData_ReturnWorks() {
+        WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(VALID_CUSTOMER_ID, VALID_PROPERTY_ID);
+        String result = repository.addPropertyPreferencesToWatchlist(new WatchlistPropertyPreference(
+                VALID_CUSTOMER_ID,"House","TEST",0,0,0, "TESTBURB"
+        ));
+        Assert.assertTrue(result.contains("successful"));
+    }
+
+    @Test
     public void getProperty_WithValidData_ReturnWorks() {
         ArrayList<WatchlistPropertyItem> watchlistPropertyItems = repository.getWatchlistPropertyItems(VALID_CUSTOMER_ID);
         Assert.assertNotEquals("[]", watchlistPropertyItems.toString());
@@ -49,6 +59,18 @@ public class WatchlistTests {
     @Test
     public void getProperty_WithInvalidData_ReturnNull() {
         ArrayList<WatchlistPropertyItem> watchlistPropertyItems = repository.getWatchlistPropertyItems(INVALID_CUSTOMER_ID);
+        Assert.assertEquals("[]", watchlistPropertyItems.toString());
+    }
+
+    @Test
+    public void getPropertyPreferences_WithValidData_ReturnWorks() {
+        ArrayList<WatchlistPropertyPreference> watchlistPropertyItems = repository.getWatchlistPropertyPreferences(VALID_CUSTOMER_ID);
+        Assert.assertNotEquals("[]", watchlistPropertyItems.toString());
+    }
+
+    @Test
+    public void getPropertyPreferences_WithInvalidData_ReturnNull() {
+        ArrayList<WatchlistPropertyPreference> watchlistPropertyItems = repository.getWatchlistPropertyPreferences(INVALID_CUSTOMER_ID);
         Assert.assertEquals("[]", watchlistPropertyItems.toString());
     }
 }

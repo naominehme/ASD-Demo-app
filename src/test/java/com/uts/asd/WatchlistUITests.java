@@ -1,34 +1,40 @@
 package com.uts.asd;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+import java.net.URI;
+
 public class WatchlistUITests {
 
-    @Autowired
-    private WebApplicationContext wac;
+    // Use selenium webdriver
+    WebDriver driver;
 
-    private MockMvc mockMvc;
+    // Declare run-time test variables
+    ResultActions returnedPage;
 
-    @Before
-    public void before() throws Exception {
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    @Given("^I have opened the browser$")
+    public void givenStatement() throws IllegalAccessException, InstantiationException {
+        Class<?extends WebDriver> driverClass = ChromeDriver.class;
+        WebDriverManager.getInstance(driverClass).setup();
+        driver = driverClass.newInstance();
+        driver.get("http://localhost/");
     }
 
-    @Test
-    public void getWatchlist_Works() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/watchlist"))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+    @When("^the client calls /watchlist$")
+    public void the_client_calls_watchlist() throws Throwable {
+        driver.get("http://localhost/watchlist");
+    }
+
+    @Then("^the title is Watchlist$")
+    public void the_client_receives_status_code_of() throws Throwable {
+        Assert.assertEquals("Watchlist", driver.getTitle());
     }
 }
