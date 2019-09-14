@@ -10,9 +10,7 @@ context('Register test', () => {
                 .type('abc')
                 .blur()
 
-            cy.get('[data-testid=err-email]')
-                .should('exist')
-                .and('contain', 'Invalid Email')
+            
         })
     })
 })
