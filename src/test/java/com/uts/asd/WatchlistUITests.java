@@ -81,6 +81,11 @@ public class WatchlistUITests {
         driver.findElement(By.id("addPropertySubmit")).click();
     }
 
+    @When("^the add preference form is submitted with invalid values$")
+    public void theAddPreferenceFormIsSubmittedWithInvalidValues() throws Throwable {
+        driver.findElement(By.id("addPreferenceSubmit")).click();
+    }
+
     @Then("^there should be errors$")
     public void thereShouldBeErrors() throws Throwable {
         int elementSize = driver.findElements(By.className("error")).size();
