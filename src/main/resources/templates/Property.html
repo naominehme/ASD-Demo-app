@@ -1,0 +1,97 @@
+
+<!DOCTYPE HTML>
+<html lang="en-AU" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>property starting page</title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" th:href="@{/css/NotificationAndWatchlist.css}">
+
+
+<style type="text/css">
+.the_button {
+	width: 150px;
+	height: 40px;
+	background: rgb(228, 74, 13);
+	cursor: pointer;
+	font-family: Microsoft YaHei;
+	color: white;
+	font-size: 17px;
+	border-radius: 6px;
+}
+</style>
+</head>
+
+<body>
+	<div class="Starting_page">
+		<div class="container container-category__content_title">
+			<div class="row">
+				<div
+					style="width: 160%; height: 1500px; background: #e2e2e2; border-radius: 30px;">
+
+					<form class="layui-form" action="" style="margin: 0 auto;">
+						<div
+							style="float: left; width: 50%; padding-left: 50px; padding-top: 25px; position: relative">
+
+							<input type="button" class="the_button" value="Add Property"
+								onclick="javascrtpt:window.location.href='Property_add.html'">
+						</div>
+						<div style="float: left; margin-top: 80px;">
+							<select name="suburb" style="width: 300px; float: left;">
+								<option value="">Search by suburb</option>
+								<option value="Strathfield">Strathfield</option>
+								<option value="Lidcombe">Lidcombe</option>
+								<option value="Epping">Epping</option>
+								<option value="Penrith">Penrith</option>
+								<option value="Redfern">Redfern</option>
+							</select> &nbsp;&nbsp;&nbsp;
+							<button class="the_button" onclick=" "
+								style="float: right;">Search</button>
+
+						</div>
+					</form>
+
+					<div>
+						<table>
+							<tr>
+								<th>URL</th>
+								<th>Address</th>
+								<th>Suburb</th>
+								<th>Garage Spaces</th>
+								<th>Number of Bedroom</th>
+								<th>Number of Bathroom</th>
+								<th>Title</th>
+								<th>SquareMeter</th>
+								<th>State</th>
+								<th>Operate</th>
+							</tr>
+
+							<tr th:each="property,p:${theList}">
+								<td><img border="0" alt="" th:src="${property.url}"
+									title="Property"></td>
+								<td th:text="${property.address}">
+								<td th:text="${property.suburb}">
+								<td th:text="${property.garage}">
+								<td th:text="${property.bedroom}">
+								<td th:text="${property.bathroom}">
+								<td th:text="${property.title}">
+								<td th:text="${property.sqm}">
+								<td th:text="${property.state}">
+								<td><a class="btn btn-danger"
+									th:href="@{/update/{id}(id=${property.id})}">Update</a> <a
+									class="btn btn-danger"
+									th:href="@{/deleteProperty/{id}(id=${property.id})}">Delete</a>
+								</td>
+							</tr>
+
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+
