@@ -21,6 +21,7 @@ import com.uts.asd.entity.Increment;
 import com.uts.asd.entity.Property;
 import com.uts.asd.entity.User;
 import com.uts.asd.service.BidService;
+import com.uts.asd.service.MailService;
 import com.uts.asd.service.PropertyService;
 import com.uts.asd.util.JsonUtil;
 
@@ -28,11 +29,15 @@ import com.uts.asd.util.JsonUtil;
 public class BiddingController {
 	@Autowired
 	private BidService bidService;
+	@Autowired
+	private MailService mailService;
 	
 	@RequestMapping("/bid.do")
 	public String bidding(HttpServletRequest request, HttpServletResponse response,Bid bid)throws IOException {
 		Gson gson = new Gson();
+		PrintWriter writer = response.getWriter();
 		try {
+			String email = request.getParameter("email");
 			String json = JsonUtil.readJsonFile("src/main/resources/increment.json");
 			Increment i =gson.fromJson(json, Increment.class);
 			bid.setId(i.getBidid());
@@ -41,15 +46,21 @@ public class BiddingController {
 			JsonUtil.writeJsonFile(a2, "src/main/resources/increment.json");
 			bid.setTime(new Date().getTime());
 			bid.setState("Success");
-			bidService.addAction(bid);
-//			Property p = new Property(0,"abc st",1,1,1,0,"Brand New",700);
-//			propertyService.addProperty(p);
+			if (0 != bid.getPrice()) {
+				bidService.addAction(bid);
+				if (null!=email&&!"".equals(email)) {
+					mailService.sendMail("<h2>Dear Customer</h2><br/><h2>You have successfully placed a bid, see more detail click the link below</h2></br></br><a href='https://asd-demo-app-naomi.herokuapp.com/homedetail/"+bid.getPid()+"'>Property Link</a>", email);
+				}
+				gson.toJson("Success, you will receive a email shortly!", writer);
+			}else {
+				throw new NumberFormatException();
+			}
 //			Property p1 = propertyService.searchById(p);
-			PrintWriter writer = response.getWriter();
-			gson.toJson("success", writer);
-			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+			gson.toJson("fail,please input vaild number", writer);
+		}finally {
+			writer.close();
 		}
 		return null;
 	}
