@@ -11,6 +11,9 @@ body {
     background-image: url('../images/bg-01.jpg') ;
     background-size: cover;
 }
+select {
+    width: -webkit-fill-available;
+}
 
 /*header*/
 .header-line {

@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <title>Watchlist</title>
     <link rel="stylesheet" th:href="@{/css/NotificationAndWatchlist.css}">
+    <link rel="stylesheet" th:href="@{/css/pure-forms.css}">
+    <link rel="stylesheet" th:href="@{/css/pure-buttons.css}">
 </head>
 <body>
 
@@ -25,15 +27,15 @@
 
     <div class="content-form" th:if="${defaultCustomer}">
         <h2>Add to Watchlist</h2>
-        <form action="#" th:action="@{/watchlist/add/property}" th:object="${watchlistPropertyItem}" method="post">
+        <form class="pure-form" action="#" th:action="@{/watchlist/add/property}" th:object="${watchlistPropertyItem}" method="post">
             <table>
                 <tr>
                     <td><label>Property ID:</label></td>
                     <td><input id="propertyID" type="number" th:field="*{propertyID}" value="0"></td>
                 </tr>
-                <tr><td><p class='error' th:each="err : ${#fields.errors('propertyID')}" th:text="${err}"></p></td></tr>
+                <tr><td><li class='error' th:each="err : ${#fields.errors('propertyID')}" th:text="${err}"></li></td></tr>
                 <tr>
-                    <td><input id="addPropertySubmit" type="submit" value="Submit" /></td>
+                    <td><input class="pure-button pure-button-primary" id="addPropertySubmit" type="submit" value="Submit" /></td>
                 </tr>
             </table>
         </form>
@@ -41,7 +43,7 @@
 
     <div class="content-form">
         <h2>Add to Watchlist Preferences</h2>
-        <form action="#" th:action="@{/watchlist/add/preference}" th:object="${watchlistPropertyPreference}" method="post">
+        <form class="pure-form" action="#" th:action="@{/watchlist/add/preference}" th:object="${watchlistPropertyPreference}" method="post">
             <table>
                 <tr>
                     <td><label>Property Type:</label></td>
@@ -51,29 +53,29 @@
                         <option th:value="${'Apartment'}" th:text="${'Apartment'}"/>
                     </select></td>
                 </tr>
-                <tr><td><p class='error' th:each="err : ${#fields.errors('typeID')}" th:text="${err}"></p></td></tr>
+                <tr><td><li class='error' th:each="err : ${#fields.errors('typeID')}" th:text="${err}"></li></td></tr>
                 <tr>
                     <td><label>Garage Spaces:</label></td>
                     <td><input type="number" th:field="*{garageSpaces}" th:value="1"></td>
                 </tr>
-                <tr><td><p class='error' th:each="err : ${#fields.errors('garageSpaces')}" th:text="${err}"></p></td></tr>
+                <tr><td><li class='error' th:each="err : ${#fields.errors('garageSpaces')}" th:text="${err}"></li></td></tr>
                 <tr>
                     <td><label>Bedrooms:</label></td>
                     <td><input type="number" th:field="*{numOfBedrooms}" th:value="1"></td>
                 </tr>
-                <tr><td><p class='error' th:each="err : ${#fields.errors('numOfBedrooms')}" th:text="${err}"></p></td></tr>
+                <tr><td><li class='error' th:each="err : ${#fields.errors('numOfBedrooms')}" th:text="${err}"></li></td></tr>
                 <tr>
                     <td><label>Bathrooms:</label></td>
                     <td><input type="number" th:field="*{numOfBathrooms}" th:value="1"></td>
                 </tr>
-                <tr><td><p class='error' th:each="err : ${#fields.errors('numOfBathrooms')}" th:text="${err}"></p></td></tr>
+                <tr><td><li class='error' th:each="err : ${#fields.errors('numOfBathrooms')}" th:text="${err}"></li></td></tr>
                 <tr>
                     <td><label>Suburb:</label></td>
                     <td><input type="text" th:field="*{suburb}" th:value="2000"></td>
                 </tr>
-                <tr><td><p class='error' th:each="err : ${#fields.errors('suburb')}" th:text="${err}"></p></td></tr>
+                <tr><td><li class='error' th:each="err : ${#fields.errors('suburb')}" th:text="${err}"></li></td></tr>
                 <tr>
-                    <td><input type="submit" value="Submit" /></td>
+                    <td><input class="pure-button pure-button-primary" id="addPreferenceSubmit" type="submit" value="Submit" /></td>
                 </tr>
             </table>
         </form>
