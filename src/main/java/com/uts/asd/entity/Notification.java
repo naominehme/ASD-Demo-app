@@ -36,4 +36,15 @@ public class Notification {
     public Bid getBid() { return bid; }
 
     public void setBid(Bid bid) { this.bid = bid; }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "customerID=" + customerID +
+                ", propertyID=" + propertyID +
+                ", createdDate='" + createdDate + '\'' +
+                ", property=" + property +
+                ", bid=" + bid +
+                '}';
+    }
 }

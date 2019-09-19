@@ -57,7 +57,7 @@ public class NotificationController {
         int customerID = getCustomerIDFromRequest(request);
 
         loadNotificationData(model, customerID, new WatchlistPropertyItem(), new WatchlistPropertyPreference());
-        return "Watchlist";
+        return "Notification";
     }
 
     private int getCustomerIDFromRequest(HttpServletRequest request) {
