@@ -197,4 +197,14 @@ public class PropertyController {
     	return new ModelAndView("redirect:/theProperty");
     }   
 	
+    @RequestMapping("/delete/{id}")
+    public ModelAndView  deleteProperty(HttpServletRequest request, HttpServletResponse response, @PathVariable("id") Integer deleteid) throws IOException {
+    	try { 		
+    		Property p = new Property(deleteid);    		
+    		propertyService.removeProperty(p);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return new ModelAndView("redirect:/theProperty");
+    }  
 }
