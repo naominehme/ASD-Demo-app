@@ -26,6 +26,10 @@ public class PropertyService {
 		//propertyMapper.addProperty(p);
 		propertyRepository.addProperty(p);
 	}
+	
+	public void removeProperty(Property p) {
+		propertyRepository.removeProperty(p);
+	}
 
 	public List<Property> searchAll(Property p) throws Exception {
 		Filter filter =  null;
