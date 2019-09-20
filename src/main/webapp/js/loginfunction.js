@@ -106,7 +106,7 @@ async function handleLogin(){
 	if(!!auth){
 		logUser(auth.key,'login');
 		localStorage.loggedInUser = JSON.stringify({key: auth.key, fname:auth.fname, emailaddress:auth.emailaddress});
-		document.location.pathname = 'index.html'
+		document.location.pathname = 'home'
 	}
 	else {
 		showMessage('User Not Found');
