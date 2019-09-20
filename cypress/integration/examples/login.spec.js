@@ -30,6 +30,5 @@ it('User Found and Logged in and Logged Out', () => {
   cy.get('button[id=login]').click();
   cy.contains('Naomi')
   cy.contains('Logout').click()
-
 })
 })
