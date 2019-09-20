@@ -31,12 +31,12 @@ public class BidFunTest {
 	@Test
 	public void test2() {
 		List<Bid> list =  bidService.searchCondition(new Property());
-		Assert.assertEquals("[]", list.toString());
+		Assert.assertNotEquals("[]", list.toString());
 	}
 	
 	@Test
 	public void test3() {
-		Property p = propertyService.searchById(new Property(100));
+		Property p = propertyService.searchById(new Property(1000));
 		Assert.assertEquals(null, p);
 	}
 	
