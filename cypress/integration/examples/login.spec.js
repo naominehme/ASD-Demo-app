@@ -1,6 +1,6 @@
 context('Login Function', () => {
   beforeEach(() => {
-    cy.visit('https://asd-demo-app-249308.appspot.com/login.html')
+    cy.visit('https://asd-demo-app-naomi.herokuapp.com/login.html')
   })
 
   it('User Not Found', () => {
