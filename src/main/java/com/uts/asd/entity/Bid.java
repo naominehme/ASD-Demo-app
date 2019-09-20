@@ -53,5 +53,13 @@ public class Bid {
 	public void setState(String state) {
 		this.state = state;
 	}
+	public Bid(Integer id, double price, Long time, Integer pid, String state) {
+		super();
+		this.id = id;
+		this.price = price;
+		this.time = time;
+		this.pid = pid;
+		this.state = state;
+	}
 	
 }

@@ -1,5 +1,6 @@
 package com.uts.asd;
 
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
@@ -36,13 +37,7 @@ public class BidFunTest {
 	
 	@Test
 	public void test3() {
-		Property p = propertyService.searchById(new Property(1000));
-		Assert.assertEquals(null, p);
+		bidService.addAction(new Bid(100,10000.0,new Date().getTime(),2,"0"));
 	}
 	
-	@Test
-	public void test4() {
-		Property p = propertyService.searchById(new Property(1));
-		Assert.assertNotEquals(null, p);
-	}
 }
