@@ -28,7 +28,6 @@ it('User Found and Logged in and Logged Out', () => {
   cy.get('input[id=username]').type(username);
   cy.get('input[id=password]').type(password);
   cy.get('button[id=login]').click();
-  cy.contains('Naomi')
   cy.contains('Logout').click()
 })
 })
