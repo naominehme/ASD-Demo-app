@@ -71,6 +71,4 @@ public class NotificationController {
         }
         return customerID;
     }
-
-
 }

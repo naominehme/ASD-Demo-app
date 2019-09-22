@@ -25,7 +25,7 @@ public class NotificationRepository {
     public ArrayList<Notification> getNotificationItems(int customerID) {
         CompletableFuture<ArrayList<Notification>> completableFuture = new CompletableFuture<>();
         // Get data from NoSQL
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("WatchlistPropertyItem/" + customerID);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Notification/" + customerID);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
