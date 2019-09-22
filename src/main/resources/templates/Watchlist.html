@@ -127,7 +127,7 @@
             <p th:text="'Garage Spaces: ' + ${item.garageSpaces}"></p>
             <a class=remove-watchlist-item th:href="@{/watchlist/remove/preference/{propertyID}(propertyID=${item.preferenceID})}">Remove from watchlist</a>
         </div>
-        <p th:if="${#lists.size(watchlistPropertyItems) == 0}">No preferences found on your watchlist.</p>
+        <p th:if="${#lists.size(watchlistPropertyPreferences) == 0}">No preferences found on your watchlist.</p>
     </div>
 
     <script type="text/javascript">
