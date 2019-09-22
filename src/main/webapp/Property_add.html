@@ -5,6 +5,30 @@
 	
 <title>property management page</title>
 <link rel="stylesheet" href="css/styles.css">
+<style type="text/css">
+.Submit_button {
+width: 150px;
+height: 40px;
+background: rgb(228, 74, 13); 
+cursor: pointer;
+font-family: YouYuan;
+color: white;
+font-size: 21px;
+border-radius: 6px;
+position: relative; 
+top: 110%; 
+left: 23%; 
+width: 50%"
+top: 110%; 
+left: 23%; 
+width: 50%;
+}   
+</style>
+<script>
+function theRemind(){
+	alert("Are you sure to add it?");
+}
+</script>
 </head>	
 
 <body>
@@ -12,17 +36,20 @@
 		<div class="container container-category__content_title">
 			<div class="row">
 
-					<div style="width: 70%; height: 900px; background: #e2e2e2; border-radius: 30px;">
-						<form method="post" action="backendAdd">
+					<div style="width: 70%; height: 900px; background: #e2e2e2; border-radius: 30px;">				
+						<form method="post" action="addProperty">
 							
 							<div style="float: left; width: 80%; padding-left: 50px; padding-top: 20px; position: relative">
 								<h3 style="text-align: center">ADD PROPERTY</h3>
+															
 								<div>
 									<p class="container-subscription__content__description"
-										style="color: black; margin-bottom: 10px;">URL:</p>
-									<input type="text" name="url" placeholder="Enter URL" required="required"							
-									 class="ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-pattern"/>
+										style="color: black; margin-bottom: 10px">URL:</p>
+									<input type="text" name="url" placeholder="Enter URL"
+										required="required"
+										 />
 								</div>
+								
 								<div>
 									<p class="container-subscription__content__description"
 										style="color: black; margin-bottom: 10px">Address:</p>
@@ -30,12 +57,18 @@
 										required="required"
 										 />
 								</div>
+								
 								<div>
 									<p class="container-subscription__content__description"
 										style="color: black; margin-bottom: 10px">Suburb:</p>
-									<input type="text" name="suburb" placeholder="Enter Suburb"
-										required="required"
-										/>
+                                     <select name="suburb">         
+                                     <option value="" >Please Select Suburb</option>
+                                     <option value="Strathfield">Strathfield</option>
+                                     <option value="Lidcombe">Lidcombe</option>
+                                     <option value="Epping">Epping</option>
+                                     <option value="Penrith">Penrith</option>
+                                     <option value="Redfern">Redfern</option>
+                                     </select>
 								</div>
 								
 								<div>
@@ -73,21 +106,18 @@
 										required="required"
 										 />		
 								</div>
-								
+															   
 								<div>
 									<p class="container-subscription__content__description"
 										style="color: black; margin-bottom: 10px">State:</p>
-									<input type="text" name="state" placeholder="Enter State"
-										required="required"
-										 />		
-								</div>
-								
-								<div style="color: red"></div>
-								<button class="button"
-									style="position: absolute; top: 110%; left: 30%; width: 50%; background:rgb(228, 74, 13)" 
-									>
-									<span>Submit</span>
-								</button>
+									<select name="state">
+									<option value="">Please Select Suburb</option>
+                                    <option value="0" > 0 </option>
+                                    <option value="1" > 1 </option>
+                                    <option value="2" > 2 </option>
+                                    </select> 								
+								</div>														  								
+								<input type="submit" class="Submit_button" value="Submit" >  														
 							</div>
 						</form>
 					</div>

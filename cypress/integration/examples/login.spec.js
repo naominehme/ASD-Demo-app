@@ -1,6 +1,6 @@
 context('Login Function', () => {
   beforeEach(() => {
-    cy.visit('https://asd-demo-app-249308.appspot.com/login.html')
+    cy.visit('https://asd-demo-app-naomi.herokuapp.com/login.html')
   })
 
   it('User Not Found', () => {
@@ -28,8 +28,5 @@ it('User Found and Logged in and Logged Out', () => {
   cy.get('input[id=username]').type(username);
   cy.get('input[id=password]').type(password);
   cy.get('button[id=login]').click();
-  cy.contains('Naomi')
-  cy.contains('Logout').click()
-
 })
 })

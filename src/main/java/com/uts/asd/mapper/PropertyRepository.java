@@ -26,4 +26,8 @@ public class PropertyRepository extends DefaultFirebaseRealtimeDatabaseRepositor
 		set(p, p);
 	}
 	
+	public void removeProperty(Property p, Object... uriVariables) {
+		int id = p.getId();
+		remove(id);
+    }
 }

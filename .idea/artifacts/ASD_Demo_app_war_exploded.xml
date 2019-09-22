@@ -33,6 +33,9 @@
           <element id="library" level="project" name="Maven: com.zaxxer:HikariCP:3.2.0" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:5.1.9.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-tx:5.1.9.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-mail:2.1.7.RELEASE" />
+          <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.6.2" />
+          <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-thymeleaf:2.1.7.RELEASE" />
           <element id="library" level="project" name="Maven: org.thymeleaf:thymeleaf-spring5:3.0.11.RELEASE" />
           <element id="library" level="project" name="Maven: org.thymeleaf:thymeleaf:3.0.11.RELEASE" />
@@ -65,7 +68,6 @@
           <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-el:9.0.22" />
           <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-websocket:9.0.22" />
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.11" />
-          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.5.9" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.11" />
           <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-server:9.4.20.v20190813" />
           <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:4.0.1" />
@@ -80,8 +82,6 @@
           <element id="library" level="project" name="Maven: com.google.api-client:google-api-client-gson:1.25.0" />
           <element id="library" level="project" name="Maven: com.google.http-client:google-http-client-gson:1.25.0" />
           <element id="library" level="project" name="Maven: com.google.http-client:google-http-client:1.25.0" />
-          <element id="library" level="project" name="Maven: com.google.code.findbugs:jsr305:3.0.2" />
-          <element id="library" level="project" name="Maven: com.google.j2objc:j2objc-annotations:1.1" />
           <element id="library" level="project" name="Maven: com.google.api:api-common:1.7.0" />
           <element id="library" level="project" name="Maven: com.google.auth:google-auth-library-oauth2-http:0.11.0" />
           <element id="library" level="project" name="Maven: com.google.auth:google-auth-library-credentials:0.11.0" />
@@ -111,13 +111,11 @@
           <element id="library" level="project" name="Maven: com.google.auto.value:auto-value:1.4" />
           <element id="library" level="project" name="Maven: io.grpc:grpc-netty-shaded:1.13.1" />
           <element id="library" level="project" name="Maven: io.grpc:grpc-core:1.13.1" />
-          <element id="library" level="project" name="Maven: com.google.errorprone:error_prone_annotations:2.1.2" />
           <element id="library" level="project" name="Maven: io.opencensus:opencensus-contrib-grpc-metrics:0.12.3" />
           <element id="library" level="project" name="Maven: io.grpc:grpc-stub:1.13.1" />
           <element id="library" level="project" name="Maven: io.grpc:grpc-auth:1.13.1" />
           <element id="library" level="project" name="Maven: io.opencensus:opencensus-api:0.15.0" />
           <element id="library" level="project" name="Maven: io.opencensus:opencensus-contrib-grpc-util:0.15.0" />
-          <element id="library" level="project" name="Maven: com.google.guava:guava:20.0" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.26" />
           <element id="library" level="project" name="Maven: io.netty:netty-codec-http:4.1.38.Final" />
           <element id="library" level="project" name="Maven: io.netty:netty-common:4.1.38.Final" />
@@ -131,6 +129,12 @@
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.0" />
           <element id="library" level="project" name="Maven: com.github.fabiomaffioletti:spring-boot-starter-data-firebase:1.0.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-all:1.3" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.5.9" />
+          <element id="library" level="project" name="Maven: com.google.guava:guava:23.0" />
+          <element id="library" level="project" name="Maven: com.google.code.findbugs:jsr305:1.3.9" />
+          <element id="library" level="project" name="Maven: com.google.errorprone:error_prone_annotations:2.0.18" />
+          <element id="library" level="project" name="Maven: com.google.j2objc:j2objc-annotations:1.1" />
+          <element id="library" level="project" name="Maven: org.codehaus.mojo:animal-sniffer-annotations:1.14" />
         </element>
       </element>
       <element id="directory" name="META-INF">
