@@ -15,6 +15,10 @@ public class BidRepository extends DefaultFirebaseRealtimeDatabaseRepository<Bid
 	public Bid searchById(Bid b) {
 		return get(b.getId(), b);
 	}
+
+	public Bid searchById(int b) {
+		return get(b, Bid.class);
+	}
 	
 	public List<Bid> searchAll(Bid b) {
 		return findAll(b);

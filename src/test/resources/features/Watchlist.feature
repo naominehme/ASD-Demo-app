@@ -27,13 +27,6 @@ Feature: The watchlist can be retrieved
          When the add property form is submitted with valid values
          Then there should be no errors
 
-    Scenario: Client submits add property form with invalid values
-         Given I have opened Google Chrome
-         Given I am using the Test User
-         When the client calls /watchlist
-         When the add property form is submitted with invalid values
-         Then there should be errors
-
     Scenario: Client submits add preference form with invalid values
          Given I have opened Google Chrome
          Given I am using the Test User
