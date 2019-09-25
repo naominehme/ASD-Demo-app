@@ -9,12 +9,10 @@
     <title>802/21-23 James St Lidcombe, NSW 2141</title>
     <meta name="HandheldFriendly" content="true">
     <meta name="MobileOptimized" content="320">
-    <link rel="stylesheet" th:href="@{/css/styles.css}" >
-    <link rel="stylesheet" th:href="@{/css/PropertyDetail.css}" >
-    <link rel="stylesheet" th:href="@{/css/app.css}">
-    <link rel="stylesheet" th:href="@{/css/layui.css}">
-    <style>
-    </style>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+	<link rel="stylesheet" th:href="@{/css/PropertyDetail.css}">
+	<link rel="stylesheet" th:href="@{/css/app.css}">
+	<link rel="stylesheet" th:href="@{/css/layui.css}">
 </head>
 
 <body style="padding-top: 0px;">
@@ -24,8 +22,8 @@
             <div class="masthead__column--left column">
                 <div class="row">
                     <div class="masthead__logo column">
-                        <a href="#">
-                            <img alt="logo" title="logo" class="logo__light" src="#">
+                        <a href="home">
+                            <img alt="logo" title="logo" class="logo__light" src="/images/25694.svg" height="42" width="42">
                         </a>
                     </div>
                     <div class="masthead__menu column">
@@ -38,11 +36,26 @@
             </div>
             <div class="masthead__column--right column">
                 <div class="row--inline-flex">
-                    <div class="masthead__subscription" style="border: 0px;">
-                        <a ng-subscription-anchor="#subscription-panel">Sign up</a>
+                    <div class="masthead__subscription signUpBtn" style="border: 0px;">
+                        <a href="Register.html">Sign up</a>
                     </div>
-                    <div class="masthead__subscription">
-                        <a ng-subscription-anchor="#subscription-panel">Login</a>
+                    <div class="masthead__subscription loginBtn">
+                        <a href="login.html">Login</a>
+                    </div>
+                    <div class="masthead__subscription welcomePanel">
+                        <btn id="welcomeText"></btn>
+                    </div>
+                    <div class="masthead__subscription accountBtn">
+                        <btn onClick="location.href='UserLogs.html'">My Account</btn>
+                    </div>
+                    <div class="masthead__subscription watchlistBtn">
+                        <btn onClick="location.href='watchlist'">My Watchlist</btn>
+                    </div>
+                    <div class="masthead__subscription staffBtn">
+                        <btn onClick="location.href='staffPortal.html'">Staff Portal</btn>
+                    </div>
+                    <div class="masthead__subscription logoutBtn">
+                        <btn onClick="logOut()">Logout</btn>
                     </div>
                 </div>
             </div>
@@ -93,16 +106,27 @@
                                 <div class="label" style="background:#ffffff; width: auto;">Start price:</div>
                                 <div class="number"><span>$</span><span role="button" tabindex="0" class="lrc-tooltip-item" th:text="${p.auction.start}"></span></div>
                             </div>
-                            <div class="buttons">
+                            <div class="buttons" id="suffix" style="display: none">
                                 <!-- <button class="button" clstag="pageclick|keycount|Sifaproduct_Signup|Sifaproduct_0"><span>Pay deposit</span><span>$10,000</span></button> -->
                                  <input type="text" name="money" id="money" required  placeholder="Price" autocomplete="off" class="layui-input"  style="width:150px;">
                                  <button class="button" id="post"><span>Submit</span></button>
+                                 <button class="button" id="update">
+									<span>Update Email</span>
+								 </button>
                                  <form action="#" th:action="@{/watchlist/add/property/id}" method="get">
                                     <input hidden type="text" th:name="propertyID" th:value="${p.id}">
                                     <input class="button" type="submit" value="Add to watchlist"/>
                                  </form>
                                 <br>
                             </div>
+                            <div class="buttons" id="prefix">
+								<button class="button" id="pay" onclick="pay()">
+									<span>Pay Deposit</span>
+								</button>
+								<button class="button" onclick="topup()">
+									<span>Top Up</span>
+								</button>
+							</div>
                             <div class="prompt" style="font-size:13px;">If it is not obtained, the deposit will be returned within 24 hours.</div>
                         </div>
                         <div class="mb">
@@ -282,76 +306,152 @@
 </main>
 </body>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script th:src="@{/js/vendor/jquery/jquery-3.2.1.min.js}"></script>
+<script th:src='@{/js/loginfunction.js}'></script>
+<script th:src="@{/js/layer.js}"></script>
 <script th:src="@{/js/layui.js}"></script>
 <script th:src="@{/js/qs.min.js}"></script>
 <script type="text/javascript" th:inline="javascript">
-	layui.use('carousel',function(){
-		var carousel = layui.carousel;
-		carousel.render({
-			elem:'#imgs',
-			width:'458px',
-			height:'463px',
-			arrows:'always'
-		});
+layui.use('carousel',function(){
+	var carousel = layui.carousel;
+	carousel.render({
+		elem:'#imgs',
+		width:'458px',
+		height:'463px',
+		arrows:'always'
 	});
+});
+var id = JSON.parse(localStorage.getItem('loggedInUser'));
+(function () {
+	if (isActiveSession()) {
+        jQuery('.loginBtn').hide();
+        jQuery('.signUpBtn').hide();
+        jQuery('.welcomePanel').show();
+        jQuery('#welcomeText').text('Welcome, '+ JSON.parse(localStorage.loggedInUser).fname +'! ');
+        jQuery('.logoutBtn').show();
+        jQuery('.accountBtn').show();
+        jQuery('.watchlistBtn').show();
+        jQuery('.staffBtn').show();}
+    else {
+        jQuery('.loginBtn').show();
+        jQuery('.signUpBtn').show();
+        jQuery('.welcomePanel').hide();
+        jQuery('.logoutBtn').hide();
+        jQuery('.accountBtn').hide();
+        jQuery('.watchlistBtn').show();
+        jQuery('.staffBtn').hide();
+    }
 	
-	(function () {
-	    //var output = document.getElementById('output');
-	    var desc = document.getElementById('desc').innerHTML;
-	    
-	    document.getElementById('post').onclick = function () {
-	       var value = document.getElementById('money').value;
-	       /*<![CDATA[*/
-	        var context = /*[[@{/}]]*/;
-	        /*]]>*/
-	        console.log(context);
-	       /* axios.post('bid.do', {
-	    	   data: {
-	    		   money: value
-	    	   } 
-	       }) */
-	       axios({
+    //var output = document.getElementById('output');
+    var j = [[${p.deposit}]];
+    for(var i = 0; i<j.length;i++){
+    	if(j[i].uid==id.key){
+    		$("#prefix").hide();
+    		$("#suffix").show();
+    		break;
+    	}
+    }
+    var desc = document.getElementById('desc').innerHTML;
+    document.getElementById('update').onclick = function () {
+    	layer.open({
+    		  title:'update'
+    		  ,btnAlign: 'c'
+    		  ,content: '<input type="text" id="e" required  placeholder="email" />'
+    		  ,btn: ['submit']
+    		  ,yes: function(index, layero){
+    			  var newe = $("#e").val();
+    			  $.post('/updateEmail.do', {email:newe,id:id.key}, function(data){
+    				  layer.msg(data);	    				  
+    			  });
+    		  }
+    		});
+    }
+    document.getElementById('post').onclick = function () {
+       var value = document.getElementById('money').value;
+       axios({
+           method: "post",
+           url: "/bid.do",
+           transformRequest: [
+             function(data) {
+               return Qs.stringify(data);
+             }
+           ],
+           data: {
+             price: value,
+             pid:[[${p.id}]],
+             email:id.emailaddress
+           }
+         })
+        .then(function (res) {
+          alert(res.data);
+          document.getElementById('money').value = '';
+          axios({
 	           method: "post",
-	           url: "/bid.do",
+	           url: "/record.do",
 	           transformRequest: [
 	             function(data) {
 	               return Qs.stringify(data);
 	             }
 	           ],
 	           data: {
-	             price: value,
 	             pid:[[${p.id}]]
 	           }
+	         }).then(function (res){
+	        	 var html="";
+	        	 var output = document.getElementById('brecord');
+	        	 var list = res.data;
+	        	 for(var i = 0; i<list.length;i++){
+	        		 html += "<li><em>20777498</em><em>$"+list[i].price+"</em><em>"+list[i].time+"</em></li>"
+	        	 }
+	        	 output.innerHTML = html;
 	         })
-	        .then(function (res) {
-	          /* output.className = 'container';
-	          for(var i = 0;i<res.data.length;i++){
-	        	  output.append(res.data[i].number+" ");
-	          } */
-	          alert(res.data);
-	          document.getElementById('money').value = '';
-	          axios({
-		           method: "post",
-		           url: "/record.do",
-		           transformRequest: [
-		             function(data) {
-		               return Qs.stringify(data);
-		             }
-		           ],
-		           data: {
-		             pid:[[${p.id}]]
-		           }
-		         }).then(function (res){
-		        	 var html="";
-		        	 var output = document.getElementById('brecord');
-		        	 var list = res.data;
-		        	 for(var i = 0; i<list.length;i++){
-		        		 html += "<li><em>20777498</em><em>$"+list[i].price+"</em><em>"+list[i].time+"</em></li>"
-		        	 }
-		        	 output.innerHTML = html;
-		         });
-        	})
-	    }
-	  })();
+    	}).catch(function (error){
+    		alert('invaild number'); 
+     	})
+    }
+  })();
+
+function pay(){
+	var val = [[${p.auction.deposit}]];
+	layer.open({
+		  title:'Payment'
+		  ,btnAlign: 'c'
+		  ,content: '<h3>You are reqiured to pay $'+val+' before bid</h3>'
+		  ,btn: ['Pay']
+		  ,yes: function(index, layero){
+		  	  $.post('/pay.do', {money:val,id:id.key,pid:[[${p.id}]]}, function(data){
+			  layer.msg(data);	    				  
+		  });
+		  }
+		});
+}
+
+function topup(){
+	layer.open({
+		  title:'TopUp'
+		  ,btnAlign: 'c'
+		  ,content: '<input type="text" id="amount" required  placeholder="amount" />'
+		  ,btn: ['top up']
+		  ,yes: function(index, layero){
+			axios({
+	           method: "post",
+	           url: "/topup.do",
+	           transformRequest: [
+	             function(data) {
+	               return Qs.stringify(data);
+	             }
+	           ],
+	           data: {
+	        	   money:$("#amount").val(),
+	        	   id:id.key
+	           }
+	         }).then(function (res){
+	        	 layer.msg(res.data);
+	         }).catch(function (error){
+     		 alert('invaild number'); 
+      	 })
+		  }
+		});
+}
 </script>
 </html>
