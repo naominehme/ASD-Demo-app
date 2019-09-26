@@ -38,9 +38,19 @@ public class Property {
 	
 	@JsonIgnore
 	private Auction auction;
+	@JsonIgnore
+	private List<Deposit> deposit = new ArrayList<Deposit>();
 	private List<Bid> bid = new ArrayList<Bid>();
 	private List<String[]> list = new ArrayList<String[]>();
 	
+	public List<Deposit> getDeposit() {
+		return deposit;
+	}
+
+	public void setDeposit(List<Deposit> deposit) {
+		this.deposit = deposit;
+	}
+
 	public String getSuburb() {
 		return suburb;
 	}
