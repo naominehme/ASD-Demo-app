@@ -49,7 +49,6 @@ public class WatchlistUITests {
         Class<?extends WebDriver> driverClass = ChromeDriver.class;
         WebDriverManager.getInstance(driverClass).setup();
         driver = driverClass.newInstance();
-        driver.get(getBaseURL());
     }
 
     @Given("^I am using the Test User")

@@ -2,8 +2,6 @@ package com.uts.asd.repository;
 
 import com.google.firebase.database.*;
 import com.uts.asd.entity.Notification;
-import com.uts.asd.entity.WatchlistPropertyItem;
-import com.uts.asd.entity.WatchlistPropertyPreference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +34,7 @@ public class NotificationRepository {
                     Notification notification = new Notification(
                             childSnapshot.child("customerID").getValue(long.class).intValue(),
                             childSnapshot.child("propertyID").getValue(long.class).intValue(),
+                            childSnapshot.child("bidID").getValue(long.class).intValue(),
                             childSnapshot.child("createdDate").getValue(String.class));
                     notificationArrayList.add(notification);
                     logger.info(notification.toString());
@@ -60,10 +59,10 @@ public class NotificationRepository {
         return notifications;
     }
 
-    public String addNotificationToNotifications(String notification, int customerID) {
+    public String addNotificationToNotifications(Notification notification) {
         DatabaseReference ref = FirebaseDatabase.getInstance()
-                .getReference("Notification/" +
-                        customerID + "/");
+                .getReference("Notification/" + notification.getCustomerID() +
+                        "/" + notification.getNotificationID());
 
         CompletableFuture<String> completableFuture = new CompletableFuture();
         ref.setValue(notification, (databaseError, databaseReference) -> {
@@ -72,7 +71,26 @@ public class NotificationRepository {
                 completableFuture.complete(databaseError.getMessage());
             } else {
                 logger.info("Data saved successfully.");
-                completableFuture.complete("Added '" + customerID + "' notification successfully.");
+                completableFuture.complete("Added '" + notification.getNotificationID() + "' notification successfully.");
+            }
+        });
+
+        return getStringFromCompletableFuture(completableFuture);
+    }
+
+    public String removeNotificationFromNotifications(Notification notification) {
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReference("Notification/" + notification.getCustomerID() +
+                        "/" + notification.getNotificationID());
+
+        CompletableFuture<String> completableFuture = new CompletableFuture();
+        ref.setValue(null, (databaseError, databaseReference) -> {
+            if (databaseError != null) {
+                logger.error("Data could not be saved " + databaseError.getMessage());
+                completableFuture.complete(databaseError.getMessage());
+            } else {
+                logger.info("Data saved successfully.");
+                completableFuture.complete("Removed '" + notification.getNotificationID() + "' notification successfully.");
             }
         });
 

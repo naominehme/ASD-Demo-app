@@ -1,18 +1,31 @@
 package com.uts.asd.entity;
 
+import com.google.cloud.Timestamp;
+
+import java.util.UUID;
+
 public class Notification {
 
     // Declare private variables
     private int customerID;
     private int propertyID;
+    private int bidID;
+    private String notificationID;
     private String createdDate;
     private Property property;
     private Bid bid;
 
-    public Notification(int customerID, int propertyID, String createdDate) {
+    public Notification(int customerID, int propertyID, int bidID, String createdDate) {
         this.customerID = customerID;
         this.propertyID = propertyID;
+        this.bidID = bidID;
         this.createdDate = createdDate;
+    }
+
+    public Notification(int customerID, String notificationID) {
+        this.customerID = customerID;
+        this.notificationID = notificationID;
+        this.createdDate = Timestamp.now().toString();
     }
 
     public Notification() { }
@@ -25,6 +38,14 @@ public class Notification {
 
     public void setPropertyID(int propertyID) { this.propertyID = propertyID; }
 
+    public int getBidID() { return bidID; }
+
+    public void setBidID(int bidID) { this.bidID = bidID; }
+
+    public String getNotificationID() { return notificationID; }
+
+    public void setNotificationID(String notificationID) { this.notificationID = notificationID; }
+
     public String getCreatedDate() { return createdDate; }
 
     public void setCreatedDate(String createdDate) { this.createdDate = createdDate; }
@@ -36,6 +57,11 @@ public class Notification {
     public Bid getBid() { return bid; }
 
     public void setBid(Bid bid) { this.bid = bid; }
+
+    public void assignNotificationID() {
+        // Creating a random UUID (Universally unique identifier)
+        notificationID = UUID.randomUUID().toString();
+    }
 
     @Override
     public String toString() {
