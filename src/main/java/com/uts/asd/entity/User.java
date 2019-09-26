@@ -1,152 +1,113 @@
 package com.uts.asd.entity;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.fabiomaffioletti.firebase.document.FirebaseDocument;
+import com.github.fabiomaffioletti.firebase.document.FirebaseId;
 
-/*
- * @author Weixiang Gao
- */
+@FirebaseDocument("/Users")
+@JsonIgnoreProperties
+public class User{
+	@FirebaseId
+	private String id;
+	@JsonProperty("dob")
+	private String dob;
+	@JsonProperty("emailaddress")
+	private String email;
+	@JsonProperty("fname")
+	private String fname;
+	@JsonProperty("isAdmin")
+	private boolean isAdmin;
+	@JsonProperty("password")
+	private String password;
+	@JsonProperty("username")
+	private String username;
+	@JsonProperty("balance")
+	private Double balance;
 
-public class User implements Serializable {
+	public String getId() {
+		return id;
+	}
 
-    private int ID;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private String phoneNumber;
-    private String address1;
-    private String address2;
-    private String city;
-    private String state;
-    private String postcode;
-    private String username;
-    private boolean active;
+	public void setId(String id) {
+		this.id = id;
+	}
 
+	public String getDob() {
+		return dob;
+	}
 
-    public User() {}
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
 
-    public User(int ID) {
-        this.ID = ID;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public User(int ID, String firstName, String lastName, String email, String password, String phoneNumber, String address1, String address2, String city, String state, String postcode, String username, boolean active) {
-        this.ID = ID;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.address1 = address1;
-        this.address2 = address2;
-        this.city = city;
-        this.state = state;
-        this.postcode = postcode;
-        this.username = username;
-        this.active = active;
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
+	public String getFname() {
+		return fname;
+	}
 
-    }
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
 
-    public User(String firstName, String lastName, String email, String password, String phoneNumber, String address1, String address2, String city, String state, String postcode, String username, boolean active) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.address1 = address1;
-        this.address2 = address2;
-        this.city = city;
-        this.state = state;
-        this.postcode = postcode;
-        this.username = username;
-        this.active = active;
-    }
-    
+	public boolean isAdmin() {
+		return isAdmin;
+	}
 
-    public int getID() {
-        return ID;
-    }
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
 
-    public void setID(int ID) {
-        this.ID = ID;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public Double getBalance() {
+		return balance;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setBalance(Double balance) {
+		this.balance = balance;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public User(String id, String dob, String email, String fname, boolean isAdmin, String password, String username,
+			Double balance) {
+		super();
+		this.id = id;
+		this.dob = dob;
+		this.email = email;
+		this.fname = fname;
+		this.isAdmin = isAdmin;
+		this.password = password;
+		this.username = username;
+		this.balance = balance;
+	}
+	
+	public User(String id) {
+		super();
+		this.id = id;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public User() {
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getAddress1() {
-        return address1;
-    }
-
-    public void setAddress1(String address1) {
-        this.address1 = address1;
-    }
-
-    public String getAddress2() {
-        return address2;
-    }
-
-    public void setAddress2(String address2) {
-        this.address2 = address2;
-    }
-
-    public String getPostcode() {
-        return postcode;
-    }
-
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
-    }
-
-    public String getUserName() {
-            return username;
-        }
-    public void setUserName(String username) {
-            this.username = username;
-        }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 }

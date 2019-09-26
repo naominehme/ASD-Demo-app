@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 import com.uts.asd.entity.Auction;
 import com.uts.asd.entity.Bid;
+import com.uts.asd.entity.Deposit;
 import com.uts.asd.entity.Increment;
 import com.uts.asd.entity.Property;
 import com.uts.asd.service.ActionService;
 import com.uts.asd.service.BidService;
+import com.uts.asd.service.DepositService;
 import com.uts.asd.service.PropertyService;
 import com.uts.asd.util.JsonUtil;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,6 +38,8 @@ public class PropertyController {
 	private ActionService actionService;
 	@Autowired
 	private BidService bidService;
+	@Autowired
+	private DepositService depositService;
 	
 	int theid;
 	
@@ -51,6 +55,20 @@ public class PropertyController {
 		return null;
 	}
 	
+	@RequestMapping("/updateEmail.do")
+	public String update(HttpServletRequest request, HttpServletResponse response,String email)throws IOException {
+		Gson gson = new Gson();
+		try {
+			
+			PrintWriter writer = response.getWriter();
+			gson.toJson("Success", writer);
+			writer.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	@RequestMapping("/home")
 	public String home(HttpServletRequest request, HttpServletResponse response,Property property) throws IOException {
 		Gson gson = new Gson();
@@ -61,7 +79,7 @@ public class PropertyController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "Homepage";
+		return "index";
 	}
 
 	@RequestMapping("/homedetail/{id}")
@@ -79,6 +97,8 @@ public class PropertyController {
 			}
 			List<Bid> blist = bidService.searchCondition(pp);
 			p.setBid(blist);
+			List<Deposit> dlist = depositService.searchAll(pp);
+			p.setDeposit(dlist);
 			request.setAttribute("p", p);
 		} catch (Exception e) {
 			e.printStackTrace();
