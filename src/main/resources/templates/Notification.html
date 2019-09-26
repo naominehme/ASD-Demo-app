@@ -15,14 +15,35 @@
 
 <div class="content">
     <h1 class="content-title">Watchlist</h1>
-    <br>
+
     <div class="content-form">
-        <div class="content-notification">
-            <p>A <a href="">property</a> you have been watching has had a new bid placed on it! The new bid is $275,000.</p>
-            <p><i>21/08/2019 11:10PM</i></p>
+        <div class="content-notification" th:each="item : ${notificationItems}">
+            <span th:if="${item.property != null}">
+                <h4><a th:href="@{/homedetail/{propertyID}(propertyID=${item.propertyID})}" th:text="${item.property.title}"></a> has had a new bid placed on it! The new bid is $<span th:text="${item.bid.price}"></span>.</p></h4>
+                <br>
+                <img border="0" alt="" th:src="${item.property.url}" width="100" height="100">
+                <p th:text="'Suburb: ' + ${item.property.suburb}"></p>
+                <p th:text="'Bedrooms: ' + ${item.property.bedroom}"></p>
+                <p th:text="'Bathrooms: ' + ${item.property.bathroom}"></p>
+                <p th:text="'Garage Spaces: ' + ${item.property.garage}"></p>
+            </span>
+            <span th:unless="${item.property != null}">
+                <img border="0" alt="" src="https://www.rawsonhomes.com.au/-/media/rawson-homes/home-designs/bronte/facades/hi-res-bronte-hamptons-2168x1355.ashx?thn=0&w=1016&hash=96A840845863F5C11C9429D577F0F76C" width="100" height="100">
+                <p>The property has been removed from the site.</p>
+                <br>
+                <p th:text="'Property ID: ' + ${item.propertyID}"></p>
+            </span>
+            <i>
+                <script th:inline="javascript">
+                    /*<![CDATA[*/
+                        document.write('Notification created on ' + new Date([[${item.createdDate}]]).toLocaleDateString() + " at " + new Date([[${item.createdDate}]]).toLocaleTimeString())
+                    /*]]>*/
+                 </script>
+            </i>
+            <a class=remove-watchlist-item th:href="@{/watchlist/remove/notification/{notificationID}(notificationID=${item.notificationID})}">Remove from notifications</a>
         </div>
     </div>
-    <br>
+
     <div class="content-footer">
         <div class="content-login-description">Want to return home？</div>
         <div><a class="content-login-link" href="">Home</a></div>

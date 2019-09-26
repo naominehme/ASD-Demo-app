@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.uts.asd.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,10 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
-import com.uts.asd.entity.Bid;
-import com.uts.asd.entity.Increment;
-import com.uts.asd.entity.Property;
-import com.uts.asd.entity.User;
 import com.uts.asd.service.BidService;
 import com.uts.asd.service.MailService;
 import com.uts.asd.service.PropertyService;
@@ -31,6 +28,8 @@ public class BiddingController {
 	private BidService bidService;
 	@Autowired
 	private MailService mailService;
+	@Autowired
+	private NotificationController notificationController;
 	
 	@RequestMapping("/bid.do")
 	public String bidding(HttpServletRequest request, HttpServletResponse response,Bid bid)throws IOException {
@@ -55,6 +54,7 @@ public class BiddingController {
 			}else {
 				throw new NumberFormatException();
 			}
+			notificationController.createNotification(request, bid);
 //			Property p1 = propertyService.searchById(p);
 		} catch (Exception e) {
 			e.printStackTrace();

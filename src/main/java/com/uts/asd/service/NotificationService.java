@@ -36,6 +36,17 @@ public class NotificationService {
     public CompletableFuture<ArrayList<Notification>> getNotificationItems(int customerID) {
         logger.info("Attempting to get notification items for customerID {}", customerID);
         ArrayList<Notification> notificationItems = notificationRepository.getNotificationItems(customerID);
+        // Retrieve bid information for each notification item
+        for (Notification notification : notificationItems) {
+            try {
+                notification.setBid(bidRepository.searchById(notification.getBidID()));
+                // Set the property ID if the bid type is a bid
+                notification.setPropertyID(notification.getBid().getPid());
+            }
+            catch (Exception e) {
+                logger.error(e.toString());
+            }
+        }
         // Retrieve property information for each notification item
         for (Notification notification : notificationItems) {
             try {
@@ -45,16 +56,19 @@ public class NotificationService {
                 logger.error(e.toString());
             }
         }
-        // Retrieve bid information for each notification item
-        for (Notification notification : notificationItems) {
-            try {
-                notification.setBid(bidRepository.searchById(notification.getPropertyID()));
-            }
-            catch (Exception e) {
-                logger.error(e.toString());
-            }
-        }
         return CompletableFuture.completedFuture(notificationItems);
+    }
+
+    @Async
+    public CompletableFuture<String> runAsyncRemoveNotification(Notification notification) {
+        String result = notificationRepository.removeNotificationFromNotifications(notification);
+        return CompletableFuture.completedFuture(result);
+    }
+
+    @Async
+    public CompletableFuture<String> runAsyncAddNotification(Notification notification) {
+        String result = notificationRepository.addNotificationToNotifications(notification);
+        return CompletableFuture.completedFuture(result);
     }
 
 }

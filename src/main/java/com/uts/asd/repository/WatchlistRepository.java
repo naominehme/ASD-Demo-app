@@ -55,7 +55,7 @@ public class WatchlistRepository implements WatchlistMapper{
                 completableFuture.complete(databaseError.getMessage());
             } else {
                 logger.info("Data saved successfully.");
-                completableFuture.complete("Added '" + watchlistPropertyItem.getPropertyID() + "' successfully.");
+                completableFuture.complete("Removed '" + watchlistPropertyItem.getPropertyID() + "' successfully.");
             }
         });
 
@@ -95,7 +95,7 @@ public class WatchlistRepository implements WatchlistMapper{
                 completableFuture.complete(databaseError.getMessage());
             } else {
                 logger.info("Data saved successfully.");
-                completableFuture.complete("Added '" + watchlistPropertyPreference.getPreferenceID() + "' successfully.");
+                completableFuture.complete("Removed '" + watchlistPropertyPreference.getPreferenceID() + "' successfully.");
             }
         });
 
