@@ -13,6 +13,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,6 +22,13 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration(classes = AsdApplication.class, loader = SpringBootContextLoader.class)
 public class BidTest{
 	WebDriver webDriver;
+
+	@Value("${local.server.port}")
+	int randomServerPort;
+
+	private String getBaseURL() {
+		return "http://localhost:" + randomServerPort;
+	}
 	
 	@Given("^I have opened Google$")
 	public void today_is_Sunday() throws Throwable {
@@ -31,7 +39,7 @@ public class BidTest{
 
 	@When("^the client calls /home$")
 	public void callHome() throws Throwable {
-		webDriver.get("https://asd-demo-app-naomi.herokuapp.com/home");
+		webDriver.get(getBaseURL() + "/home");
 	}
 	
 	@When("^the client calls /detail$")
