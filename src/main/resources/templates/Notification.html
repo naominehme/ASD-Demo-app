@@ -13,8 +13,15 @@
     <div class="header-line"></div>
 </header>
 
+<div th:replace="fragments/Navbar.html :: navbar"></div>
+
 <div class="content">
-    <h1 class="content-title">Watchlist</h1>
+    <h1 class="content-title">Notifications</h1>
+
+    <div class="content-form" th:if="${defaultCustomer}">
+        <h2>Not Signed In</h2>
+        <p>Please sign in to continue. Displaying functionality and view for our default customer.</p>
+    </div>
 
     <div class="content-form">
         <div class="content-notification" th:each="item : ${notificationItems}">
@@ -42,6 +49,7 @@
             </i>
             <a class=remove-watchlist-item th:href="@{/watchlist/remove/notification/{notificationID}(notificationID=${item.notificationID})}">Remove from notifications</a>
         </div>
+        <p th:if="${#lists.size(notificationItems) == 0}">No notifications found.</p>
     </div>
 
     <div class="content-footer">
