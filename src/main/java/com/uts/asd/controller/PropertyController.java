@@ -23,7 +23,7 @@ import com.uts.asd.entity.Bid;
 import com.uts.asd.entity.Deposit;
 import com.uts.asd.entity.Increment;
 import com.uts.asd.entity.Property;
-import com.uts.asd.service.ActionService;
+import com.uts.asd.service.AuctionService;
 import com.uts.asd.service.BidService;
 import com.uts.asd.service.DepositService;
 import com.uts.asd.service.PropertyService;
@@ -35,7 +35,7 @@ public class PropertyController {
 	@Autowired
 	private PropertyService propertyService;
 	@Autowired
-	private ActionService actionService;
+	private AuctionService actionService;
 	@Autowired
 	private BidService bidService;
 	@Autowired
