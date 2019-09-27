@@ -44,7 +44,7 @@ public class CustomerServiceController {
     		String json = JsonUtil.readJsonFile("src/main/resources/increment.json");
     		Increment i =gson.fromJson(json, Increment.class);
     		c.setId(i.getCustomerServiceid());    		
-    		i.setPropertyid(i.getCustomerServiceid()+1);   		
+    		i.setCustomerServiceid(i.getCustomerServiceid()+1);   		
     		String a2 = gson.toJson(i);
     		JsonUtil.writeJsonFile(a2, "src/main/resources/increment.json");  		
     		c.setProblem(problem);
