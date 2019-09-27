@@ -140,7 +140,8 @@ async function handleRegister(){
 	var DOB = document.getElementById('DOB').value;
 	var fname = document.getElementById('fname').value;
 	var lname = document.getElementById('lname').value;
-	addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname).then(e => {});
+	var admin = 0;
+	addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname,admin).then(e => {});
 }
 
 //function to show message on screen
