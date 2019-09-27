@@ -52,7 +52,6 @@ public class CustomerServiceController {
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
-    	//response.sendRedirect("/CustomerService.html");
-    	response.sendRedirect("Property.html");
+    	response.sendRedirect("/CustomerService.html");
     }   
 }
