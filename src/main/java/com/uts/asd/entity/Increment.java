@@ -7,6 +7,8 @@ public class Increment {
 	private Integer propertyid;
 	private Integer transactionid;
 	private Integer depositid;
+	private Integer CustomerServiceid;
+	
 	public Integer getAuctionid() {
 		return auctionid;
 	}
@@ -34,19 +36,27 @@ public class Increment {
 	public Integer getDepositid() {
 		return depositid;
 	}
+	
 	public void setDepositid(Integer depositid) {
 		this.depositid = depositid;
+	}
+	public void setCustomerServiceid(Integer CustomerServiceid) {
+		this.CustomerServiceid = CustomerServiceid;
+	}
+	public Integer getCustomerServiceid() {
+		return CustomerServiceid;
 	}
 	public Increment() {
 		super();
 	}
-	public Increment(Integer auctionid, Integer bidid, Integer propertyid, Integer transactionid, Integer depositid) {
+	public Increment(Integer auctionid, Integer bidid, Integer propertyid, Integer transactionid, Integer depositid, Integer CustomerServiceid) {
 		super();
 		this.auctionid = auctionid;
 		this.bidid = bidid;
 		this.propertyid = propertyid;
 		this.transactionid = transactionid;
 		this.depositid = depositid;
+		this.CustomerServiceid = CustomerServiceid;
 	}
 	
 }
