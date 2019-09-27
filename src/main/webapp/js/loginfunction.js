@@ -15,7 +15,7 @@ var app = firebase.initializeApp({
 var db = app.database();
 
 //function to add the user in the firebase db
-function addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname){
+function addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname,admin){
 	return db.ref('/Users').push({
 		username: username,
 		password: password,
@@ -27,7 +27,8 @@ function addUser(username,password,phone,emailaddress,streetname,streetnumber,po
 		state: state,
 		DOB: DOB,
 		fname: fname,
-		lname: lname
+		lname: lname,
+		admin: admin
 	})
 }
 
