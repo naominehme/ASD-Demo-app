@@ -37,22 +37,22 @@
             <div class="masthead__column--right column">
                 <div class="row--inline-flex">
                     <div class="masthead__subscription signUpBtn" style="border: 0px;">
-                        <a href="Register.html">Sign up</a>
+                        <a href="/Register.html">Sign up</a>
                     </div>
                     <div class="masthead__subscription loginBtn">
-                        <a href="login.html">Login</a>
+                        <a href="/login.html">Login</a>
                     </div>
                     <div class="masthead__subscription welcomePanel">
                         <btn id="welcomeText"></btn>
                     </div>
                     <div class="masthead__subscription accountBtn">
-                        <btn onClick="location.href='UserLogs.html'">My Account</btn>
+                        <btn onClick="location.href='/UserLogs.html'">My Account</btn>
                     </div>
                     <div class="masthead__subscription watchlistBtn">
-                        <btn onClick="location.href='watchlist'">My Watchlist</btn>
+                        <btn onClick="location.href='/watchlist'">My Watchlist</btn>
                     </div>
                     <div class="masthead__subscription staffBtn">
-                        <btn onClick="location.href='staffPortal.html'">Staff Portal</btn>
+                        <btn onClick="location.href='/staffPortal.html'">Staff Portal</btn>
                     </div>
                     <div class="masthead__subscription logoutBtn">
                         <btn onClick="logOut()">Logout</btn>
@@ -74,9 +74,10 @@
                         <div class="flag"></div>
                         <div class="layui-carousel" id="imgs">
 		        			<div carousel-item>
-		        				<div th:if="${p.list != null}" th:each="pl:${p.list[0]}">
+		        				<!-- <div th:if="${p.list != null}" th:each="pl:${p.list[0]}">
 		        					<img alt="" th:src="${pl}">
-								</div>
+								</div> -->
+								<img alt="" th:src="${p.url}">
 		        			</div>
 	        			</div>
                     </div>

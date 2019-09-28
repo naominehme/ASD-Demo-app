@@ -12,7 +12,7 @@ import com.uts.asd.entity.Property;
 import com.uts.asd.mapper.ActionRepository;
 
 @Service
-public class ActionService {
+public class AuctionService {
 	@Autowired
 	private ActionRepository actionRepository;
 

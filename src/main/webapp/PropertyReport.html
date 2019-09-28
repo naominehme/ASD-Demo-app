@@ -1,42 +1,94 @@
-<!DOCTYPE html>
-<html lang="en" class="rui-burger rui-fancy-selects-on">
-<head>
+<head xmlns="http://www.w3.org/1999/html">
+    <!--Importing JQuery and Firebase connection -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.4.0/
-	firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-database.js">
-    </script>
-    <script src='js/loginfunction.js'>
-    </script>
-    <style type="text/css"> </style>
-    <title>Staff Portal</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--===============================================================================================-->
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-database.js"></script>
+    <script src='js/loginfunction.js'></script>
+    <!--Importing StyleSheet -->
     <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="js/vendor/bootstrap/css/bootstrap.min.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="js/vendor/animate/animate.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="js/vendor/css-hamburgers/hamburgers.min.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="js/vendor/animsition/css/animsition.min.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="js/vendor/select2/select2.min.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="js/vendor/daterangepicker/daterangepicker.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="css/util.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" href="css/Homepage.css"/>
     <link rel="stylesheet" href="css/layui.css">
     <link rel="stylesheet" href="css/styles.css">
-    <!--===============================================================================================-->
+    <style type="text/css"> </style>
+    <!--Creation of log table logic -->
+    <script>
+        $(document).ready(function(){
+            (async () => {
+                var properties = await getData('Property');
+                if(!!properties) {
+                    generateTable(properties);
+                    $('#loading').hide();
+                } else {
+                    $('#loading').show();
+                    $('#delete').hide();
+                    $('#loading').text('No Properties Found');
+                }
+            })()
+
+        });
+
+        async function getData(path){
+            return new Promise((resolve) => {
+                db.ref(`/${path}/`).once('value', snap => {
+                    try {
+                        var data = [];
+                        snap.forEach(property => {
+                            var propertyObj = property.val();
+                            propertyObj.key = property.key;
+                            data.push(propertyObj);
+                        });
+
+                        if(data.length === 0){
+                            data = false;
+                        }
+                    } catch(e){
+                        data = false;
+                    } finally {
+                        resolve(data)
+                    }
+
+                });
+            })
+        }
+
+        function generateTable(obj){
+
+            var tbl = $("<table/>").attr("id","mytable");
+            $("#logTable").append(tbl);
+            var headers = "<td>" ;
+
+            Object.keys(obj[0]).forEach(header => {
+                headers+= header.toUpperCase() + "<td>"
+            });
+
+            $("#mytable").append(headers);
+
+            for(var i=0;i<obj.length;i++){
+                var tr = "<tr>";
+                Object.keys(obj[i]).forEach(entry => {
+                    if(entry === 'url'){
+                        tr += "<td><img style='max-width:100px;'src='"+obj[i][entry] +"'></td>";
+                    } else {
+                        tr += "<td>"+obj[i][entry]+"</td>";
+                    }
+                })
+                tr+= "</tr>";
+
+                $("#mytable").append(tr);
+            }
+        }
+    </script>
+    <!--Navbar logic-->
     <script>
         $( document ).ready(function() {
             if (isActiveSession()) {
@@ -57,8 +109,64 @@
             }
         });
     </script>
+    <script>
+        function myFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("logTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+    <!--csss for table and buttons -->
+    <style>
+        #mytable,td{
+            border:1px solid black;
+            text-align: center;
+            margin-left:28vh;
+            max-width: 70%;
+            margin-top:30px;
+            margin-right:28vh;
+            font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+        }
+
+        /*td:first-child { width: 33% ;}*/
+
+        #myInput{
+            width: 47%;
+        }
+        #name{
+            margin-left:28vh;
+        }
+
+        #loading {
+            margin-left:28vh;
+
+        }
+
+        #delete{
+            margin-left:28vh;
+
+        }
+    </style>
+    <title> Property Report</title>
 </head>
 <body style="padding-top: 0px;">
+<!--NavBar-->
 <header class="site-header" style="margin-left:auto; margin-right: auto;max-width:70%;">
     <div class="masthead sticky-container" data-sticky-container="" style="height: 60px;">
         <div class="row expanded collapse">
@@ -105,52 +213,12 @@
         </div>
     </div>
 </header>
-<div class="limiter">
-    <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
-        <div class="wrap-login100 p-t-30 p-b-50">
-				<span class="login100-form-title p-b-41">
-                  Staff Portal
-				</span>
-            <span id='message' class="login100-form-title p-b-41"></span>
-
-            <div class="login100-form validate-form p-b-33 p-t-5">
-                <div class="container-login100-form-btn m-t-32">
-                    <button class="login100-form-btn" onClick="location.href='Reports.html'">
-                        Report Mangement
-                    </button>
-                </div>
-                <div class="container-login100-form-btn m-t-32">
-                    <button class="login100-form-btn" onClick="location.href="'">
-                    User Detail Management
-                </button>
-                </div>
-                <div class="container-login100-form-btn m-t-32">
-                    <button class="login100-form-btn" onClick="location.href='theProperty'">
-                    Property Management
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="layui-col-xs6">
+    <div class="pl-4 mt-5" id="name"></div>
 </div>
 
-<div id="dropDownSelect1"></div>
+<p class="pl-4 mt-5" id="loading">Loading...</p>
 
-<!--===============================================================================================-->
-<script src="js/vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-<script src="js/vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
-<script src="js/vendor/bootstrap/js/popper.js"></script>
-<script src="js/vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-<script src="js/vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-<script src="js/vendor/daterangepicker/moment.min.js"></script>
-<script src="js/vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
-<script src="js/vendor/countdowntime/countdowntime.js"></script>
-<!--===============================================================================================-->
-<script src="js/main.js"></script>
+<div id="logTable"></div>
 
 </body>

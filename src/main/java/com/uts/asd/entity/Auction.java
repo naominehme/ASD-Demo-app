@@ -61,5 +61,14 @@ public class Auction {
 	public void setTime(Long time) {
 		this.time = time;
 	}
+	public Auction(Integer id, double deposit, double increased, double start, Long time, Integer pid) {
+		super();
+		this.id = id;
+		this.deposit = deposit;
+		this.increased = increased;
+		this.start = start;
+		this.time = time;
+		this.pid = pid;
+	}
 	
 }
