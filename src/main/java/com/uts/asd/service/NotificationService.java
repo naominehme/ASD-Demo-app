@@ -33,7 +33,7 @@ public class NotificationService {
     PropertyRepository propertyRepository;
 
     @Async
-    public CompletableFuture<ArrayList<Notification>> getNotificationItems(int customerID) {
+    public CompletableFuture<ArrayList<Notification>> getNotificationItems(String customerID) {
         logger.info("Attempting to get notification items for customerID {}", customerID);
         ArrayList<Notification> notificationItems = notificationRepository.getNotificationItems(customerID);
         // Retrieve bid information for each notification item

@@ -7,7 +7,7 @@ import java.util.UUID;
 public class Notification {
 
     // Declare private variables
-    private int customerID;
+    private String customerID;
     private int propertyID;
     private int bidID;
     private String notificationID;
@@ -15,14 +15,14 @@ public class Notification {
     private Property property;
     private Bid bid;
 
-    public Notification(int customerID, int propertyID, int bidID, String createdDate) {
+    public Notification(String customerID, int propertyID, int bidID, String createdDate) {
         this.customerID = customerID;
         this.propertyID = propertyID;
         this.bidID = bidID;
         this.createdDate = createdDate;
     }
 
-    public Notification(int customerID, String notificationID) {
+    public Notification(String customerID, String notificationID) {
         this.customerID = customerID;
         this.notificationID = notificationID;
         this.createdDate = Timestamp.now().toString();
@@ -30,9 +30,9 @@ public class Notification {
 
     public Notification() { }
 
-    public int getCustomerID() { return customerID; }
+    public String getCustomerID() { return customerID; }
 
-    public void setCustomerID(int customerID) { this.customerID = customerID; }
+    public void setCustomerID(String customerID) { this.customerID = customerID; }
 
     public int getPropertyID() { return propertyID; }
 

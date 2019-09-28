@@ -20,7 +20,7 @@ public class NotificationRepository {
 
     Logger logger = LoggerFactory.getLogger(NotificationRepository.class);
 
-    public ArrayList<Notification> getNotificationItems(int customerID) {
+    public ArrayList<Notification> getNotificationItems(String customerID) {
         CompletableFuture<ArrayList<Notification>> completableFuture = new CompletableFuture<>();
         // Get data from NoSQL
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Notification/" + customerID);
@@ -32,7 +32,7 @@ public class NotificationRepository {
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     // Create new WatchlistPropertyItem object
                     Notification notification = new Notification(
-                            childSnapshot.child("customerID").getValue(long.class).intValue(),
+                            childSnapshot.child("customerID").getValue(String.class),
                             childSnapshot.child("propertyID").getValue(long.class).intValue(),
                             childSnapshot.child("bidID").getValue(long.class).intValue(),
                             childSnapshot.child("createdDate").getValue(String.class));

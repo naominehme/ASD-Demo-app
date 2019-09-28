@@ -113,7 +113,7 @@ public class WatchlistRepository implements WatchlistMapper{
         return result;
     }
 
-    public ArrayList<WatchlistPropertyItem> getWatchlistPropertyItems(int customerID) {
+    public ArrayList<WatchlistPropertyItem> getWatchlistPropertyItems(String customerID) {
         CompletableFuture<ArrayList<WatchlistPropertyItem>> completableFuture = new CompletableFuture<>();
         // Get data from NoSQL
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("WatchlistPropertyItem/" + customerID);
@@ -125,7 +125,7 @@ public class WatchlistRepository implements WatchlistMapper{
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     // Create new WatchlistPropertyItem object
                     WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(
-                            childSnapshot.child("customerID").getValue(long.class).intValue(),
+                            childSnapshot.child("customerID").getValue(String.class),
                             childSnapshot.child("propertyID").getValue(long.class).intValue(),
                             childSnapshot.child("createdDate").getValue(String.class));
                     watchlistPropertyItemArrayList.add(watchlistPropertyItem);
@@ -151,7 +151,7 @@ public class WatchlistRepository implements WatchlistMapper{
         return watchlistPropertyItems;
     }
 
-    public ArrayList<WatchlistPropertyPreference> getWatchlistPropertyPreferences(int customerID) {
+    public ArrayList<WatchlistPropertyPreference> getWatchlistPropertyPreferences(String customerID) {
         CompletableFuture<ArrayList<WatchlistPropertyPreference>> completableFuture = new CompletableFuture<>();
         // Get data from NoSQL
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("WatchlistPropertyPreference/" + customerID);
@@ -163,7 +163,7 @@ public class WatchlistRepository implements WatchlistMapper{
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     // Create new WatchlistPropertyItem object
                     WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference(
-                            childSnapshot.child("customerID").getValue(long.class).intValue(),
+                            childSnapshot.child("customerID").getValue(String.class),
                             childSnapshot.child("typeID").getValue(String.class),
                             childSnapshot.child("preferenceID").getValue(String.class),
                             childSnapshot.child("garageSpaces").getValue(long.class).intValue(),

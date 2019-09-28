@@ -38,6 +38,7 @@ async function login(username, password){
 		users.forEach(user => {
 			if(user.username === username && user.password === password){
 				resolve(user);
+				httpSubmitGetRequest("/forceLogin?customerID=" + username);
 			}
 		});
 		resolve(false);
@@ -49,6 +50,7 @@ function logOut(){
 	document.location.pathname = 'login.html';
 	var userKey = JSON.parse(localStorage.loggedInUser).key;
 	logUser(userKey, 'logout');
+	httpSubmitGetRequest("/forceLogin?customerID=-1");
 	localStorage.loggedInUser = '';
 }
 
@@ -152,4 +154,12 @@ function showMessage(message){
 function showRegister()
 {
 	alert("Sign Up Succeed!");
+}
+
+function httpSubmitGetRequest(url)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", url, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
 }

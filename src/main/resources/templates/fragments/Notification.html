@@ -1,0 +1,26 @@
+<!--Author Harold Seefeld-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Navbar</title>
+    <link rel="stylesheet" th:href="@{/css/NotificationAndWatchlist.css}">
+</head>
+<body>
+
+<header>
+    <div class="header-line"></div>
+</header>
+
+<div th:fragment="bidNotification" class="nav">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <a href="/home">Home</a>
+    <a href="/register.html">Register</a>
+    <a href="/login.html">Login</a>
+    <a href="/watchlist">Watchlist</a>
+</div>
+
+</body>
+</html>

@@ -28,7 +28,7 @@ public class WatchlistService {
     PropertyRepository propertyRepository;
 
     @Async
-    public CompletableFuture<ArrayList<WatchlistPropertyItem>> getWatchlistPropertyItems(int customerID) {
+    public CompletableFuture<ArrayList<WatchlistPropertyItem>> getWatchlistPropertyItems(String customerID) {
         logger.info("Attempting to get property items from watchlist for customerID {}", customerID);
         ArrayList<WatchlistPropertyItem> watchlistPropertyItems = watchlistRepository.getWatchlistPropertyItems(customerID);
         // Retrieve property information for each watchlist property item
@@ -44,7 +44,7 @@ public class WatchlistService {
     }
 
     @Async
-    public CompletableFuture<ArrayList<WatchlistPropertyPreference>> getWatchlistPropertyPreferences(int customerID) {
+    public CompletableFuture<ArrayList<WatchlistPropertyPreference>> getWatchlistPropertyPreferences(String customerID) {
         logger.info("Attempting to get property preferences from watchlist for customerID {}", customerID);
         ArrayList<WatchlistPropertyPreference> watchlistPropertyPreferences = watchlistRepository.getWatchlistPropertyPreferences(customerID);
         return CompletableFuture.completedFuture(watchlistPropertyPreferences);

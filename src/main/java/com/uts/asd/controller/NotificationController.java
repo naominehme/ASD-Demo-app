@@ -7,6 +7,8 @@ import com.uts.asd.service.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,13 +34,13 @@ public class NotificationController {
     @Autowired
     NotificationService notificationService;
 
-    private int DEFAULT_CUSTOMER_ID = -1;
+    private String DEFAULT_CUSTOMER_ID = "-1";
 
-    public void setDefaultCustomerID(int id) {
+    public void setDefaultCustomerID(String id) {
         DEFAULT_CUSTOMER_ID = id;
     }
 
-    private void loadNotificationData(Model model, int customerID) throws ExecutionException, InterruptedException {
+    private void loadNotificationData(Model model, String customerID) throws ExecutionException, InterruptedException {
         // Launch async lookups
         CompletableFuture<ArrayList<Notification>> notificationItems = notificationService.getNotificationItems(customerID);
 
@@ -56,7 +58,7 @@ public class NotificationController {
 
     @GetMapping("/notifications")
     public String getNotifications(Model model, HttpServletRequest request) throws ExecutionException, InterruptedException {
-        int customerID = getCustomerIDFromRequest(request);
+        String customerID = getCustomerIDFromRequest(request);
 
         loadNotificationData(model, customerID);
         return "Notification";
@@ -64,7 +66,7 @@ public class NotificationController {
 
     @RequestMapping("/watchlist/remove/notification/{notificationID}")
     public void removePropertyFromWatchlist(HttpServletRequest request, HttpServletResponse response, @PathVariable("notificationID") String notificationID) throws IOException {
-        int customerID = getCustomerIDFromRequest(request);
+        String customerID = getCustomerIDFromRequest(request);
         Notification notification = new Notification(customerID, notificationID);
         logger.info("Attempting to remove notification {}", notificationID);
         // Launch async lookup
@@ -72,6 +74,13 @@ public class NotificationController {
         // Wait until done
         CompletableFuture.allOf(result).join();
         response.sendRedirect("/watchlist");
+    }
+
+    @MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+    public String listenForNotification() throws Exception {
+        Thread.sleep(1000); // simulated delay
+        return "hello";//new Notification("Hello,!");
     }
 
     public void createNotification(HttpServletRequest request, Bid bid) {
@@ -89,15 +98,12 @@ public class NotificationController {
         notificationService.runAsyncAddNotification(notification);
     }
 
-    private int getCustomerIDFromRequest(HttpServletRequest request) {
+    private String getCustomerIDFromRequest(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        int customerID;
         String customerIDString = (String)request.getSession().getAttribute("customerID");
         if (customerIDString == null) {
-            customerID = DEFAULT_CUSTOMER_ID;
-        } else {
-            customerID = Integer.parseInt(customerIDString);
+            customerIDString = DEFAULT_CUSTOMER_ID;
         }
-        return customerID;
+        return customerIDString;
     }
 }
