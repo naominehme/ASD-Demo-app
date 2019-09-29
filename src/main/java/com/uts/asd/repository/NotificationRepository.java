@@ -75,6 +75,8 @@ public class NotificationRepository {
             }
         });
 
+        //
+
         return getStringFromCompletableFuture(completableFuture);
     }
 

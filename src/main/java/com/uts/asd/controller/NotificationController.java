@@ -4,22 +4,31 @@ import com.google.cloud.Timestamp;
 import com.uts.asd.entity.*;
 import com.uts.asd.repository.NotificationRepository;
 import com.uts.asd.service.NotificationService;
+import com.uts.asd.service.WatchlistService;
+import org.eclipse.jetty.server.Authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.annotation.SendToUser;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -33,6 +42,9 @@ public class NotificationController {
 
     @Autowired
     NotificationService notificationService;
+
+    @Autowired
+    WatchlistService watchlistService;
 
     private String DEFAULT_CUSTOMER_ID = "-1";
 
@@ -62,40 +74,6 @@ public class NotificationController {
 
         loadNotificationData(model, customerID);
         return "Notification";
-    }
-
-    @RequestMapping("/watchlist/remove/notification/{notificationID}")
-    public void removePropertyFromWatchlist(HttpServletRequest request, HttpServletResponse response, @PathVariable("notificationID") String notificationID) throws IOException {
-        String customerID = getCustomerIDFromRequest(request);
-        Notification notification = new Notification(customerID, notificationID);
-        logger.info("Attempting to remove notification {}", notificationID);
-        // Launch async lookup
-        CompletableFuture<String> result = notificationService.runAsyncRemoveNotification(notification);
-        // Wait until done
-        CompletableFuture.allOf(result).join();
-        response.sendRedirect("/watchlist");
-    }
-
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public String listenForNotification() throws Exception {
-        Thread.sleep(1000); // simulated delay
-        return "hello";//new Notification("Hello,!");
-    }
-
-    public void createNotification(HttpServletRequest request, Bid bid) {
-        Notification notification = new Notification();
-        // Set client-provided variables
-        notification.setPropertyID(bid.getPid());
-        notification.setBidID(bid.getId());
-        // Set server-controlled variables
-        notification.setCustomerID(getCustomerIDFromRequest(request));
-        notification.setCreatedDate(Timestamp.now().toString());
-        notification.assignNotificationID();
-
-        logger.info("Attempting to add bid notification to notifications: {}", notification);
-        // Launch async add
-        notificationService.runAsyncAddNotification(notification);
     }
 
     private String getCustomerIDFromRequest(HttpServletRequest request) {

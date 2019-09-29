@@ -4,6 +4,7 @@ import com.uts.asd.entity.WatchlistPropertyItem;
 import com.uts.asd.entity.WatchlistPropertyPreference;
 import com.uts.asd.mapper.PropertyRepository;
 import com.uts.asd.repository.WatchlistRepository;
+import org.apache.commons.compress.archivers.ar.ArArchiveEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,21 @@ public class WatchlistService {
             }
         }
         return CompletableFuture.completedFuture(watchlistPropertyItems);
+    }
+
+    @Async
+    public CompletableFuture<ArrayList<WatchlistPropertyItem>> getWatchlistPropertyItemsByProperty(int propertyID) {
+        logger.info("Attempting to get property items from watchlist for propertyID {}", propertyID);
+        ArrayList<WatchlistPropertyItem> watchlistPropertyItems = watchlistRepository.getAllWatchlistPropertyItems();
+        // Loop through to filter only on the propertyID
+        ArrayList<WatchlistPropertyItem> validWatchlistPropertyItems = new ArrayList<>();
+        // Retrieve property information for each watchlist property item
+        for (WatchlistPropertyItem watchlistPropertyItem : watchlistPropertyItems) {
+            if (watchlistPropertyItem.getPropertyID() == propertyID) {
+                validWatchlistPropertyItems.add(watchlistPropertyItem);
+            }
+        }
+        return CompletableFuture.completedFuture(validWatchlistPropertyItems);
     }
 
     @Async

@@ -23,6 +23,7 @@ import com.uts.asd.service.UserService;
 
 @Controller
 public class UserController {
+
 	@Autowired
 	private UserService userService;
 
@@ -50,11 +51,4 @@ public class UserController {
 		}
 		return "login.html";
 	}
-
-	@RequestMapping("/forceLogin")
-	public void forceLogin(HttpServletRequest request) {
-		String customerID = request.getParameter("customerID");
-		request.getSession().setAttribute("customerID", customerID);
-	}
-
 }

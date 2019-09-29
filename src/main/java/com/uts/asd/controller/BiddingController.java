@@ -29,7 +29,7 @@ public class BiddingController {
 	@Autowired
 	private MailService mailService;
 	@Autowired
-	private NotificationController notificationController;
+	private NotificationRestController notificationRestController;
 	
 	@RequestMapping("/bid.do")
 	public String bidding(HttpServletRequest request, HttpServletResponse response,Bid bid)throws IOException {
@@ -54,7 +54,7 @@ public class BiddingController {
 			}else {
 				throw new NumberFormatException();
 			}
-			notificationController.createNotification(request, bid);
+			notificationRestController.createNotifications(request, bid);
 //			Property p1 = propertyService.searchById(p);
 		} catch (Exception e) {
 			e.printStackTrace();
