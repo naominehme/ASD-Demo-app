@@ -39,24 +39,27 @@ public class NotificationService {
         // Retrieve bid information for each notification item
         for (Notification notification : notificationItems) {
             try {
-                notification.setBid(bidRepository.searchById(notification.getBidID()));
-                // Set the property ID if the bid type is a bid
-                notification.setPropertyID(notification.getBid().getPid());
-            }
-            catch (Exception e) {
-                logger.error(e.toString());
-            }
-        }
-        // Retrieve property information for each notification item
-        for (Notification notification : notificationItems) {
-            try {
-                notification.setProperty(propertyRepository.searchById(notification.getPropertyID()));
+                getNotificationDetails(notification);
             }
             catch (Exception e) {
                 logger.error(e.toString());
             }
         }
         return CompletableFuture.completedFuture(notificationItems);
+    }
+
+    public Notification getNotificationDetails(Notification notification) {
+        // Retrieve bid information for the notification item
+        try {
+            notification.setBid(bidRepository.searchById(notification.getBidID()));
+            // Set the property ID if the bid type is a bid
+            notification.setPropertyID(notification.getBid().getPid());
+            notification.setProperty(propertyRepository.searchById(notification.getPropertyID()));
+        }
+        catch (Exception e) {
+            logger.error(e.toString());
+        }
+        return notification;
     }
 
     @Async

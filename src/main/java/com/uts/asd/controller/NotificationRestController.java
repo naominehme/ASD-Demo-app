@@ -89,9 +89,10 @@ public class NotificationRestController {
             notificationService.runAsyncAddNotification(notification).thenRunAsync(() -> {
                 CompletableFuture<Notification> completableFuture = completableFutureHashMap.getOrDefault(notification.getCustomerID(), null);
                 if (completableFuture == null) return;
-                logger.info("agsgags");
-                logger.info(String.valueOf(notification));
-                completableFuture.complete(notification);
+                Notification finalNotification = notificationService.getNotificationDetails(notification);
+                // Cleanup hash map and complete the future
+                completableFutureHashMap.remove(finalNotification.getCustomerID());
+                completableFuture.complete(finalNotification);
             });
         }
     }
