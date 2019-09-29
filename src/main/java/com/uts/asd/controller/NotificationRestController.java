@@ -46,7 +46,7 @@ public class NotificationRestController {
 
     private String DEFAULT_CUSTOMER_ID = "-1";
 
-    private HashMap<String, DeferredResult<Notification>> stringDeferredResultHashMap = new HashMap<>();
+    private HashMap<String, CompletableFuture<Notification>> completableFutureHashMap = new HashMap<>();
 
     public void setDefaultCustomerID(String id) {
         DEFAULT_CUSTOMER_ID = id;
@@ -66,10 +66,10 @@ public class NotificationRestController {
 
     @MessageMapping("/notificationListener")
     @SendToUser("/topic/notifications")
-    public DeferredResult<Notification> listenForNotification(SimpMessageHeaderAccessor headerAccessor) throws Exception {
-        DeferredResult<Notification> deferredResult = new DeferredResult<>();
-        stringDeferredResultHashMap.put(getCustomerIDFromRequest(headerAccessor), deferredResult);
-        return deferredResult.;
+    public Notification listenForNotification(SimpMessageHeaderAccessor headerAccessor) throws Exception {
+        CompletableFuture<Notification> completableFuture = new CompletableFuture<>();
+        completableFutureHashMap.put(getCustomerIDFromRequest(headerAccessor), completableFuture);
+        return completableFuture.get();
     }
 
     public void createNotifications(HttpServletRequest request, Bid bid) throws ExecutionException, InterruptedException {
@@ -87,11 +87,11 @@ public class NotificationRestController {
             logger.debug("Attempting to add bid notification to notifications: {}", notification);
             // Launch async add which will attempt to send out websocket notifications once completed
             notificationService.runAsyncAddNotification(notification).thenRunAsync(() -> {
-                DeferredResult<Notification> deferredResult = stringDeferredResultHashMap.getOrDefault(notification.getCustomerID(), null);
-                if (deferredResult == null) return;
+                CompletableFuture<Notification> completableFuture = completableFutureHashMap.getOrDefault(notification.getCustomerID(), null);
+                if (completableFuture == null) return;
                 logger.info("agsgags");
                 logger.info(String.valueOf(notification));
-                deferredResult.setResult(notification);
+                completableFuture.complete(notification);
             });
         }
     }
