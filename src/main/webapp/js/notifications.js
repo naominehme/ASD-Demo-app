@@ -9,16 +9,24 @@ function sleep(ms) {
 }
 
 function createNotification(notification) {
-  $.notify({title: '<h4><a href="/homedetail/' + notification.propertyID + '">' +
+  window.$j.notify({title: '<h4><a href="/homedetail/' + notification.propertyID + '">' +
                   notification.property.title + '</a> has had a new bid placed on it! The new bid is $' + notification.bid.Price + '.</h4>',
-             button: 'Open Property',
+             button: 'Dismiss',
              suburb: 'Suburb: ' + notification.property.suburb,
              bedrooms: 'Bedrooms: ' + notification.property.bedroom,
              bathrooms: 'Bathrooms: ' + notification.property.bathroom,
              garageSpaces: 'Garage Spaces: ' + notification.property.garage,
-             image: '<img src="' + notification.property.url + '" width="100" height="100"/>'},
+             image: '<img src="' + notification.property.url + '" width="100" height="100"/>',
+             viewProperty: "<button style='margin-left: 10px;' onclick='location.href=\"/homedetail/" + notification.propertyID + "\";' class='pure-button button-secondary'>Open Property</button>"},
              { position:"top right", style: "bid" }
   );
+
+  $(document).on('click', '.notifyjs-foo-base .yes', function() {
+    //show button text
+    alert($(this).text() + " clicked!");
+    //hide notification
+    $(this).trigger('notify-hide');
+  });
 }
 
 // Before creating a socket, check if notifications are enabled
@@ -59,8 +67,8 @@ $.notify.addStyle('bid', {
         "</div>" +
         "<br><br>" +
         "<div class='buttons'>" +
+          "<span data-notify-html='viewProperty'/>" +
           "<button class='pure-button pure-button-primary' data-notify-text='button'></button>" +
-          "<button style='margin-left: 10px;' class='pure-button button-secondary'>Dismiss</button>" +
         "</div>" +
       "</div>" +
     "</div>"
