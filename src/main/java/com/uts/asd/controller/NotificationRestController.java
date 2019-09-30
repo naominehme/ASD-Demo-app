@@ -27,9 +27,6 @@ public class NotificationRestController {
     Logger logger = LoggerFactory.getLogger(NotificationController.class);
 
     @Autowired
-    NotificationRepository notificationRepository;
-
-    @Autowired
     NotificationService notificationService;
 
     @Autowired
@@ -44,20 +41,32 @@ public class NotificationRestController {
     }
 
     @RequestMapping("/notification/remove/{notificationID}")
-    public void removePropertyFromWatchlist(HttpServletRequest request, HttpServletResponse response, @PathVariable("notificationID") String notificationID) throws IOException {
+    public void removeNotification(HttpServletRequest request, HttpServletResponse response, @PathVariable("notificationID") String notificationID) throws IOException {
         String customerID = getCustomerIDFromRequest(request);
         Notification notification = new Notification(customerID, notificationID);
         logger.info("Attempting to remove notification {}", notificationID);
-        // Launch async lookup
+        // Launch async removal
         CompletableFuture<String> result = notificationService.runAsyncRemoveNotification(notification);
         // Wait until done
         CompletableFuture.allOf(result).join();
+        // Redirect in order to refresh the page
         response.sendRedirect("/notifications");
+    }
+
+    @GetMapping("/notification/preferences/get")
+    public NotificationPreference getNotificationPreferences(HttpServletRequest request) throws IOException, ExecutionException, InterruptedException {
+        String customerID = getCustomerIDFromRequest(request);
+        logger.info("Attempting to get notification preferences for {}", customerID);
+        // Get notification preference
+        CompletableFuture<NotificationPreference> result = notificationService.getNotificationPreferences(customerID);
+        // Wait until result is retrieved then return it
+        return result.get();
     }
 
     @MessageMapping("/notificationListener")
     @SendToUser("/topic/notifications")
     public Notification listenForNotification(SimpMessageHeaderAccessor headerAccessor) throws Exception {
+        // Create a completable future here which will be completed when the customerID receives a new notification
         CompletableFuture<Notification> completableFuture = new CompletableFuture<>();
         completableFutureHashMap.put(getCustomerIDFromRequest(headerAccessor), completableFuture);
         return completableFuture.get();

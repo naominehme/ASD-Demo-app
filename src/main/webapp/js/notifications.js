@@ -1,44 +1,41 @@
-function checkForNotifications() {
-    stompClient.send("/app/notificationListener", {}, "{}");
-}
+var stompClient = null;
 
-// Initialise socket connection and stompclient
-var socket = new SockJS('/ws');
-var stompClient = Stomp.over(socket);
-stompClient.connect({}, function (frame) {
-   console.log('Connected: ' + frame);
-   stompClient.subscribe('/user/topic/notifications', async function (reply) {
-       createNotification(JSON.parse(reply.body));
-       checkForNotifications();
-   });
-   checkForNotifications();
-});
+function checkForNotifications() {
+  stompClient.send("/app/notificationListener", {}, "{}");
+}
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// Integration with toast notifications
-jQuery(document).ready(function(){
-  jQuery('.toast__close').click(function(e){
-    e.preventDefault();
-    var parent = $(this).parent('.toast');
-    parent.fadeOut("slow", function() { $(this).remove(); } );
-  });
-});
-
 function createNotification(notification) {
-    $.notify({title: '<h4><a href="/homedetail/' + notification.propertyID + '">' +
-                    notification.property.title + '</a> has had a new bid placed on it! The new bid is $' + notification.bid.Price + '.</h4>',
-               button: 'Open Property',
-               suburb: 'Suburb: ' + notification.property.suburb,
-               bedrooms: 'Bedrooms: ' + notification.property.bedroom,
-               bathrooms: 'Bathrooms: ' + notification.property.bathroom,
-               garageSpaces: 'Garage Spaces: ' + notification.property.garage,
-               image: '<img src="' + notification.property.url + '" width="100" height="100"/>'},
-               { position:"top right", style: "bid" }
-    );
+  $.notify({title: '<h4><a href="/homedetail/' + notification.propertyID + '">' +
+                  notification.property.title + '</a> has had a new bid placed on it! The new bid is $' + notification.bid.Price + '.</h4>',
+             button: 'Open Property',
+             suburb: 'Suburb: ' + notification.property.suburb,
+             bedrooms: 'Bedrooms: ' + notification.property.bedroom,
+             bathrooms: 'Bathrooms: ' + notification.property.bathroom,
+             garageSpaces: 'Garage Spaces: ' + notification.property.garage,
+             image: '<img src="' + notification.property.url + '" width="100" height="100"/>'},
+             { position:"top right", style: "bid" }
+  );
 }
+
+// Before creating a socket, check if notifications are enabled
+$.get("/notification/preferences/get", function(data){
+    if (!data.notificationsEnabled) return;
+    // Initialise socket connection and stompclient
+    var socket = new SockJS('/ws');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+      console.log('Connected: ' + frame);
+      stompClient.subscribe('/user/topic/notifications', async function (reply) {
+              createNotification(JSON.parse(reply.body));
+              checkForNotifications();
+      });
+      checkForNotifications();
+    });
+});
 
 // Configure notify.js
 $.notify.defaults({
