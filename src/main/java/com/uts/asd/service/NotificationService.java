@@ -1,7 +1,7 @@
 package com.uts.asd.service;
 
 import com.uts.asd.entity.Notification;
-import com.uts.asd.entity.WatchlistPropertyItem;
+import com.uts.asd.entity.NotificationPreference;
 import com.uts.asd.mapper.BidRepository;
 import com.uts.asd.mapper.PropertyRepository;
 import com.uts.asd.repository.NotificationRepository;
@@ -33,24 +33,13 @@ public class NotificationService {
     PropertyRepository propertyRepository;
 
     @Async
-    public CompletableFuture<ArrayList<Notification>> getNotificationItems(int customerID) {
+    public CompletableFuture<ArrayList<Notification>> getNotificationItems(String customerID) {
         logger.info("Attempting to get notification items for customerID {}", customerID);
         ArrayList<Notification> notificationItems = notificationRepository.getNotificationItems(customerID);
         // Retrieve bid information for each notification item
         for (Notification notification : notificationItems) {
             try {
-                notification.setBid(bidRepository.searchById(notification.getBidID()));
-                // Set the property ID if the bid type is a bid
-                notification.setPropertyID(notification.getBid().getPid());
-            }
-            catch (Exception e) {
-                logger.error(e.toString());
-            }
-        }
-        // Retrieve property information for each notification item
-        for (Notification notification : notificationItems) {
-            try {
-                notification.setProperty(propertyRepository.searchById(notification.getPropertyID()));
+                getNotificationDetails(notification);
             }
             catch (Exception e) {
                 logger.error(e.toString());
@@ -60,8 +49,34 @@ public class NotificationService {
     }
 
     @Async
+    public CompletableFuture<NotificationPreference> getNotificationPreferences(String customerID) {
+        NotificationPreference notificationPreference = notificationRepository.getNotificationPreferences(customerID);
+        return CompletableFuture.completedFuture(notificationPreference);
+    }
+
+    public Notification getNotificationDetails(Notification notification) {
+        // Retrieve bid information for the notification item
+        try {
+            notification.setBid(bidRepository.searchById(notification.getBidID()));
+            // Set the property ID if the bid type is a bid
+            notification.setPropertyID(notification.getBid().getPid());
+            notification.setProperty(propertyRepository.searchById(notification.getPropertyID()));
+        }
+        catch (Exception e) {
+            logger.error(e.toString());
+        }
+        return notification;
+    }
+
+    @Async
     public CompletableFuture<String> runAsyncRemoveNotification(Notification notification) {
         String result = notificationRepository.removeNotificationFromNotifications(notification);
+        return CompletableFuture.completedFuture(result);
+    }
+
+    @Async
+    public CompletableFuture<String> runAsyncSetNotificationPreferences(NotificationPreference notificationPreference) {
+        String result = notificationRepository.setNotificationPreferences(notificationPreference);
         return CompletableFuture.completedFuture(result);
     }
 

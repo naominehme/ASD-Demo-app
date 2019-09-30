@@ -38,13 +38,13 @@ public class WatchlistController {
     @Autowired
     WatchlistService watchlistService;
 
-    private int DEFAULT_CUSTOMER_ID = -1;
+    private String DEFAULT_CUSTOMER_ID = "-1";
 
-    public void setDefaultCustomerID(int id) {
+    public void setDefaultCustomerID(String id) {
         DEFAULT_CUSTOMER_ID = id;
     }
 
-    private void loadWatchlistData(Model model, int customerID, WatchlistPropertyItem watchlistPropertyItem, WatchlistPropertyPreference watchlistPropertyPreference) throws ExecutionException, InterruptedException {
+    private void loadWatchlistData(Model model, String customerID, WatchlistPropertyItem watchlistPropertyItem, WatchlistPropertyPreference watchlistPropertyPreference) throws ExecutionException, InterruptedException {
         // Launch async lookups
         CompletableFuture<ArrayList<WatchlistPropertyItem>> watchlistPropertyItems = watchlistService.getWatchlistPropertyItems(customerID);
         CompletableFuture<ArrayList<WatchlistPropertyPreference>> watchlistPropertyPreferences = watchlistService.getWatchlistPropertyPreferences(customerID);
@@ -66,7 +66,7 @@ public class WatchlistController {
 
     @GetMapping("/watchlist")
     public String getWatchlist(Model model, HttpServletRequest request) throws ExecutionException, InterruptedException {
-        int customerID = getCustomerIDFromRequest(request);
+        String customerID = getCustomerIDFromRequest(request);
 
         loadWatchlistData(model, customerID, new WatchlistPropertyItem(), new WatchlistPropertyPreference());
         return "Watchlist";
@@ -119,7 +119,7 @@ public class WatchlistController {
 
     @RequestMapping("/watchlist/remove/property/{propertyID}")
     public void removePropertyFromWatchlist(HttpServletRequest request, HttpServletResponse response, @PathVariable("propertyID") int propertyID) throws IOException {
-        int customerID = getCustomerIDFromRequest(request);
+        String customerID = getCustomerIDFromRequest(request);
         WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(customerID, propertyID);
         logger.info("Attempting to remove property from watchlist with propertyID {} and customerID {}", propertyID, customerID);
         // Launch async lookup
@@ -152,7 +152,7 @@ public class WatchlistController {
 
     @RequestMapping("/watchlist/remove/preference/{preferenceID}")
     public void removePropertyPreferencesFromWatchlist(HttpServletRequest request, HttpServletResponse response, @PathVariable("preferenceID") String preferenceID) throws IOException {
-        int customerID = getCustomerIDFromRequest(request);
+        String customerID = getCustomerIDFromRequest(request);
         WatchlistPropertyPreference watchlistPropertyPreference = new WatchlistPropertyPreference(customerID, preferenceID);
         // Launch async lookup
         CompletableFuture<String> result = watchlistService.runAsyncRemovePreference(watchlistPropertyPreference);
@@ -161,15 +161,12 @@ public class WatchlistController {
         response.sendRedirect("/watchlist");
     }
 
-    private int getCustomerIDFromRequest(HttpServletRequest request) {
+    private String getCustomerIDFromRequest(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        int customerID;
         String customerIDString = (String)request.getSession().getAttribute("customerID");
         if (customerIDString == null) {
-            customerID = DEFAULT_CUSTOMER_ID;
-        } else {
-            customerID = Integer.parseInt(customerIDString);
+            customerIDString = DEFAULT_CUSTOMER_ID;
         }
-        return customerID;
+        return customerIDString;
     }
 }

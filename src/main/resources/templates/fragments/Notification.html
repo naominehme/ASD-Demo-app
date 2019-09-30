@@ -1,0 +1,30 @@
+<!--Author Harold Seefeld-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Navbar</title>
+</head>
+<body>
+
+<header>
+    <div class="header-line"></div>
+</header>
+
+<div th:fragment="bidNotification" class="nav">
+    <link rel="stylesheet" th:href="@{/css/pure-buttons.css}">
+    <link rel="stylesheet" th:href="@{/css/NotificationAndWatchlist.css}">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/js/notify.js"></script>
+    <script src="/js/notifications.js"></script>
+    <script type="text/javascript">
+        var jQueryTemp = jQuery.noConflict(true);
+        window.jQueryj = window.$j = jQueryTemp;
+    </script>
+</div>
+
+</body>
+</html>

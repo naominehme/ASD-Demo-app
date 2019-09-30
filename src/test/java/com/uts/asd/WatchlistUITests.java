@@ -53,12 +53,12 @@ public class WatchlistUITests {
 
     @Given("^I am using the Test User")
     public void useTestUser() {
-        watchlistController.setDefaultCustomerID(-2);
+        watchlistController.setDefaultCustomerID("-2");
     }
 
     @Given("^I am using the Empty Test User")
     public void useEmptyTestUser() {
-        watchlistController.setDefaultCustomerID(-999);
+        watchlistController.setDefaultCustomerID("-999");
     }
 
     @When("^the client calls /watchlist$")
