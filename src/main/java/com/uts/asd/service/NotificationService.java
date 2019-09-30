@@ -1,7 +1,7 @@
 package com.uts.asd.service;
 
 import com.uts.asd.entity.Notification;
-import com.uts.asd.entity.WatchlistPropertyItem;
+import com.uts.asd.entity.NotificationPreference;
 import com.uts.asd.mapper.BidRepository;
 import com.uts.asd.mapper.PropertyRepository;
 import com.uts.asd.repository.NotificationRepository;
@@ -48,6 +48,12 @@ public class NotificationService {
         return CompletableFuture.completedFuture(notificationItems);
     }
 
+    @Async
+    public CompletableFuture<NotificationPreference> getNotificationPreferences(String customerID) {
+        NotificationPreference notificationPreference = notificationRepository.getNotificationPreferences(customerID);
+        return CompletableFuture.completedFuture(notificationPreference);
+    }
+
     public Notification getNotificationDetails(Notification notification) {
         // Retrieve bid information for the notification item
         try {
@@ -65,6 +71,12 @@ public class NotificationService {
     @Async
     public CompletableFuture<String> runAsyncRemoveNotification(Notification notification) {
         String result = notificationRepository.removeNotificationFromNotifications(notification);
+        return CompletableFuture.completedFuture(result);
+    }
+
+    @Async
+    public CompletableFuture<String> runAsyncSetNotificationPreferences(NotificationPreference notificationPreference) {
+        String result = notificationRepository.setNotificationPreferences(notificationPreference);
         return CompletableFuture.completedFuture(result);
     }
 

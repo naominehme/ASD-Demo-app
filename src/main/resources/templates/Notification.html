@@ -25,6 +25,23 @@
     </div>
 
     <div class="content-form">
+        <h2>Notification Settings</h2>
+        <form class="pure-form" action="#" th:action="@{/notifications/set/preferences}" th:object="${notificationPreference}" method="post">
+            <table>
+                <tr>
+                    <td><input th:field="*{notificationsEnabled}" type="checkbox">Notifications enabled</td>
+                </tr>
+                <tr>
+                    <td><input th:field="*{soundEnabled}" type="checkbox">Sound enabled</td>
+                </tr>
+                <tr>
+                    <td><input class="pure-button pure-button-primary" type="submit" value="Submit" /></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div class="content-form">
         <div class="content-notification" th:each="item : ${notificationItems}">
             <span th:if="${item.property != null}">
                 <h4><a th:href="@{/homedetail/{propertyID}(propertyID=${item.propertyID})}" th:text="${item.property.title}"></a> has had a new bid placed on it! The new bid is $<span th:text="${item.bid.price}"></span>.</p></h4>
@@ -48,7 +65,7 @@
                     /*]]>*/
                  </script>
             </i>
-            <a class=remove-watchlist-item th:href="@{/watchlist/remove/notification/{notificationID}(notificationID=${item.notificationID})}">Remove from notifications</a>
+            <a class=remove-watchlist-item th:href="@{/notification/remove/{notificationID}(notificationID=${item.notificationID})}">Remove from notifications</a>
         </div>
         <p th:if="${#lists.size(notificationItems) == 0}">No notifications found.</p>
     </div>

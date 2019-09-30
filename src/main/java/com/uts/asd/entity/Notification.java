@@ -15,6 +15,14 @@ public class Notification {
     private Property property;
     private Bid bid;
 
+    public Notification(String notificationID, String customerID, int propertyID, int bidID, String createdDate) {
+        this.notificationID = notificationID;
+        this.customerID = customerID;
+        this.propertyID = propertyID;
+        this.bidID = bidID;
+        this.createdDate = createdDate;
+    }
+
     public Notification(String customerID, int propertyID, int bidID, String createdDate) {
         this.customerID = customerID;
         this.propertyID = propertyID;
