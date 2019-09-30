@@ -8,7 +8,7 @@ var stompClient = Stomp.over(socket);
 stompClient.connect({}, function (frame) {
    console.log('Connected: ' + frame);
    stompClient.subscribe('/user/topic/notifications', async function (reply) {
-       console.log(reply.body);
+       createNotification(JSON.parse(reply.body));
        checkForNotifications();
    });
    checkForNotifications();
@@ -17,3 +17,54 @@ stompClient.connect({}, function (frame) {
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+// Integration with toast notifications
+jQuery(document).ready(function(){
+  jQuery('.toast__close').click(function(e){
+    e.preventDefault();
+    var parent = $(this).parent('.toast');
+    parent.fadeOut("slow", function() { $(this).remove(); } );
+  });
+});
+
+function createNotification(notification) {
+    $.notify({title: '<h4><a href="/homedetail/' + notification.propertyID + '">' +
+                    notification.property.title + '</a> has had a new bid placed on it! The new bid is $' + notification.bid.Price + '.</h4>',
+               button: 'Open Property',
+               suburb: 'Suburb: ' + notification.property.suburb,
+               bedrooms: 'Bedrooms: ' + notification.property.bedroom,
+               bathrooms: 'Bathrooms: ' + notification.property.bathroom,
+               garageSpaces: 'Garage Spaces: ' + notification.property.garage,
+               image: '<img src="' + notification.property.url + '" width="100" height="100"/>'},
+               { position:"top right", style: "bid" }
+    );
+}
+
+// Configure notify.js
+$.notify.defaults({
+    // if autoHide, hide after milliseconds
+    autoHideDelay: 30000,
+    // default class (string or [string])
+    className: 'error',
+});
+// Add style for bid notifications
+$.notify.addStyle('bid', {
+  html:
+    "<div>" +
+      "<div class='content-notification' style='width: 350px;'>" +
+        "<p class='title' data-notify-html='title'/><br>" +
+        "<div data-notify-html='image'/>" +
+        "<div>" +
+            "<p data-notify-text='suburb'/>" +
+            "<p data-notify-text='bedrooms'/>" +
+            "<p data-notify-text='bathrooms'/>" +
+            "<p data-notify-text='garageSpaces'/>" +
+        "</div>" +
+        "<br><br>" +
+        "<div class='buttons'>" +
+          "<button class='pure-button pure-button-primary' data-notify-text='button'></button>" +
+          "<button style='margin-left: 10px;' class='pure-button button-secondary'>Dismiss</button>" +
+        "</div>" +
+      "</div>" +
+    "</div>"
+});

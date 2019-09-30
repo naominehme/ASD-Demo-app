@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -90,11 +91,16 @@ public class NotificationRestController {
                 CompletableFuture<Notification> completableFuture = completableFutureHashMap.getOrDefault(notification.getCustomerID(), null);
                 if (completableFuture == null) return;
                 Notification finalNotification = notificationService.getNotificationDetails(notification);
-                // Cleanup hash map and complete the future
-                completableFutureHashMap.remove(finalNotification.getCustomerID());
+                // Set Watchlist Item to get first image URL only
+                Property property = notification.getProperty();
+                if (property == null) return;
+                property.setUrl(property.getUrl().split(";")[0]);
+                // Complete the future
                 completableFuture.complete(finalNotification);
             });
         }
+        // If the completable future is completed, remove the entry for that Completable future
+        completableFutureHashMap.entrySet().removeIf(entry -> entry.getValue().isDone() || entry.getValue().isCancelled() || entry.getValue().isCompletedExceptionally());
     }
 
     private String getCustomerIDFromRequest(HttpServletRequest request) {
