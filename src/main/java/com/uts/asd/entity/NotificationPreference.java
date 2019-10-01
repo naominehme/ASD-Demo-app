@@ -43,4 +43,12 @@ public class NotificationPreference {
         this.soundEnabled = soundEnabled;
     }
 
+    @Override
+    public String toString() {
+        return "NotificationPreference{" +
+                "customerID='" + customerID + '\'' +
+                ", notificationsEnabled=" + notificationsEnabled +
+                ", soundEnabled=" + soundEnabled +
+                '}';
+    }
 }

@@ -17,7 +17,7 @@ function createNotification(notification) {
              bathrooms: 'Bathrooms: ' + notification.property.bathroom,
              garageSpaces: 'Garage Spaces: ' + notification.property.garage,
              image: '<img src="' + notification.property.url + '" width="100" height="100"/>',
-             viewProperty: "<button style='margin-left: 10px;' onclick='location.href=\"/homedetail/" + notification.propertyID + "\";' class='pure-button button-secondary'>Open Property</button>"},
+             viewProperty: "<button style='margin-right: 10px;' onclick='location.href=\"/homedetail/" + notification.propertyID + "\";' class='pure-button button-secondary'>Open Property</button>"},
              { position:"top right", style: "bid" }
   );
 }
