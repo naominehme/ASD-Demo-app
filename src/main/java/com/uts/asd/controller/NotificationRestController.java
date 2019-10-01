@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -34,7 +35,7 @@ public class NotificationRestController {
 
     private String DEFAULT_CUSTOMER_ID = "-1";
 
-    private HashMap<String, CompletableFuture<Notification>> completableFutureHashMap = new HashMap<>();
+    private HashMap<String, NotificationIdentifier> completableFutureHashMap = new HashMap<>();
 
     public void setDefaultCustomerID(String id) {
         DEFAULT_CUSTOMER_ID = id;
@@ -68,7 +69,8 @@ public class NotificationRestController {
     public Notification listenForNotification(SimpMessageHeaderAccessor headerAccessor) throws Exception {
         // Create a completable future here which will be completed when the customerID receives a new notification
         CompletableFuture<Notification> completableFuture = new CompletableFuture<>();
-        completableFutureHashMap.put(getCustomerIDFromRequest(headerAccessor), completableFuture);
+        NotificationIdentifier notificationIdentifier = new NotificationIdentifier(getCustomerIDFromRequest(headerAccessor), completableFuture);
+        completableFutureHashMap.put(headerAccessor.getSessionId(), notificationIdentifier);
         return completableFuture.get();
     }
 
@@ -87,19 +89,27 @@ public class NotificationRestController {
             logger.debug("Attempting to add bid notification to notifications: {}", notification);
             // Launch async add which will attempt to send out websocket notifications once completed
             notificationService.runAsyncAddNotification(notification).thenRunAsync(() -> {
-                CompletableFuture<Notification> completableFuture = completableFutureHashMap.getOrDefault(notification.getCustomerID(), null);
-                if (completableFuture == null) return;
-                Notification finalNotification = notificationService.getNotificationDetails(notification);
-                // Set Watchlist Item to get first image URL only
-                Property property = notification.getProperty();
-                if (property == null) return;
-                property.setUrl(property.getUrl().split(";")[0]);
-                // Complete the future
-                completableFuture.complete(finalNotification);
+                for (HashMap.Entry<String, NotificationIdentifier> entry : completableFutureHashMap.entrySet()) {
+                    CompletableFuture<Notification> completableFuture;
+                    if (entry.getValue().getCustomerID().equals(notification.getCustomerID())) {
+                        completableFuture = entry.getValue().getNotificationCompletableFuture();
+                    } else {
+                        return;
+                    }
+                    Notification finalNotification = notificationService.getNotificationDetails(notification);
+                    // Set Watchlist Item to get first image URL only
+                    Property property = notification.getProperty();
+                    if (property == null) return;
+                    property.setUrl(property.getUrl().split(";")[0]);
+                    // Complete the future
+                    completableFuture.complete(finalNotification);
+                }
             });
         }
         // If the completable future is completed, remove the entry for that Completable future
-        completableFutureHashMap.entrySet().removeIf(entry -> entry.getValue().isDone() || entry.getValue().isCancelled() || entry.getValue().isCompletedExceptionally());
+        completableFutureHashMap.entrySet().removeIf(entry -> entry.getValue().getNotificationCompletableFuture().isDone() ||
+                entry.getValue().getNotificationCompletableFuture().isCancelled() ||
+                entry.getValue().getNotificationCompletableFuture().isCompletedExceptionally());
     }
 
     private String getCustomerIDFromRequest(HttpServletRequest request) {
