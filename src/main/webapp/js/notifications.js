@@ -20,13 +20,6 @@ function createNotification(notification) {
              viewProperty: "<button style='margin-left: 10px;' onclick='location.href=\"/homedetail/" + notification.propertyID + "\";' class='pure-button button-secondary'>Open Property</button>"},
              { position:"top right", style: "bid" }
   );
-
-  $(document).on('click', '.notifyjs-foo-base .yes', function() {
-    //show button text
-    alert($(this).text() + " clicked!");
-    //hide notification
-    $(this).trigger('notify-hide');
-  });
 }
 
 // Before creating a socket, check if notifications are enabled
