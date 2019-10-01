@@ -23,10 +23,12 @@ import com.uts.asd.entity.Bid;
 import com.uts.asd.entity.Deposit;
 import com.uts.asd.entity.Increment;
 import com.uts.asd.entity.Property;
+import com.uts.asd.entity.User;
 import com.uts.asd.service.AuctionService;
 import com.uts.asd.service.BidService;
 import com.uts.asd.service.DepositService;
 import com.uts.asd.service.PropertyService;
+import com.uts.asd.service.UserService;
 import com.uts.asd.util.JsonUtil;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -40,6 +42,8 @@ public class PropertyController {
 	private BidService bidService;
 	@Autowired
 	private DepositService depositService;
+	@Autowired
+	private UserService userService;
 	
 	int theid;
 	
@@ -56,10 +60,10 @@ public class PropertyController {
 	}
 	
 	@RequestMapping("/updateEmail.do")
-	public String update(HttpServletRequest request, HttpServletResponse response,String email)throws IOException {
+	public String update(HttpServletRequest request, HttpServletResponse response,User user)throws IOException {
 		Gson gson = new Gson();
 		try {
-			
+			userService.updateEmail(user);
 			PrintWriter writer = response.getWriter();
 			gson.toJson("Success", writer);
 			writer.close();
