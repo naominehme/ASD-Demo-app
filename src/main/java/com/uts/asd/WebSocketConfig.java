@@ -33,7 +33,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer  {
         // Use the interceptor to be able to access the attributes stored within HTTPRequest session
         HttpSessionHandshakeInterceptor interceptor = new HttpSessionHandshakeInterceptor();
         // Finally, create the endpoint using the interceptor and handler
-        registry.addEndpoint("/ws").setHandshakeHandler(handshakeHandler).addInterceptors(interceptor).withSockJS();
+        registry.addEndpoint("/ws").setHandshakeHandler(handshakeHandler).addInterceptors(interceptor).setAllowedOrigins("*").withSockJS();
     }
 
 }
