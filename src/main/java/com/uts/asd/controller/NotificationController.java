@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -42,16 +44,20 @@ public class NotificationController {
         // Launch async lookups
         CompletableFuture<ArrayList<Notification>> notificationItems = notificationService.getNotificationItems(customerID);
         CompletableFuture<NotificationPreference> notificationPreference = notificationService.getNotificationPreferences(customerID);
-
+        ArrayList<Notification> notificationArrayList = notificationItems.get();
         // Set Watchlist Item to get first image URL only
-        for (Notification notification : notificationItems.get()) {
+        for (Notification notification : notificationArrayList) {
             Property property = notification.getProperty();
             if (property == null) { continue; }
             property.setUrl(property.getUrl().split(";")[0]);
         }
 
+        // Sort notifications by created date in descending order
+        notificationArrayList.sort(Comparator.comparing(Notification::getCreatedDate));
+        Collections.reverse(notificationArrayList);
+
         // Add to model
-        model.addAttribute("notificationItems", notificationItems.get());
+        model.addAttribute("notificationItems", notificationArrayList);
         model.addAttribute("notificationPreference", notificationPreference.get());
         model.addAttribute("defaultCustomer", customerID == DEFAULT_CUSTOMER_ID ? true : false);
     }
