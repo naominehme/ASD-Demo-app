@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.context.request.async.DeferredResult;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 @RunWith(SpringRunner.class)
@@ -30,8 +29,10 @@ public class WatchlistTests {
     @Before
     public void beforeClass() {
         WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(VALID_CUSTOMER_ID, VALID_PROPERTY_ID);
-        DeferredResult deferredResult = new DeferredResult();
         repository.addPropertyToWatchlist(watchlistPropertyItem);
+        repository.addPropertyPreferencesToWatchlist(new WatchlistPropertyPreference(
+                VALID_CUSTOMER_ID,"House","TEST",0,0,0, "TESTBURB"
+        ));
     }
 
     @Test
@@ -43,7 +44,6 @@ public class WatchlistTests {
 
     @Test
     public void addPropertyPreference_WithValidData_ReturnWorks() {
-        WatchlistPropertyItem watchlistPropertyItem = new WatchlistPropertyItem(VALID_CUSTOMER_ID, VALID_PROPERTY_ID);
         String result = repository.addPropertyPreferencesToWatchlist(new WatchlistPropertyPreference(
                 VALID_CUSTOMER_ID,"House","TEST",0,0,0, "TESTBURB"
         ));
