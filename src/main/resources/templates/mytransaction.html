@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en-AU" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+<meta name="format-detection" content="telephone=no">
+<title>802/21-23 James St Lidcombe, NSW 2141</title>
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<link rel="stylesheet" th:href="@{/css/styles.css}">
+<link rel="stylesheet" th:href="@{/css/PropertyDetail.css}">
+<link rel="stylesheet" th:href="@{/css/app.css}">
+<link rel="stylesheet" th:href="@{/css/layui.css}">
+<style>
+</style>
+</head>
+
+<body style="padding-top: 0px;">
+	<header class="site-header" style="margin-left:auto; margin-right: auto;max-width:70%;">
+	    <div class="masthead sticky-container" data-sticky-container="" style="height: 60px;">
+	        <div class="row expanded collapse">
+	            <div class="masthead__column--left column">
+	                <div class="row">
+	                    <div class="masthead__logo column">
+	                        <a href="home">
+	                            <img alt="logo" title="logo" class="logo__light" src="/images/25694.svg" height="42" width="42">
+	                        </a>
+	                    </div>
+	                    <div class="masthead__menu column">
+	                        <div ng-mega-menu="">
+	                            <div ng-transclude="">
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="masthead__column--right column">
+	                <div class="row--inline-flex">
+	                    <div class="masthead__subscription signUpBtn" style="border: 0px;">
+	                        <a href="Register.html">Sign up</a>
+	                    </div>
+	                    <div class="masthead__subscription loginBtn">
+	                        <a href="login.html">Login</a>
+	                    </div>
+	                    <div class="masthead__subscription welcomePanel">
+	                        <btn id="welcomeText"></btn>
+	                    </div>
+	                    <div class="masthead__subscription accountBtn">
+	                        <btn onClick="location.href='UserLogs.html'">My Account</btn>
+	                    </div>
+	                    <div class="masthead__subscription watchlistBtn">
+	                        <btn onClick="location.href='watchlist'">My Watchlist</btn>
+	                    </div>
+	                    <div class="masthead__subscription transaction">
+	                        <a  id="transaction" href="#">My Transaction</a>
+	                    </div>
+	                    <div class="masthead__subscription staffBtn">
+	                        <btn onClick="location.href='staffPortal.html'">Staff Portal</btn>
+	                    </div>
+	                    <div class="masthead__subscription logoutBtn">
+	                        <btn onClick="logOut()">Logout</btn>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</header>
+
+	<main id="wrapper">
+	<div id="listings-app-container">
+		<div></div>
+		<span><div class="web-inbox-wrapper"></div>
+			<div></div></span>
+		<div id="page-wrapper">
+			<span>
+				<div class="details">
+					<div class="details__wrapper">
+						<div style="margin: 0 auto;max-width: 1200px;padding:15px 0px;color: red">Your balance: <span th:text="${balance}">500</span></div>
+						<div class="details__main layout" style="max-width: 1200px;">
+							<table class="layui-table" lay-size="lg">
+							  <colgroup>
+							    <col width="150">
+							    <col width="200">
+							    <col>
+							  </colgroup>
+							  <thead>
+							    <tr>
+							      <th>ID</th>
+							      <th>Amount</th>
+							      <th>Time</th>
+							      <th>Type</th>
+							    </tr> 
+							  </thead>
+							  <tbody>
+							    <tr th:each="tran,t:${list}">
+							      <td th:text="${tran.id}">1</td>
+							      <td th:text="${tran.amount}">2016-11-29</td>
+							      <td th:text="${#dates.format(tran.time, 'yyyy-MM-dd HH:mm')}">1</td>
+							      <td th:text="${tran.type}">1</td>
+							    </tr>
+							  </tbody>
+							</table>
+							
+						</div>
+					</div>
+				</div> 
+			</span>
+		</div>
+	</div>
+	</main>
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script th:src="@{/js/vendor/jquery/jquery-3.2.1.min.js}"></script>
+<script th:src='@{/js/loginfunction.js}'></script>
+<script th:src="@{/js/layer.js}"></script>
+<script th:src="@{/js/layui.js}"></script>
+<script th:src="@{/js/qs.min.js}"></script>
+<script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-database.js"></script>
+<script type="text/javascript" th:inline="javascript">
+	(function () {
+		if (isActiveSession()) {
+	        jQuery('.loginBtn').hide();
+	        jQuery('.signUpBtn').hide();
+	        jQuery('.welcomePanel').show();
+	        jQuery('#welcomeText').text('Welcome, '+ JSON.parse(localStorage.loggedInUser).fname +'! ');
+	        jQuery('.logoutBtn').show();
+	        jQuery('.accountBtn').show();
+	        jQuery('.watchlistBtn').show();
+	        jQuery('.staffBtn').show();
+	        $('#transaction').attr('href','/paymentRecord?id='+JSON.parse(localStorage.loggedInUser).key); 
+	    }else{
+	        jQuery('.loginBtn').show();
+	        jQuery('.signUpBtn').show();
+	        jQuery('.welcomePanel').hide();
+	        jQuery('.logoutBtn').hide();
+	        jQuery('.accountBtn').hide();
+	        jQuery('.watchlistBtn').show();
+	        jQuery('.staffBtn').hide();
+	        $(".transaction").hide();
+	    }
+		
+	});
+</script>
+</html>
