@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(classes = AsdApplication.class, loader = SpringBootContextLoader.class)
-public class WatchlistUITests {
+public class WatchlistAndNotificationSteps {
 
     // Use selenium webdriver
     WebDriver driver;
@@ -62,12 +62,17 @@ public class WatchlistUITests {
     }
 
     @When("^the client calls /watchlist$")
-    public void watchlistPageIsCalled() throws Throwable {
+    public void watchlistPageIsCalled() {
         driver.get(getBaseURL() + "/watchlist");
     }
 
+    @When("^the client calls /notifications")
+    public void notificationsPageIsCalled() {
+        driver.get(getBaseURL() + "/notifications");
+    }
+
     @When("^the add property form is submitted with valid values$")
-    public void theAddPropertyFormIsSubmittedWithValidValues() throws Throwable {
+    public void theAddPropertyFormIsSubmittedWithValidValues() {
         driver.findElement(By.id("propertyID")).click();
         driver.findElement(By.id("propertyID")).sendKeys(Keys.BACK_SPACE, "0");
         driver.findElement(By.id("addPropertySubmit")).click();
@@ -81,7 +86,7 @@ public class WatchlistUITests {
     }
 
     @When("^the add preference form is submitted with invalid values$")
-    public void theAddPreferenceFormIsSubmittedWithInvalidValues() throws Throwable {
+    public void theAddPreferenceFormIsSubmittedWithInvalidValues() {
         driver.findElement(By.id("addPreferenceSubmit")).click();
     }
 
@@ -102,26 +107,31 @@ public class WatchlistUITests {
         Assert.assertEquals("Watchlist", driver.getTitle());
     }
 
+    @Then("^the title is Notifications")
+    public void confirmTitleIsNotifications() throws Throwable {
+        Assert.assertEquals("Notifications", driver.getTitle());
+    }
+
     @Then("^the watchlist properties are populated$")
-    public void confirmPropertiesAreRetrieved() throws Throwable {
+    public void confirmPropertiesAreRetrieved() {
         int elementSize = driver.findElements(By.className("content-watchlist-item")).size();
         Assert.assertTrue(elementSize > 0);
     }
 
     @Then("^the watchlist preferences are populated$")
-    public void confirmPreferencesAreRetrieved() throws Throwable {
+    public void confirmPreferencesAreRetrieved() {
         int elementSize = driver.findElements(By.className("content-watchlist-preference")).size();
         Assert.assertTrue(elementSize > 0);
     }
 
     @Then("^the watchlist properties are not populated$")
-    public void confirmPropertiesAreNotRetrieved() throws Throwable {
+    public void confirmPropertiesAreNotRetrieved() {
         int elementSize = driver.findElements(By.className("content-watchlist-item")).size();
         Assert.assertTrue(elementSize == 0);
     }
 
     @Then("^the watchlist preferences are not populated$")
-    public void confirmPreferencesAreNotRetrieved() throws Throwable {
+    public void confirmPreferencesAreNotRetrieved() {
         int elementSize = driver.findElements(By.className("content-watchlist-preference")).size();
         Assert.assertTrue(elementSize == 0);
     }
