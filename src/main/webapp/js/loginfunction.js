@@ -27,7 +27,9 @@ function addUser(username,password,phone,emailaddress,streetname,streetnumber,po
 		state: state,
 		DOB: DOB,
 		fname: fname,
-		lname: lname
+		lname: lname,
+		balance: 0,
+		admin: 0
 	})
 }
 
