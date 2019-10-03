@@ -28,8 +28,8 @@ function addUser(username,password,phone,emailaddress,streetname,streetnumber,po
 		DOB: DOB,
 		fname: fname,
 		lname: lname,
-		balance: 0,
-		admin: 0
+		balance: "0",
+		admin: "0"
 	})
 }
 

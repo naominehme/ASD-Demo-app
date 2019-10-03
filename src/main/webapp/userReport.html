@@ -24,14 +24,14 @@
     <script>
         $(document).ready(function(){
             (async () => {
-                var properties = await getData('Property');
+                var properties = await getData('Auction');
                 if(!!properties) {
                     generateTable(properties);
                     $('#loading').hide();
                 } else {
                     $('#loading').show();
                     $('#delete').hide();
-                    $('#loading').text('No Properties Found');
+                    $('#loading').text('No Auctions Found');
                 }
             })()
 
@@ -42,10 +42,10 @@
                 db.ref(`/${path}/`).once('value', snap => {
                     try {
                         var data = [];
-                        snap.forEach(property => {
-                            var propertyObj = property.val();
-                            propertyObj.key = property.key;
-                            data.push(propertyObj);
+                        snap.forEach(auction => {
+                            var auctionObj = auction.val();
+                            auctionObj.key = auction.key;
+                            data.push(auctionObj);
                         });
 
                         if(data.length === 0){
@@ -163,7 +163,7 @@
 
         }
     </style>
-    <title> Property Report</title>
+    <title> Auction Detail Report</title>
 </head>
 <body style="padding-top: 0px;">
 <!--NavBar-->
@@ -217,12 +217,10 @@
     <div class="pl-4 mt-5" id="name"></div>
 </div>
 <div class="layui-col-xs6 mt-5">
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Address...">
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search Auctions...">
 </div>
 <p class="pl-4 mt-5" id="loading">Loading...</p>
 
-
-<div id="logTable">
-</div>
+<div id="logTable"></div>
 
 </body>
