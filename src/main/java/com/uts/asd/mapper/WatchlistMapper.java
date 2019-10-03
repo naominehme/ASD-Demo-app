@@ -19,7 +19,7 @@ public interface WatchlistMapper {
 
     public String removePropertyPreferencesFromWatchlist (WatchlistPropertyPreference watchlistPropertyPreference);
 
-    public ArrayList<WatchlistPropertyItem> getWatchlistPropertyItems(int customerID);
+    public ArrayList<WatchlistPropertyItem> getWatchlistPropertyItems(String customerID);
 
-    public ArrayList<WatchlistPropertyPreference> getWatchlistPropertyPreferences(int customerID);
+    public ArrayList<WatchlistPropertyPreference> getWatchlistPropertyPreferences(String customerID);
 }

@@ -14,6 +14,7 @@
 </header>
 
 <div th:replace="fragments/Navbar.html :: navbar"></div>
+<div th:replace="fragments/Notification.html :: bidNotification"></div>
 
 <div class="content">
     <h1 class="content-title">Notifications</h1>
@@ -21,6 +22,23 @@
     <div class="content-form" th:if="${defaultCustomer}">
         <h2>Not Signed In</h2>
         <p>Please sign in to continue. Displaying functionality and view for our default customer.</p>
+    </div>
+
+    <div class="content-form">
+        <h2>Notification Settings</h2>
+        <form class="pure-form" action="#" th:action="@{/notifications/set/preferences}" th:object="${notificationPreference}" method="post">
+            <table>
+                <tr>
+                    <td><input th:field="*{notificationsEnabled}" type="checkbox">Notifications enabled</td>
+                </tr>
+                <tr>
+                    <td><input th:field="*{soundEnabled}" type="checkbox">Sound enabled</td>
+                </tr>
+                <tr>
+                    <td><input class="pure-button pure-button-primary" type="submit" value="Submit" /></td>
+                </tr>
+            </table>
+        </form>
     </div>
 
     <div class="content-form">
@@ -47,7 +65,7 @@
                     /*]]>*/
                  </script>
             </i>
-            <a class=remove-watchlist-item th:href="@{/watchlist/remove/notification/{notificationID}(notificationID=${item.notificationID})}">Remove from notifications</a>
+            <a class=remove-watchlist-item th:href="@{/notification/remove/{notificationID}(notificationID=${item.notificationID})}">Remove from notifications</a>
         </div>
         <p th:if="${#lists.size(notificationItems) == 0}">No notifications found.</p>
     </div>

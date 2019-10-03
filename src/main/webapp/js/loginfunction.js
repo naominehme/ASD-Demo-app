@@ -15,7 +15,7 @@ var app = firebase.initializeApp({
 var db = app.database();
 
 //function to add the user in the firebase db
-function addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname){
+function addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname,admin){
 	return db.ref('/Users').push({
 		username: username,
 		password: password,
@@ -40,6 +40,7 @@ async function login(username, password){
 		users.forEach(user => {
 			if(user.username === username && user.password === password){
 				resolve(user);
+				httpSubmitGetRequest("/forceLogin?customerID=" + username);
 			}
 		});
 		resolve(false);
@@ -51,6 +52,7 @@ function logOut(){
 	document.location.pathname = 'login.html';
 	var userKey = JSON.parse(localStorage.loggedInUser).key;
 	logUser(userKey, 'logout');
+	httpSubmitGetRequest("/forceLogin?customerID=-1");
 	localStorage.loggedInUser = '';
 }
 
@@ -142,7 +144,8 @@ async function handleRegister(){
 	var DOB = document.getElementById('DOB').value;
 	var fname = document.getElementById('fname').value;
 	var lname = document.getElementById('lname').value;
-	addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname).then(e => {});
+	var admin = 0;
+	addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname,admin).then(e => {});
 }
 
 //function to show message on screen
@@ -154,4 +157,12 @@ function showMessage(message){
 function showRegister()
 {
 	alert("Sign Up Succeed!");
+}
+
+function httpSubmitGetRequest(url)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", url, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
 }

@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public class WatchlistPropertyItem {
 
     // Declare private variables
-    private int customerID;
+    private String customerID;
     @Min(0)
     private int propertyID;
     private String createdDate;
@@ -21,19 +21,19 @@ public class WatchlistPropertyItem {
 
     public WatchlistPropertyItem () {}
 
-    public WatchlistPropertyItem(int customerID, int propertyID) {
+    public WatchlistPropertyItem(String customerID, int propertyID) {
         setCustomerID(customerID);
         setPropertyID(propertyID);
         setCreatedDate(Timestamp.now().toString());
     }
 
-    public WatchlistPropertyItem(int customerID, int propertyID, String createdDate) {
+    public WatchlistPropertyItem(String customerID, int propertyID, String createdDate) {
         setCustomerID(customerID);
         setPropertyID(propertyID);
         setCreatedDate(createdDate);
     }
 
-    public int getCustomerID() {
+    public String getCustomerID() {
         return customerID;
     }
 
@@ -47,7 +47,7 @@ public class WatchlistPropertyItem {
 
     public void setProperty(Property property) { this.property = property; }
 
-    public void setCustomerID(int customerID) {
+    public void setCustomerID(String customerID) {
         this.customerID = customerID;
     }
 

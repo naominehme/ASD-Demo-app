@@ -2,6 +2,7 @@ package com.uts.asd.repository;
 
 import com.google.firebase.database.*;
 import com.uts.asd.entity.Notification;
+import com.uts.asd.entity.NotificationPreference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,7 @@ public class NotificationRepository {
 
     Logger logger = LoggerFactory.getLogger(NotificationRepository.class);
 
-    public ArrayList<Notification> getNotificationItems(int customerID) {
+    public ArrayList<Notification> getNotificationItems(String customerID) {
         CompletableFuture<ArrayList<Notification>> completableFuture = new CompletableFuture<>();
         // Get data from NoSQL
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Notification/" + customerID);
@@ -32,7 +33,8 @@ public class NotificationRepository {
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     // Create new WatchlistPropertyItem object
                     Notification notification = new Notification(
-                            childSnapshot.child("customerID").getValue(long.class).intValue(),
+                            childSnapshot.child("notificationID").getValue(String.class),
+                            childSnapshot.child("customerID").getValue(String.class),
                             childSnapshot.child("propertyID").getValue(long.class).intValue(),
                             childSnapshot.child("bidID").getValue(long.class).intValue(),
                             childSnapshot.child("createdDate").getValue(String.class));
@@ -59,6 +61,40 @@ public class NotificationRepository {
         return notifications;
     }
 
+    public NotificationPreference getNotificationPreferences(String customerID) {
+        CompletableFuture<NotificationPreference> completableFuture = new CompletableFuture<>();
+        // Get data from NoSQL
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("NotificationPreference/" + customerID);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                logger.info("Data retrieved: " + dataSnapshot.getValue());
+                // Create new WatchlistPropertyItem object
+                NotificationPreference notificationPreference = new NotificationPreference(
+                        dataSnapshot.child("customerID").getValue(String.class),
+                        dataSnapshot.child("notificationsEnabled").getValue(Boolean.class),
+                        dataSnapshot.child("soundEnabled").getValue(Boolean.class));
+                // Complete the Async request
+                completableFuture.complete(notificationPreference);
+                logger.info(notificationPreference.toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                logger.error(error.toString());
+            }
+        });
+
+        NotificationPreference notificationPreference = new NotificationPreference();
+        // Wait for request to complete
+        try {
+            notificationPreference = completableFuture.get(10, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            logger.error(e.toString());
+        }
+        return notificationPreference;
+    }
+
     public String addNotificationToNotifications(Notification notification) {
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference("Notification/" + notification.getCustomerID() +
@@ -74,6 +110,28 @@ public class NotificationRepository {
                 completableFuture.complete("Added '" + notification.getNotificationID() + "' notification successfully.");
             }
         });
+
+        //
+
+        return getStringFromCompletableFuture(completableFuture);
+    }
+
+    public String setNotificationPreferences(NotificationPreference notificationPreference) {
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReference("NotificationPreference/" + notificationPreference.getCustomerID());
+
+        CompletableFuture<String> completableFuture = new CompletableFuture();
+        ref.setValue(notificationPreference, (databaseError, databaseReference) -> {
+            if (databaseError != null) {
+                logger.error("Data could not be saved " + databaseError.getMessage());
+                completableFuture.complete(databaseError.getMessage());
+            } else {
+                logger.info("Data saved successfully.");
+                completableFuture.complete("Set notfications for " + notificationPreference.getCustomerID() + " successfully.");
+            }
+        });
+
+        //
 
         return getStringFromCompletableFuture(completableFuture);
     }

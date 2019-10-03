@@ -16,6 +16,7 @@ import com.uts.asd.entity.Transaction;
 import com.uts.asd.entity.User;
 import com.uts.asd.service.PayService;
 import com.uts.asd.service.TransactionService;
+import com.uts.asd.service.UserService;
 
 @Controller
 public class PaymentController {
@@ -23,6 +24,8 @@ public class PaymentController {
 	private PayService payService;
 	@Autowired
 	private TransactionService transactionService; 
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping("/pay.do")
 	public String payment(HttpServletRequest request, HttpServletResponse response, User user, double money,Integer pid) throws IOException {
@@ -56,17 +59,20 @@ public class PaymentController {
 		return null;
 	}
 	
-	@RequestMapping("/payRecord")
-	public String payRecord(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	@RequestMapping("/paymentRecord")
+	public String paymentRecord(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		try {
 			String id = request.getParameter("id");
 			User user = new User(id);
 			List<Transaction> list = transactionService.searchAll(user);
+			user = userService.searchById(user);
 			request.setAttribute("list", list);
+			request.setAttribute("balance", user.getBalance());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "mytransaction";
 	}
+	
 	
 }

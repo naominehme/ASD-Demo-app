@@ -29,10 +29,10 @@ public class BiddingController {
 	@Autowired
 	private MailService mailService;
 	@Autowired
-	private NotificationController notificationController;
+	private NotificationRestController notificationRestController;
 	
 	@RequestMapping("/bid.do")
-	public String bidding(HttpServletRequest request, HttpServletResponse response,Bid bid)throws IOException {
+	public String bidding(HttpServletRequest request, HttpServletResponse response,Bid bid,Integer ron)throws IOException {
 		Gson gson = new Gson();
 		PrintWriter writer = response.getWriter();
 		try {
@@ -47,14 +47,16 @@ public class BiddingController {
 			bid.setState("Success");
 			if (0 != bid.getPrice()) {
 				bidService.addAction(bid);
-				if (null!=email&&!"".equals(email)) {
+				if (null!=email&&!"".equals(email)&&1==ron) {
 					mailService.sendMail("<h2>Dear Customer</h2><br/><h2>You have successfully placed a bid, see more detail click the link below</h2></br></br><a href='https://asd-demo-app-naomi.herokuapp.com/homedetail/"+bid.getPid()+"'>Property Link</a>", email);
+					gson.toJson("Success, you will receive a email shortly!", writer);
+				}else {
+					gson.toJson("Bid Success", writer);
 				}
-				gson.toJson("Success, you will receive a email shortly!", writer);
 			}else {
 				throw new NumberFormatException();
 			}
-			notificationController.createNotification(request, bid);
+			notificationRestController.createNotifications(request, bid);
 //			Property p1 = propertyService.searchById(p);
 		} catch (Exception e) {
 			e.printStackTrace();
