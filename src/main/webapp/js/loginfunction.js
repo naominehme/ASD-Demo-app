@@ -88,12 +88,12 @@ async function handleReset(){
 }
 
 //function to verify users credentials  of username and DOB
-function isValidUser(username,dob){
+function isValidUser(username,DOB){
 	return new Promise((resolve) => {
 		db.ref('/Users').once('value', (snap) => {
 			snap.forEach(user => {
 				var obj = user.val();
-				if(obj.username === username && obj.dob === dob){
+				if(obj.username === username && obj.DOB === DOB){
 					resolve(user.key)
 				}
 			});
