@@ -38,14 +38,17 @@ async function login(username, password){
 	var users = await getUsers();
 	return new Promise((resolve, reject) => {
 		users.forEach(user => {
-			if(user.username === username && user.password === password){
+			if(user.username === username && user.password === password && user.active){
 				resolve(user);
 				httpSubmitGetRequest("/forceLogin?customerID=" + username);
+			}else{
+				alert('You have no right to login in')
 			}
 		});
 		resolve(false);
 	})
 }
+
 
 //function to logout session, loguser and clear local storage
 function logOut(){
