@@ -98,14 +98,18 @@
                 jQuery('#welcomeText').text('Welcome, '+ JSON.parse(localStorage.loggedInUser).fname +'! ');
                 jQuery('.logoutBtn').show();
                 jQuery('.accountBtn').show();
+                jQuery('.watchlistBtn').show();
                 jQuery('.staffBtn').show();
-            } else {
+                $('#transaction').attr('href','/paymentRecord?id='+JSON.parse(localStorage.loggedInUser).key); }
+            else {
                 jQuery('.loginBtn').show();
                 jQuery('.signUpBtn').show();
                 jQuery('.welcomePanel').hide();
                 jQuery('.logoutBtn').hide();
                 jQuery('.accountBtn').hide();
+                jQuery('.watchlistBtn').show();
                 jQuery('.staffBtn').hide();
+                $(".transaction").hide();
             }
         });
     </script>
