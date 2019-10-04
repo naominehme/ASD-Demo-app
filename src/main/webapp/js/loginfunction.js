@@ -28,8 +28,8 @@ function addUser(username,password,phone,emailaddress,streetname,streetnumber,po
 		DOB: DOB,
 		fname: fname,
 		lname: lname,
-		balance: "0",
-		admin: "0"
+		admin: 0,
+		active: true,
 	})
 }
 
@@ -144,8 +144,7 @@ async function handleRegister(){
 	var DOB = document.getElementById('DOB').value;
 	var fname = document.getElementById('fname').value;
 	var lname = document.getElementById('lname').value;
-	var admin = 0;
-	addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname,admin).then(e => {});
+	addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname).then(e => {});
 }
 
 //function to show message on screen
