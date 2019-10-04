@@ -48,7 +48,7 @@ public class CustomerServiceController {
     		String a2 = gson.toJson(i);
     		JsonUtil.writeJsonFile(a2, "src/main/resources/increment.json");  		
     		c.setProblem(problem);
-    		cs_Service.addProblem(c);
+    		//cs_Service.addProblem(c);
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
