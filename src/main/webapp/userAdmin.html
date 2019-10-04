@@ -7,12 +7,9 @@
     <link rel="stylesheet" type="text/css" href="css/Homepage.css" />
     <link rel="stylesheet" type="text/css" href="css/layui.css">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-
     <style>
         .main-table {
         width: 80%;
-        float:left;
-        margin-left: 1%;
     }
 
     [v-cloak] {
@@ -29,7 +26,7 @@
     }
 
     table tr,
-    table tr td ,
+    table tr td,
     table th {
         border: 1px solid;
     }
@@ -85,26 +82,12 @@
             </div>
         </header>
         <div>
-            <div style="width: 18%;float:left">
-                <p>DOB: <input type="text" v-model="form.DOB"></p>
-                <p>username: <input type="text" v-model="form.username"></p>
-                <p>state: <input type="text" v-model="form.state"></p>
-                <p>password: <input type="text" v-model="form.password"></p>
-                <p>phone: <input type="text" v-model="form.phone"></p>
-                <p>postcode: <input type="text" v-model="form.postcode"></p>
-                <p>streetname: <input type="text" v-model="form.streetname"></p>
-                <p>streetnumber: <input type="text" v-model="form.streetnumber"></p>
-                <p>emailaddress: <input type="text" v-model="form.emailaddress"></p>
-                <p>active: <input type="text" v-model="form.active"></p>
-                <p>isadmin:
-                    <select v-model="form.admin">
-                        <option selected value="0">user</option>
-                        <option value="1">admin</option>
-                    </select>
-                </p>
-                <p><button @click="adduser()">add</button></p>
+            <div><a href="userAdd.html">ADD USER</a></div>
+            <div>
+                <input type="text" v-model="username" style="width:40%">
+                <button @click="ser">sousuo</button>
             </div>
-            <div class="main-table">
+            <div class="main-table" style="width: 100%;margin: 10px auto;">
                 <table v-cloak>
                     <thead>
                         <th>ID</th>
@@ -117,8 +100,10 @@
                         <th>streetname</th>
                         <th>streetnumber</th>
                         <th>userkey</th>
+                        <th>status</th>
                         <th>emailaddress</th>
                         <th>isadmin</th>
+                        <th>active</th>
                         <th>active</th>
                     </thead>
                     <tbody>
@@ -133,10 +118,14 @@
                             <td>{{item.streetname}}</td>
                             <td>{{item.streetnumber}}</td>
                             <td>{{item.userkey}}</td>
+                            <td>{{item.active}}</td>
                             <td>{{item.emailaddress}}</td>
-                            <td>{{item.admin}}</td>
+                            <td>{{item.admin !== 'undefined' && item.admin ==0 ? 'user':'admin'}}</td>
                             <td>
                                 <button @click="delItem(item)">del</button>
+                            </td>
+                            <td>
+                                <button @click="change(item)">{{item.active ? 'deactivate' :'activate'}}</button>
                             </td>
                         </tr>
                     </tbody>
@@ -148,74 +137,7 @@
     <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-database.js"></script>
     <script src='js/base.db.js'></script>
     <script src='js/vue.js'></script>
-    <script>
-    new Vue({
-        el: '#userApp',
-        data() {
-            return {
-                userlist: [],
-                a: 6615,
-                form: {
-                    DOB: "",
-                    username: "",
-                    state: "",
-                    password: "",
-                    phone: "",
-                    postcode: "",
-                    streetname: "",
-                    streetnumber: "",
-                    emailaddress: "",
-                    active: "",
-                    balance: "0",
-                    admin: "0"
-                }
-            }
-        },
-        methods: {
-            getAll: function(message) {
-                db.ref('/Users').once('value').then(res => {
-                    const users = []
-                    res.forEach(user => {
-                        users.push({
-                            ...user.val(),
-                            userkey: user.key
-                        });
-                    });
-                    this.userlist = users
-                })
-            },
-            delItem(row) {
-                db.ref('/Users/' + row.userkey).remove(res => {
-                    if (!res) {
-                        this.getAll();
-                    }
-                })
-            },
-            adduser() {
-                var fg = false;
-                for (obj in this.form) {
-                    if (!this.form[obj]) {
-                        fg = true;
-                    }
-                }
-                if (fg) {
-                    alert("value not emty")
-                    return false
-                }
-                db.ref('/Users').push(this.form).then(res => {
-                    if (res.key) {
-                        this.form = {}
-                        this.getAll();
-                    }
-                })
-            }
-        },
-        created() {
-            this.getAll();
-        }
-
-    })
-    </script>
+    <script src="js/userAdmin.js"></script>
 </body>
 
 </html>
