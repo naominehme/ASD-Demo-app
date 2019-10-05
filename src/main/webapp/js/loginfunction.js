@@ -34,18 +34,33 @@ function addUser(username,password,phone,emailaddress,streetname,streetnumber,po
 }
 
 //function to verify if the user exists so they can login, will resolve user
-async function login(username, password){
-	var users = await getUsers();
-	return new Promise((resolve, reject) => {
-		users.forEach(user => {
-			if(user.username === username && user.password === password){
-				resolve(user);
-				httpSubmitGetRequest("/forceLogin?customerID=" + username);
-			}
-		});
-		resolve(false);
-	})
+async function login(username, password) {
+    var users = await getUsers();
+    return new Promise((resolve, reject) => {
+        var use = users.filter(user => user.username === username && user.password === password && user.active);
+        if (use.length) {
+            resolve(user);
+            httpSubmitGetRequest("/forceLogin?customerID=" + username);
+        } else {
+            alert('You have no right to login in')
+        }
+        resolve(false);
+    })
 }
+
+//function to verify if the user exists so they can login, will resolve user
+//async function login(username, password){
+//	var users = await getUsers();
+//	return new Promise((resolve, reject) => {
+//		users.forEach(user => {
+//			if(user.username === username && user.password === password){
+//				resolve(user);
+//				httpSubmitGetRequest("/forceLogin?customerID=" + username);
+//			}
+//		});
+//		resolve(false);
+//	})
+//}
 
 
 //function to logout session, loguser and clear local storage
