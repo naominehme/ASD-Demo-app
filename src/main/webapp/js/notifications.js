@@ -22,6 +22,12 @@ function createNotification(notification) {
   );
 }
 
+function playNotificationSound() {
+    var audio = new Audio('/sound/beyond-doubt.mp3');
+    audio.play();
+}
+
+
 // Before creating a socket, check if notifications are enabled
 $.get("/notification/preferences/get", function(data){
     if (!data.notificationsEnabled) return;
@@ -33,6 +39,8 @@ $.get("/notification/preferences/get", function(data){
       stompClient.subscribe('/user/topic/notifications', async function (reply) {
               createNotification(JSON.parse(reply.body));
               checkForNotifications();
+              if (!data.soundEnabled) return;
+              playNotificationSound();
       });
       checkForNotifications();
     });
