@@ -39,7 +39,7 @@ async function login(username, password) {
     return new Promise((resolve, reject) => {
         var use = users.filter(user => user.username === username && user.password === password && user.active);
         if (use.length) {
-            resolve(user);
+            resolve(use[0]);
             httpSubmitGetRequest("/forceLogin?customerID=" + username);
         } else {
             alert('You have no right to login in')
