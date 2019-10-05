@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en-AU" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>CustomerService</title>
+    <meta data-react-helmet="true" name="description"
+          content="662 properties for sale in Lidcombe, NSW 2141. Search the latest properties for sale in Lidcombe and find your dream home with realestate.com.au.">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="MobileOptimized" content="320">
+    <link rel="stylesheet" href="css/Homepage.css"/>
+    <link rel="stylesheet" href="css/layui.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <!--  -->
+    <link type="text/css" rel="stylesheet" href="css/CustomerService.css">
+    
+<style type="text/css">
+.the_button {
+	width: 200px;
+	height: 35px;
+	background: rgb(228, 74, 13);
+	cursor: pointer;
+	font-family: Microsoft YaHei;
+	color: white;
+	font-size: 16px;
+	border-radius: 10px;
+	position: relative; 
+	top: 110%; 
+    left: 76%;  
+}
+</style>
+
+    
+</head>
+<body style="padding-top: 0px;">
+<header class="site-header" style="margin-left:auto; margin-right: auto;max-width:70%;">
+    <div class="masthead sticky-container" data-sticky-container="" style="height: 60px;">
+        <div class="row expanded collapse">
+            <div class="masthead__column--left column">
+                <div class="row">
+                    <div class="masthead__logo column">
+                        <a href="#">
+                            <img alt="logo" title="logo" class="logo__light" src="images/25694.svg" height="42" width="42">
+                        </a>
+                    </div>
+                    <div class="masthead__menu column">
+                        <div ng-mega-menu="">
+                            <div ng-transclude="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                    <div class="masthead__subscription">
+                        <a ng-subscription-anchor="#subscription-panel">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<!-- body -->     
+
+<main id="Service">
+      <div id="listings-app-container" style="margin-left:150px;">           
+            <div class="layout layout--no-mobile-gutters results-page__content">
+                    <div class="results-set-header rui-clearfix" style="background: #fbfbfb;padding-top: 30px;">                      
+     
+     
+     <div class="mod-main mod-comm lefta-box" id="order02">
+
+                          <table class="td-void order-tb">
+                            <colgroup>
+                                <col class="number-col">
+                                <col class="consignee-col">
+                                <col class="amount-col">
+                                <col class="status-col">
+                                <col class="operate-col">
+                            </colgroup>
+                            <thead>
+                            </thead>
+               <tbody id="parent-102211975214">
+                <tbody id="tb-102212053262" class="split-tbody parent-102211975214">
+ <!-- title -->           
+                <tr class="tr-th tr-th-02">
+                <td colspan="5"> 
+                <span style="width: 150px"></span>               
+                <span class="number"> Created time </span>
+                <span style="width: 120px"></span>    
+                <span class="number"> Content </span>
+                <span style="width: 80px"> Status </span>  
+                <span style="width: 80px"> Feedback </span>            
+                </td>
+                </tr>
+
+         <tr class="tr-bd" id="track102212053262" oty="0,4,70" cxl="0" th:each="cs,y:${theList}">          
+ <!-- Created time   th:text="${c.time}" -->         
+             <td class="amount" style="color:#666666;" rowspan="1" > 
+                 <div class="amount" style="color:#666666;"> 
+                      <span class="txt" th:text="${cs.time}"></span><b></b> 
+                  </div>
+              </td>
+ <!-- Content -->                 
+             <td rowspan="1">
+                 <div class="goods-item p-100000089659">                                          
+                	<span th:text="${cs.problem}"> </span>              	                                     
+                 </div>
+            </td>   
+ <!-- Status -->                     
+            <td rowspan="1">
+                <div class="status" >
+                    <span class="order-status ftx-03" style="color:#666666;" th:text="${cs.status}">                                                   	                 
+                    </span>
+                 <br>
+            </td>   
+<!--  -->                     
+            <td rowspan="1">
+                <div  >
+                    <span class="order-status ftx-03" style="color:#666666;" th:text="${cs.feedback}">                                                   	                 
+                    </span>
+                 <br>
+            </td>                
+        </tr>
+                                        
+ </tbody>
+</table>
+
+<button class="layui-btn layui-btn-fluid; the_button" lay-submit lay-filter="formDemo" style="border-radius:20px;background-color:rgb(228, 74, 13) " 
+       onclick="javascrtpt:window.location.href='Problem.html'"> Submit Problem </button>
+       
+       
+    </div>
+   </div>
+  </div>
+</div>
+    
+   </main>  
+  </body>
+</html>

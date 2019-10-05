@@ -98,14 +98,18 @@
                 jQuery('#welcomeText').text('Welcome, '+ JSON.parse(localStorage.loggedInUser).fname +'! ');
                 jQuery('.logoutBtn').show();
                 jQuery('.accountBtn').show();
+                jQuery('.watchlistBtn').show();
                 jQuery('.staffBtn').show();
-            } else {
+                $('#transaction').attr('href','/paymentRecord?id='+JSON.parse(localStorage.loggedInUser).key); }
+            else {
                 jQuery('.loginBtn').show();
                 jQuery('.signUpBtn').show();
                 jQuery('.welcomePanel').hide();
                 jQuery('.logoutBtn').hide();
                 jQuery('.accountBtn').hide();
+                jQuery('.watchlistBtn').show();
                 jQuery('.staffBtn').hide();
+                $(".transaction").hide();
             }
         });
     </script>
@@ -147,7 +151,7 @@
         /*td:first-child { width: 33% ;}*/
 
         #myInput{
-            width: 47%;
+            width: 67%;
         }
         #name{
             margin-left:28vh;
@@ -216,9 +220,13 @@
 <div class="layui-col-xs6">
     <div class="pl-4 mt-5" id="name"></div>
 </div>
-
+<div class="layui-col-xs6 mt-5">
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Address...">
+</div>
 <p class="pl-4 mt-5" id="loading">Loading...</p>
 
-<div id="logTable"></div>
+
+<div id="logTable">
+</div>
 
 </body>

@@ -28,23 +28,40 @@ function addUser(username,password,phone,emailaddress,streetname,streetnumber,po
 		DOB: DOB,
 		fname: fname,
 		lname: lname,
-		admin: admin
+		admin: 0,
+		active: true,
 	})
 }
 
 //function to verify if the user exists so they can login, will resolve user
-async function login(username, password){
-	var users = await getUsers();
-	return new Promise((resolve, reject) => {
-		users.forEach(user => {
-			if(user.username === username && user.password === password){
-				resolve(user);
-				httpSubmitGetRequest("/forceLogin?customerID=" + username);
-			}
-		});
-		resolve(false);
-	})
+async function login(username, password) {
+    var users = await getUsers();
+    return new Promise((resolve, reject) => {
+        var use = users.filter(user => user.username === username && user.password === password && user.active);
+        if (use.length) {
+            resolve(user);
+            httpSubmitGetRequest("/forceLogin?customerID=" + username);
+        } else {
+            alert('You have no right to login in')
+        }
+        resolve(false);
+    })
 }
+
+//function to verify if the user exists so they can login, will resolve user
+//async function login(username, password){
+//	var users = await getUsers();
+//	return new Promise((resolve, reject) => {
+//		users.forEach(user => {
+//			if(user.username === username && user.password === password){
+//				resolve(user);
+//				httpSubmitGetRequest("/forceLogin?customerID=" + username);
+//			}
+//		});
+//		resolve(false);
+//	})
+//}
+
 
 //function to logout session, loguser and clear local storage
 function logOut(){
@@ -87,12 +104,12 @@ async function handleReset(){
 }
 
 //function to verify users credentials  of username and DOB
-function isValidUser(username,dob){
+function isValidUser(username,DOB){
 	return new Promise((resolve) => {
 		db.ref('/Users').once('value', (snap) => {
 			snap.forEach(user => {
 				var obj = user.val();
-				if(obj.username === username && obj.dob === dob){
+				if(obj.username === username && obj.DOB === DOB){
 					resolve(user.key)
 				}
 			});
@@ -143,8 +160,7 @@ async function handleRegister(){
 	var DOB = document.getElementById('DOB').value;
 	var fname = document.getElementById('fname').value;
 	var lname = document.getElementById('lname').value;
-	var admin = 0;
-	addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname,admin).then(e => {});
+	addUser(username,password,phone,emailaddress,streetname,streetnumber,postcode,state,DOB,fname,lname).then(e => {});
 }
 
 //function to show message on screen

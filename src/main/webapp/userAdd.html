@@ -7,9 +7,12 @@
     <link rel="stylesheet" type="text/css" href="css/Homepage.css" />
     <link rel="stylesheet" type="text/css" href="css/layui.css">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+
     <style>
         .main-table {
         width: 80%;
+        float:left;
+        margin-left: 1%;
     }
 
     [v-cloak] {
@@ -26,7 +29,7 @@
     }
 
     table tr,
-    table tr td,
+    table tr td ,
     table th {
         border: 1px solid;
     }
@@ -82,54 +85,24 @@
             </div>
         </header>
         <div>
-            <div><a href="userAdd.html">ADD USER</a></div>
-            <div>
-                <input type="text" v-model="username" style="width:40%">
-                <button @click="ser">SEARCH USER</button>
-            </div>
-            <div class="main-table" style="width: 100%;margin: 10px auto;">
-                <table v-cloak>
-                    <thead>
-                        <th>ID</th>
-                        <th>DOB</th>
-                        <th>username</th>
-                        <th>state</th>
-                        <th>password</th>
-                        <th>phone</th>
-                        <th>postcode</th>
-                        <th>streetname</th>
-                        <th>streetnumber</th>
-                        <th>userkey</th>
-                        <th>status</th>
-                        <th>emailaddress</th>
-                        <th>isadmin</th>
-                        <th>delete</th>
-                        <th>active</th>
-                    </thead>
-                    <tbody>
-                        <tr :key="index" v-for="(item, index) in userlist">
-                            <td>{{index+1}}</td>
-                            <td>{{item.DOB}}</td>
-                            <td>{{item.username}}</td>
-                            <td>{{item.state}}</td>
-                            <td>{{item.password}}</td>
-                            <td>{{item.phone}}</td>
-                            <td>{{item.postcode}}</td>
-                            <td>{{item.streetname}}</td>
-                            <td>{{item.streetnumber}}</td>
-                            <td>{{item.userkey}}</td>
-                            <td>{{item.active}}</td>
-                            <td>{{item.emailaddress}}</td>
-                            <td>{{item.admin !== 'undefined' && item.admin ==0 ? 'user':'admin'}}</td>
-                            <td>
-                                <button @click="delItem(item)">del</button>
-                            </td>
-                            <td>
-                                <button @click="change(item)">{{item.active ? 'deactivate' :'activate'}}</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div style="width: 60%;margin: 0 auto;">
+                <p>DOB: <input type="text" v-model="form.DOB"></p>
+                <p>username: <input type="text" v-model="form.username"></p>
+                <p>state: <input type="text" v-model="form.state"></p>
+                <p>password: <input type="text" v-model="form.password"></p>
+                <p>phone: <input type="text" v-model="form.phone"></p>
+                <p>postcode: <input type="text" v-model="form.postcode"></p>
+                <p>streetname: <input type="text" v-model="form.streetname"></p>
+                <p>streetnumber: <input type="text" v-model="form.streetnumber"></p>
+                <p>emailaddress: <input type="text" v-model="form.emailaddress"></p>
+                <p>active: <input type="text" v-model="form.active"></p>
+                <p>isadmin:
+                    <select v-model="form.admin">
+                        <option selected value="0">user</option>
+                        <option value="1">admin</option>
+                    </select>
+                </p>
+                <p><button @click="adduser()">add</button></p>
             </div>
         </div>
     </div>
@@ -137,7 +110,7 @@
     <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-database.js"></script>
     <script src='js/base.db.js'></script>
     <script src='js/vue.js'></script>
-    <script src="js/userAdmin.js"></script>
+    <script src="js/userAdd.js"></script>
 </body>
 
 </html>
