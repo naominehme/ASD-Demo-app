@@ -42,9 +42,9 @@ async function login(username, password) {
             resolve(use[0]);
             httpSubmitGetRequest("/forceLogin?customerID=" + username);
         } else {
+        	resolve(false);
             alert('You have no right to login in')
         }
-        resolve(false);
     })
 }
 
