@@ -29,7 +29,7 @@ function playNotificationSound() {
 
 
 // Before creating a socket, check if notifications are enabled
-$.get("/notification/preferences/get", function(data){
+window.$j.notify.get("/notification/preferences/get", function(data){
     if (!data.notificationsEnabled) return;
     // Initialise socket connection and stompclient
     var socket = new SockJS('/ws');
@@ -47,14 +47,14 @@ $.get("/notification/preferences/get", function(data){
 });
 
 // Configure notify.js
-$.notify.defaults({
+window.$j.notify.notify.defaults({
     // if autoHide, hide after milliseconds
     autoHideDelay: 30000,
     // default class (string or [string])
     className: 'error',
 });
 // Add style for bid notifications
-$.notify.addStyle('bid', {
+window.$j.notify.notify.addStyle('bid', {
   html:
     "<div>" +
       "<div class='content-notification' style='width: 350px;'>" +
