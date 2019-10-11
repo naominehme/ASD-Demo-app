@@ -47,6 +47,7 @@ public class BiddingController {
 			bid.setState("Success");
 			if (0 != bid.getPrice()) {
 				bidService.addAction(bid);
+				notificationRestController.createNotifications(request, bid);
 				if (null!=email&&!"".equals(email)&&1==ron) {
 					//mailService.sendMail("<h2>Dear Customer</h2><br/><h2>You have successfully placed a bid, see more detail click the link below</h2></br></br><a href='https://asd-demo-app-naomi.herokuapp.com/homedetail/"+bid.getPid()+"'>Property Link</a>", email);
 					gson.toJson("Success, you will receive a email shortly!", writer);
@@ -56,7 +57,6 @@ public class BiddingController {
 			}else {
 				throw new NumberFormatException();
 			}
-			notificationRestController.createNotifications(request, bid);
 //			Property p1 = propertyService.searchById(p);
 		} catch (Exception e) {
 			e.printStackTrace();
