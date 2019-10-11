@@ -43,7 +43,7 @@
             <div class="masthead__column--left column">
                 <div class="row">
                     <div class="masthead__logo column">
-                        <a href="#">
+                        <a href="home">
                             <img alt="logo" title="logo" class="logo__light" src="images/25694.svg" height="42" width="42">
                         </a>
                     </div>
@@ -55,9 +55,34 @@
                     </div>
                 </div>
             </div>
-
-                    <div class="masthead__subscription">
-                        <a ng-subscription-anchor="#subscription-panel">Login</a>
+            <div class="masthead__column--right column">
+                <div class="row--inline-flex">
+                    <div class="masthead__subscription signUpBtn" style="border: 0px;">
+                        <a href="Register.html">Sign up</a>
+                    </div>
+                    <div class="masthead__subscription loginBtn">
+                        <a href="login.html">Login</a>
+                    </div>
+                    <div class="masthead__subscription welcomePanel">
+                        <btn id="welcomeText"></btn>
+                    </div>
+                    <div class="masthead__subscription accountBtn">
+                        <btn onClick="location.href='UserLogs.html'">My Account</btn>
+                    </div>
+                    <div class="masthead__subscription watchlistBtn">
+                        <btn onClick="location.href='watchlist'">My Watchlist</btn>
+                    </div>
+                    <div class="masthead__subscription transaction">
+                        <a  id="transaction" href="#">My Transaction</a>
+                    </div>
+                      <div class="masthead__subscription watchlistBtn">
+                        <btn onClick="location.href='CustomerService'">Problem  Submit </btn>
+                    </div>
+                    <div class="masthead__subscription staffBtn">
+                        <btn onClick="location.href='staffPortal.html'">Staff Portal</btn>
+                    </div>
+                    <div class="masthead__subscription logoutBtn">
+                        <btn onClick="logOut()">Logout</btn>
                     </div>
                 </div>
             </div>
@@ -69,7 +94,7 @@
 <!-- body -->     
 
 <main id="Service">
-      <div id="listings-app-container" style="margin-left:150px;">           
+      <div id="listings-app-container" style="margin-left:130px;">           
             <div class="layout layout--no-mobile-gutters results-page__content">
                     <div class="results-set-header rui-clearfix" style="background: #fbfbfb;padding-top: 30px;">                      
      
@@ -95,13 +120,13 @@
                 <span class="number"> Created time </span>
                 <span style="width: 120px"></span>    
                 <span class="number"> Content </span>
-                <span style="width: 80px"> Status </span>  
-                <span style="width: 80px"> Feedback </span>            
+                <span style="width: 100px"> Status </span>  
+                <span style="width: 90px"> Feedback </span>            
                 </td>
                 </tr>
 
          <tr class="tr-bd" id="track102212053262" oty="0,4,70" cxl="0" th:each="cs,y:${theList}">          
- <!-- Created time   th:text="${c.time}" -->         
+ <!-- Created time -->         
              <td class="amount" style="color:#666666;" rowspan="1" > 
                  <div class="amount" style="color:#666666;"> 
                       <span class="txt" th:text="${cs.time}"></span><b></b> 
@@ -120,7 +145,7 @@
                     </span>
                  <br>
             </td>   
-<!--  -->                     
+<!-- Feedback -->                     
             <td rowspan="1">
                 <div  >
                     <span class="order-status ftx-03" style="color:#666666;" th:text="${cs.feedback}">                                                   	                 

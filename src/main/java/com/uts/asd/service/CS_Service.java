@@ -24,14 +24,20 @@ public class CS_Service {
 	public void addProblem(CS cs) {
 		cs_Repository.addProblem(cs);
 	}
-	
-
+		
 	public List<CS> showAll(CS cs) throws Exception {
-		Filter filter =  FilterBuilder.builder().build();
-		return cs_Repository.showAll(cs,filter);
+		Filter filter = null;
+		if (JsonUtil.isAllFieldNull(cs)) {
+			filter = FilterBuilder.builder().build();
+		} else {
+			if (null != cs.getStatus() && !"".equals(cs.getStatus())) {
+				filter = FilterBuilder.builder().orderBy("status").equalTo(cs.getStatus()).build();
+			} else {
+				filter = FilterBuilder.builder().build();
+			}
+		}
+	    return cs_Repository.showAll(cs,filter);
 	}
-	
-
 	
 }
  
