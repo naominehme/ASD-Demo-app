@@ -118,7 +118,7 @@ public class CS_Controller {
     		String status = "replied";
 		
     		CS cs = new CS(theid);
-    		cs = cs_Service.showAll(cs).get(0);
+    		cs = cs_Service.showAll(cs).get(theid);
     		cs.setFeedback(feedback);
     		cs.setStatus(status);
     		
