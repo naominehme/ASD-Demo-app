@@ -21,6 +21,30 @@
 	border-radius: 6px;
 }
 </style>
+    <script>
+        $( document ).ready(function() {
+            if (isActiveSession()) {
+                jQuery('.loginBtn').hide();
+                jQuery('.signUpBtn').hide();
+                jQuery('.welcomePanel').show();
+                jQuery('#welcomeText').text('Welcome, '+ JSON.parse(localStorage.loggedInUser).fname +'! ');
+                jQuery('.logoutBtn').show();
+                jQuery('.accountBtn').show();
+                jQuery('.watchlistBtn').show();
+                jQuery('.staffBtn').show();
+                $('#transaction').attr('href','/paymentRecord?id='+JSON.parse(localStorage.loggedInUser).key); }
+            else {
+                jQuery('.loginBtn').show();
+                jQuery('.signUpBtn').show();
+                jQuery('.welcomePanel').hide();
+                jQuery('.logoutBtn').hide();
+                jQuery('.accountBtn').hide();
+                jQuery('.watchlistBtn').show();
+                jQuery('.staffBtn').hide();
+                $(".transaction").hide();
+            }
+        });
+    </script>
 </head>
 
 <body>
