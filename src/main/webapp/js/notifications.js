@@ -47,14 +47,14 @@ window.$j.get("/notification/preferences/get", function(data){
 });
 
 // Configure notify.js
-window.$j.notify.notify.defaults({
+window.$j.notify.defaults({
     // if autoHide, hide after milliseconds
     autoHideDelay: 30000,
     // default class (string or [string])
     className: 'error',
 });
 // Add style for bid notifications
-window.$j.notify.notify.addStyle('bid', {
+window.$j.notify.addStyle('bid', {
   html:
     "<div>" +
       "<div class='content-notification' style='width: 350px;'>" +
