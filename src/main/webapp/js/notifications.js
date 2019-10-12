@@ -29,7 +29,7 @@ function playNotificationSound() {
 
 
 // Before creating a socket, check if notifications are enabled
-window.$j.notify.get("/notification/preferences/get", function(data){
+window.$j.get("/notification/preferences/get", function(data){
     if (!data.notificationsEnabled) return;
     // Initialise socket connection and stompclient
     var socket = new SockJS('/ws');
