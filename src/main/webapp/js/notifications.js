@@ -23,8 +23,7 @@ function createNotification(notification) {
 }
 
 function playNotificationSound() {
-    var audio = new Audio('/sound/beyond-doubt.mp3');
-    audio.play();
+    document.getElementById('notificationAudio').play();
 }
 
 
