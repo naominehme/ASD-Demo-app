@@ -1,6 +1,4 @@
 var stompClient = null;
-// Ensure element preload
-var soundElement = document.getElementById('notificationAudio');
 
 function checkForNotifications() {
   stompClient.send("/app/notificationListener", {}, "{}");
@@ -25,7 +23,16 @@ function createNotification(notification) {
 }
 
 function playNotificationSound() {
-    soundElement.play();
+    var promise = document.getElementById('notificationAudio').play();
+
+    if (promise !== undefined) {
+        promise.then(_ => {
+            // Autoplay started!
+        }).catch(error => {
+            // Autoplay was prevented.
+            // Show a "Play" button so that user can start playback.
+        });
+    }
 }
 
 
