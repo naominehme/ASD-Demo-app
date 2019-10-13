@@ -23,16 +23,22 @@ function createNotification(notification) {
 }
 
 function playNotificationSound() {
-    var promise = document.getElementById('notificationAudio').play();
-
-    if (promise !== undefined) {
-        promise.then(_ => {
-            // Autoplay started!
-        }).catch(error => {
-            // Autoplay was prevented.
-            // Show a "Play" button so that user can start playback.
-        });
-    }
+    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var source = audioCtx.createBufferSource();
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/sound/beyond-doubt.mp3');
+    xhr.responseType = 'arraybuffer';
+    xhr.addEventListener('load', function (r) {
+        audioCtx.decodeAudioData(
+                xhr.response, 
+                function (buffer) {
+                    source.buffer = buffer;
+                    source.connect(audioCtx.destination);
+                    source.loop = false;
+                });
+        source.start(0);
+    });
+    xhr.send();
 }
 
 
