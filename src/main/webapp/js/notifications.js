@@ -1,4 +1,6 @@
 var stompClient = null;
+// Ensure element preload
+var soundElement = document.getElementById('notificationAudio');
 
 function checkForNotifications() {
   stompClient.send("/app/notificationListener", {}, "{}");
@@ -23,7 +25,7 @@ function createNotification(notification) {
 }
 
 function playNotificationSound() {
-    document.getElementById('notificationAudio').play();
+    soundElement.play();
 }
 
 
