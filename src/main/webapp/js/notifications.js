@@ -23,22 +23,16 @@ function createNotification(notification) {
 }
 
 function playNotificationSound() {
-    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    var source = audioCtx.createBufferSource();
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/sound/beyond-doubt.mp3');
-    xhr.responseType = 'arraybuffer';
-    xhr.addEventListener('load', function (r) {
-        audioCtx.decodeAudioData(
-                xhr.response, 
-                function (buffer) {
-                    source.buffer = buffer;
-                    source.connect(audioCtx.destination);
-                    source.loop = false;
-                });
-        source.start(0);
-    });
-    xhr.send();
+    var audio = new Audio('/sound/beyond-doubt.mp3');
+    var promise = audio.play();
+    if (promise !== undefined) {
+      promise.then(_ => {
+          // Playing worked.
+      }).catch(error => {
+          // Play did not work.
+          // Most likely the case that user interaction is required to play sound.
+      });
+   }
 }
 
 
