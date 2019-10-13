@@ -170,9 +170,9 @@ public class WatchlistRepository implements WatchlistMapper{
                         watchlistPropertyItemArrayList.add(watchlistPropertyItem);
                         logger.info(watchlistPropertyItem.toString());
                     }
-                    // Complete the Async request
-                    completableFuture.complete(watchlistPropertyItemArrayList);
                 }
+                // Complete the Async request
+                completableFuture.complete(watchlistPropertyItemArrayList);
             }
 
             @Override
