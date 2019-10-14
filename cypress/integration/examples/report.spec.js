@@ -10,6 +10,6 @@ context('Report Management Function', () => {
     })
     it('Transaction Report Shows Transactions', () => {
         cy.get('button[id=transaction]').click();
-        cy.contains('transaction')
+        cy.contains('AMOUNT')
     })
 })
