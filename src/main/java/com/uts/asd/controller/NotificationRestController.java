@@ -74,7 +74,7 @@ public class NotificationRestController {
         return completableFuture.get();
     }
 
-    public void createNotifications(HttpServletRequest request, Bid bid) throws ExecutionException, InterruptedException {
+    public void createNotifications(Bid bid) throws ExecutionException, InterruptedException {
         // Create a notification for each customer listening to the property on the watchlist
         ArrayList<WatchlistPropertyItem> watchlistPropertyItems = watchlistService.getWatchlistPropertyItemsByProperty(bid.getPid()).get();
         for (WatchlistPropertyItem watchlistPropertyItem : watchlistPropertyItems) {
