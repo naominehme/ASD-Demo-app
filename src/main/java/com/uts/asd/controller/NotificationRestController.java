@@ -90,12 +90,8 @@ public class NotificationRestController {
             // Launch async add which will attempt to send out websocket notifications once completed
             notificationService.runAsyncAddNotification(notification).thenRunAsync(() -> {
                 for (HashMap.Entry<String, NotificationIdentifier> entry : completableFutureHashMap.entrySet()) {
-                    CompletableFuture<Notification> completableFuture;
-                    if (entry.getValue().getCustomerID().equals(notification.getCustomerID())) {
-                        completableFuture = entry.getValue().getNotificationCompletableFuture();
-                    } else {
-                        return;
-                    }
+                    if (!entry.getValue().getCustomerID().equals(notification.getCustomerID())) continue;
+                    CompletableFuture<Notification> completableFuture = entry.getValue().getNotificationCompletableFuture();
                     Notification finalNotification = notificationService.getNotificationDetails(notification);
                     // Set Watchlist Item to get first image URL only
                     Property property = notification.getProperty();
