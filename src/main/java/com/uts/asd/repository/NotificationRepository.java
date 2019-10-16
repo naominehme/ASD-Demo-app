@@ -39,7 +39,6 @@ public class NotificationRepository {
                             childSnapshot.child("bidID").getValue(long.class).intValue(),
                             childSnapshot.child("createdDate").getValue(String.class));
                     notificationArrayList.add(notification);
-                    logger.info(notification.toString());
                 }
                 // Complete the Async request
                 completableFuture.complete(notificationArrayList);
@@ -76,7 +75,6 @@ public class NotificationRepository {
                         dataSnapshot.child("soundEnabled").getValue(Boolean.class));
                 // Complete the Async request
                 completableFuture.complete(notificationPreference);
-                logger.info(notificationPreference.toString());
             }
 
             @Override

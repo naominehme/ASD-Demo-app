@@ -168,7 +168,6 @@ public class WatchlistRepository implements WatchlistMapper{
                                 childSnapshot.child("propertyID").getValue(long.class).intValue(),
                                 childSnapshot.child("createdDate").getValue(String.class));
                         watchlistPropertyItemArrayList.add(watchlistPropertyItem);
-                        logger.info(watchlistPropertyItem.toString());
                     }
                 }
                 // Complete the Async request
@@ -211,7 +210,6 @@ public class WatchlistRepository implements WatchlistMapper{
                             childSnapshot.child("numOfBedrooms").getValue(long.class).intValue(),
                             childSnapshot.child("suburb").getValue(String.class));
                     watchlistPropertyPreferenceArrayList.add(watchlistPropertyPreference);
-                    logger.info(watchlistPropertyPreference.toString());
                 }
 
                 completableFuture.complete(watchlistPropertyPreferenceArrayList);
