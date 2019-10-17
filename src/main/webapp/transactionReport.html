@@ -3,7 +3,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-database.js"></script>
-    <script src='js/loginfunction.js'></script>
+    <script src='./js/loginfunction.js'></script>
     <!--Importing StyleSheet -->
     <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
     <link rel="stylesheet" type="text/css" href="js/vendor/bootstrap/css/bootstrap.min.css">
@@ -19,7 +19,9 @@
     <link rel="stylesheet" href="css/Homepage.css"/>
     <link rel="stylesheet" href="css/layui.css">
     <link rel="stylesheet" href="css/styles.css">
-    <style type="text/css"> </style>
+    <style type="text/css"></style>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
     <!--Creation of log table logic -->
     <script>
         $(document).ready(function(){
@@ -54,6 +56,10 @@
                     } catch(e){
                         data = false;
                     } finally {
+                        data.forEach(entry => {
+                            entry.amount = `$${entry.amount}`;
+                            entry.time = (new Date(entry.time).toDateString() + ' ' +new Date(entry.time).toTimeString()).split('GMT')[0]
+                        });
                         resolve(data)
                     }
 
@@ -61,32 +67,6 @@
             })
         }
 
-        function generateTable(obj){
-
-            var tbl = $("<table/>").attr("id","mytable");
-            $("#logTable").append(tbl);
-            var headers = "<td>" ;
-
-            Object.keys(obj[0]).forEach(header => {
-                headers+= header.toUpperCase() + "<td>"
-            });
-
-            $("#mytable").append(headers);
-
-            for(var i=0;i<obj.length;i++){
-                var tr = "<tr>";
-                Object.keys(obj[i]).forEach(entry => {
-                    if(entry === 'url'){
-                        tr += "<td><img style='max-width:100px;'src='"+obj[i][entry] +"'></td>";
-                    } else {
-                        tr += "<td>"+obj[i][entry]+"</td>";
-                    }
-                })
-                tr+= "</tr>";
-
-                $("#mytable").append(tr);
-            }
-        }
     </script>
     <!--Navbar logic-->
     <script>
@@ -114,6 +94,38 @@
         });
     </script>
     <script>
+        function generateTable(obj){
+
+            var tbl = $("<table/>").attr("id","mytable").attr("class","w3-table-all w3-hoverable");
+            // var tbl = $("<table/>");
+
+            $("#logTable").append(tbl);
+            var headers = "<tr>" ;
+
+            Object.keys(obj[0]).forEach(header => {
+                headers+= "<td><b>" + header.toUpperCase() + "</b>" + "</td>"
+            });
+
+            headers+= "</tr>";
+
+
+            $("#mytable").append(headers);
+
+            for(var i=0;i<obj.length;i++){
+                var tr = "<tr>";
+                Object.keys(obj[i]).forEach(entry => {
+                    if(entry === 'url'){
+                        tr += "<td><img style='max-width:100px;'src='"+obj[i][entry] +"'></td>";
+                    } else {
+                        tr += "<td>"+obj[i][entry]+"</td>";
+                    }
+                })
+                tr+= "</tr>";
+
+                $("#mytable").append(tr);
+            }
+        }
+
         function myFunction() {
             // Declare variables
             var input, filter, table, tr, td, i, txtValue;

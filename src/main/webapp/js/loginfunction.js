@@ -174,6 +174,8 @@ function showRegister()
 	alert("Sign Up Succeed!");
 }
 
+
+
 function httpSubmitGetRequest(url)
 {
     var xmlHttp = new XMLHttpRequest();

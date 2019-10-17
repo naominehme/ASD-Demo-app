@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="css/Homepage.css"/>
     <link rel="stylesheet" href="css/layui.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
     <style type="text/css"> </style>
     <!--Creation of log table logic -->
     <script>
@@ -44,7 +46,7 @@
                         var data = [];
                         snap.forEach(auction => {
                             var auctionObj = auction.val();
-                            auctionObj.key = auction.key;
+                            // auctionObj.key = auction.key;
                             data.push(auctionObj);
                         });
 
@@ -54,6 +56,12 @@
                     } catch(e){
                         data = false;
                     } finally {
+                        data.forEach(entry => {
+                            entry.deposit = `$${entry.deposit}`;
+                            entry.increased = `$${entry.increased}`;
+                            entry.start = `$${entry.start}`;
+                            entry.time = (new Date(entry.time).toDateString() + ' ' +new Date(entry.time).toTimeString()).split('GMT')[0]
+                        });
                         resolve(data)
                     }
 
@@ -63,13 +71,18 @@
 
         function generateTable(obj){
 
-            var tbl = $("<table/>").attr("id","mytable");
+            var tbl = $("<table/>").attr("id","mytable").attr("class","w3-table-all w3-hoverable");
+            // var tbl = $("<table/>");
+
             $("#logTable").append(tbl);
-            var headers = "<td>" ;
+            var headers = "<tr>" ;
 
             Object.keys(obj[0]).forEach(header => {
-                headers+= header.toUpperCase() + "<td>"
+                headers+= "<td><b>" + header.toUpperCase() + "</b>" + "</td>"
             });
+
+            headers+= "</tr>";
+
 
             $("#mytable").append(headers);
 
@@ -124,7 +137,7 @@
 
             // Loop through all table rows, and hide those who don't match the search query
             for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
+                td = tr[i].getElementsByTagName("td")[4];
                 if (td) {
                     txtValue = td.textContent || td.innerText;
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -227,7 +240,7 @@
     <div class="pl-4 mt-5" id="name"></div>
 </div>
 <div class="layui-col-xs6 mt-5">
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search Auctions...">
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search Time...">
 </div>
 <p class="pl-4 mt-5" id="loading">Loading...</p>
 
