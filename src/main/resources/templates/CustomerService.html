@@ -2,6 +2,12 @@
 <html lang="en-AU" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <!--Importing JQuery and Firebase connection -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/
+	firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-database.js">
+    </script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -33,7 +39,30 @@
     left: 76%;  
 }
 </style>
-
+    <script>
+        $( document ).ready(function() {
+            if (isActiveSession()) {
+                jQuery('.loginBtn').hide();
+                jQuery('.signUpBtn').hide();
+                jQuery('.welcomePanel').show();
+                jQuery('#welcomeText').text('Welcome, '+ JSON.parse(localStorage.loggedInUser).fname +'! ');
+                jQuery('.logoutBtn').show();
+                jQuery('.accountBtn').show();
+                jQuery('.watchlistBtn').show();
+                jQuery('.staffBtn').show();
+                $('#transaction').attr('href','/paymentRecord?id='+JSON.parse(localStorage.loggedInUser).key); }
+            else {
+                jQuery('.loginBtn').show();
+                jQuery('.signUpBtn').show();
+                jQuery('.welcomePanel').hide();
+                jQuery('.logoutBtn').hide();
+                jQuery('.accountBtn').hide();
+                jQuery('.watchlistBtn').hide();
+                jQuery('.staffBtn').hide();
+                $(".transaction").hide();
+            }
+        });
+    </script>
     
 </head>
 <body style="padding-top: 0px;">
@@ -75,8 +104,8 @@
                     <div class="masthead__subscription transaction">
                         <a  id="transaction" href="#">My Transaction</a>
                     </div>
-                      <div class="masthead__subscription watchlistBtn">
-                        <btn onClick="location.href='CustomerService'">Problem  Submit </btn>
+                    <div class="masthead__subscription customerServiceBtn">
+                        <btn onClick="location.href='CustomerService'">Customer Service</btn>
                     </div>
                     <div class="masthead__subscription staffBtn">
                         <btn onClick="location.href='staffPortal.html'">Staff Portal</btn>
@@ -89,7 +118,6 @@
         </div>
     </div>
 </header>
-
 
 <!-- body -->     
 

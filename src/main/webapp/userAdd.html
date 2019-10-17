@@ -2,6 +2,12 @@
 <html lang="en">
 
 <head>
+    <!--Importing JQuery and Firebase connection -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/
+	firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-database.js">
+    </script>
     <meta charset="UTF-8">
     <title>user admin</title>
     <link rel="stylesheet" type="text/css" href="css/Homepage.css" />
@@ -36,6 +42,30 @@
     }
 
     </style>
+    <script>
+        $( document ).ready(function() {
+            if (isActiveSession()) {
+                jQuery('.loginBtn').hide();
+                jQuery('.signUpBtn').hide();
+                jQuery('.welcomePanel').show();
+                jQuery('#welcomeText').text('Welcome, '+ JSON.parse(localStorage.loggedInUser).fname +'! ');
+                jQuery('.logoutBtn').show();
+                jQuery('.accountBtn').show();
+                jQuery('.watchlistBtn').show();
+                jQuery('.staffBtn').show();
+                $('#transaction').attr('href','/paymentRecord?id='+JSON.parse(localStorage.loggedInUser).key); }
+            else {
+                jQuery('.loginBtn').show();
+                jQuery('.signUpBtn').show();
+                jQuery('.welcomePanel').hide();
+                jQuery('.logoutBtn').hide();
+                jQuery('.accountBtn').hide();
+                jQuery('.watchlistBtn').hide();
+                jQuery('.staffBtn').hide();
+                $(".transaction").hide();
+            }
+        });
+    </script>
 </head>
 
 <body>

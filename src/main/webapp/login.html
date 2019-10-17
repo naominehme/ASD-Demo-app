@@ -19,14 +19,18 @@
 				jQuery('#welcomeText').text('Welcome, '+ JSON.parse(localStorage.loggedInUser).fname +'! ');
 				jQuery('.logoutBtn').show();
 				jQuery('.accountBtn').show();
+				jQuery('.watchlistBtn').show();
 				jQuery('.staffBtn').show();
-			} else {
+				$('#transaction').attr('href','/paymentRecord?id='+JSON.parse(localStorage.loggedInUser).key); }
+			else {
 				jQuery('.loginBtn').show();
 				jQuery('.signUpBtn').show();
 				jQuery('.welcomePanel').hide();
 				jQuery('.logoutBtn').hide();
 				jQuery('.accountBtn').hide();
+				jQuery('.watchlistBtn').hide();
 				jQuery('.staffBtn').hide();
+				$(".transaction").hide();
 			}
 		});
 	</script>
@@ -84,7 +88,13 @@
 						<btn onClick="location.href='UserLogs.html'">My Account</btn>
 					</div>
 					<div class="masthead__subscription watchlistBtn">
-						<btn onClick="location.href='Watchlist.html'">My Watchlist</btn>
+						<btn onClick="location.href='watchlist'">My Watchlist</btn>
+					</div>
+					<div class="masthead__subscription transaction">
+						<a  id="transaction" href="#">My Transaction</a>
+					</div>
+					<div class="masthead__subscription customerServiceBtn">
+						<btn onClick="location.href='CustomerService'">Customer Service</btn>
 					</div>
 					<div class="masthead__subscription staffBtn">
 						<btn onClick="location.href='staffPortal.html'">Staff Portal</btn>
