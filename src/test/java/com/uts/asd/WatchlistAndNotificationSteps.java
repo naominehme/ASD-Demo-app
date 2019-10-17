@@ -79,7 +79,7 @@ public class WatchlistAndNotificationSteps {
     }
 
     @When("^the add property form is submitted with invalid values$")
-    public void theAddPropertyFormIsSubmittedWithInvalidValues() throws Throwable {
+    public void theAddPropertyFormIsSubmittedWithInvalidValues() {
         driver.findElement(By.id("propertyID")).click();
         driver.findElement(By.id("propertyID")).sendKeys(Keys.BACK_SPACE, "-", "1");
         driver.findElement(By.id("addPropertySubmit")).click();
@@ -91,24 +91,24 @@ public class WatchlistAndNotificationSteps {
     }
 
     @Then("^there should be errors$")
-    public void thereShouldBeErrors() throws Throwable {
+    public void thereShouldBeErrors() {
         int elementSize = driver.findElements(By.className("error")).size();
         Assert.assertTrue(elementSize > 0);
     }
 
     @Then("^there should be no errors$")
-    public void thereShouldBeNoErrors() throws Throwable {
+    public void thereShouldBeNoErrors() {
         int elementSize = driver.findElements(By.className("error")).size();
         Assert.assertTrue(elementSize == 0);
     }
 
     @Then("^the title is Watchlist$")
-    public void confirmTitleIsWatchlist() throws Throwable {
+    public void confirmTitleIsWatchlist() {
         Assert.assertEquals("Watchlist", driver.getTitle());
     }
 
     @Then("^the title is Notifications")
-    public void confirmTitleIsNotifications() throws Throwable {
+    public void confirmTitleIsNotifications() {
         Assert.assertEquals("Notifications", driver.getTitle());
     }
 
@@ -135,4 +135,36 @@ public class WatchlistAndNotificationSteps {
         int elementSize = driver.findElements(By.className("content-watchlist-preference")).size();
         Assert.assertTrue(elementSize == 0);
     }
+
+    @When("^the client enables Notifications Enabled$")
+    public void enableNotificationsEnabled() {
+        if (!driver.findElement(By.id("notificationsEnabled")).isSelected()) {
+            driver.findElement(By.id("notificationsEnabled")).click();
+        }
+    }
+
+    @When("^the client disables Notifications Enabled$")
+    public void disableNotificationsEnabled() {
+        if (driver.findElement(By.id("notificationsEnabled")).isSelected()) {
+            driver.findElement(By.id("notificationsEnabled")).click();
+        }
+    }
+
+    @When("^the preferences are submitted$")
+    public void submitNotificationPreferences() {
+        driver.findElement(By.id("submitNotifications")).click();
+    }
+
+    @Then("^then Notifications Enabled should be checked$")
+    public void confirmNotificationsEnabledChecked() {
+        int elementSize = driver.findElements(By.className("content-watchlist-preference")).size();
+        Assert.assertTrue(driver.findElement(By.id("notificationsEnabled")).isSelected());
+    }
+
+    @Then("^then Notifications Enabled should be unchecked")
+    public void confirmNotificationsEnabledUnchecked() {
+        int elementSize = driver.findElements(By.className("content-watchlist-preference")).size();
+        Assert.assertTrue(!driver.findElement(By.id("notificationsEnabled")).isSelected());
+    }
+
 }

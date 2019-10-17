@@ -26,17 +26,16 @@ public class NotificationTests {
 
     final private String VALID_CUSTOMER_ID = "-2";
     final private String VALID_NOTIFICATION_ID = "TEST";
-    final private int VALID_PROPERTY_ID = -2;
 
     @Test
-    public void addProperty_WithValidData_ReturnWorks() {
+    public void addNotification_WithValidData_ReturnWorks() {
         String result = repository.addNotificationToNotifications(
                 new Notification(VALID_CUSTOMER_ID, VALID_NOTIFICATION_ID));
         Assert.assertTrue(result.contains("successful"));
     }
 
     @Test
-    public void getProperty_WithValidData_ReturnWorks() {
+    public void getNotification_WithValidData_ReturnWorks() {
         ArrayList<Notification> notificationItems = repository.getNotificationItems(VALID_CUSTOMER_ID);
         Assert.assertNotEquals("[]", notificationItems.toString());
     }

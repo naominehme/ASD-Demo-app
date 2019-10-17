@@ -17,6 +17,7 @@
 
     [v-cloak] {
         display: none;
+
     }
 
     table {
@@ -33,6 +34,7 @@
     table th {
         border: 1px solid;
     }
+
     </style>
 </head>
 
@@ -85,7 +87,7 @@
             </div>
         </header>
         <div>
-            <div style="width: 60%;margin: 0 auto;">
+            <div style="width: 30%;margin: 0 auto;">
                 <p>DOB: <input type="text" v-model="form.DOB"></p>
                 <p>username: <input type="text" v-model="form.username"></p>
                 <p>state: <input type="text" v-model="form.state"></p>
@@ -95,14 +97,20 @@
                 <p>streetname: <input type="text" v-model="form.streetname"></p>
                 <p>streetnumber: <input type="text" v-model="form.streetnumber"></p>
                 <p>emailaddress: <input type="text" v-model="form.emailaddress"></p>
-                <p>active: <input type="text" v-model="form.active"></p>
+                <p>active:
+                    <select v-model="form.active">
+                        <option selected value="true">true</option>
+                        <option value="false">false</option>
+                    </select>
+
+                </p>
                 <p>isadmin:
                     <select v-model="form.admin">
                         <option selected value="0">user</option>
                         <option value="1">admin</option>
                     </select>
                 </p>
-                <p><button @click="adduser()">add</button></p>
+                <p><button style='font-size:40px' @click="adduser()">add</button></p>
             </div>
         </div>
     </div>

@@ -29,13 +29,13 @@
         <form class="pure-form" action="#" th:action="@{/notifications/set/preferences}" th:object="${notificationPreference}" method="post">
             <table>
                 <tr>
-                    <td><input th:field="*{notificationsEnabled}" type="checkbox">Notifications enabled</td>
+                    <td><input id='notificationsEnabled' th:field="*{notificationsEnabled}" type="checkbox">Notifications enabled</td>
                 </tr>
                 <tr>
-                    <td><input th:field="*{soundEnabled}" type="checkbox">Sound enabled</td>
+                    <td><input id="soundEnabled" th:field="*{soundEnabled}" type="checkbox">Sound enabled</td>
                 </tr>
                 <tr>
-                    <td><input class="pure-button pure-button-primary" type="submit" value="Submit" /></td>
+                    <td><input id="submitNotifications" class="pure-button pure-button-primary" type="submit" value="Submit" /></td>
                 </tr>
             </table>
         </form>
