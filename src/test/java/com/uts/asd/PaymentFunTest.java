@@ -33,9 +33,4 @@ public class PaymentFunTest {
 		Assert.assertNotEquals("[]", list.toString());
 	}
 	
-	@Test
-	public void test12() {
-		payService.topUp(new User("LqBYSFb"), 1010);
-	}
-	
 }
