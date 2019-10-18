@@ -35,8 +35,7 @@ public class PaymentFunTest {
 	
 	@Test
 	public void test12() {
-		List<Transaction> list = transactionService.searchAll(new User("-LplOht9GduRRlV-jT01"));
-		Assert.assertNotEquals("[]", list.toString());
+		payService.topUp(new User("LqBYSFb"), 1010);
 	}
 	
 }
