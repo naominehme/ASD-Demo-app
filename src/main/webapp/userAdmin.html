@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <style>
         .main-table {
-        width: 80%;
+        width: 100%;
             margin: 0 auto;
     }
 
@@ -127,7 +127,7 @@
                 <input type="text" v-model="username" style="width:40%">
                 <button @click="ser">SEARCH USER</button>
             </div>
-            <div class="main-table" style="width: 80%;margin: 0 auto;">
+            <div class="main-table" style="width: 100%;margin: 0 auto;">
                 <table v-cloak>
                     <thead>
                         <th>ID</th>
@@ -135,7 +135,7 @@
                         <th>username</th>
 
                         <th>password</th>
-                        <th>phone</th>
+
                         <th>userkey</th>
                         <th>status</th>
                         <th>emailaddress</th>
@@ -150,7 +150,7 @@
                             <td>{{item.username}}</td>
 
                             <td>{{item.password}}</td>
-                            <td>{{item.phone}}</td>
+
 
                             <td>{{item.userkey}}</td>
                             <td>{{item.active}}</td>
