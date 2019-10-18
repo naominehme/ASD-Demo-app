@@ -22,7 +22,7 @@ public class User{
 	private String password;
 	@JsonProperty("username")
 	private String username;
-	@JsonProperty("balance")
+	@JsonProperty("balances")
 	private Double balance;
 
 	public String getId() {
