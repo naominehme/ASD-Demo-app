@@ -30,7 +30,7 @@ public class PaymentFunTest {
 	@Test
 	public void test11() {
 		List<Transaction> list = transactionService.searchAll(new User("-LqBYSFb-tM8SmNb916"));
-		Assert.assertNotEquals("[]", list.toString());
+		Assert.assertEquals("[]", list.toString());
 	}
 	
 }
