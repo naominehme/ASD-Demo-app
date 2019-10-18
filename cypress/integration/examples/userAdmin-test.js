@@ -10,11 +10,7 @@ context('User Admin function test', () => {
 
                 cy.contains('User')
             })
-            it('show user detail page', () => {
-                cy.get('button[id=udm]').click();
-
-                cy.contains('username')
-            })
+            
         })
 
 })
